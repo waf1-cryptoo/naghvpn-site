@@ -880,6 +880,149 @@ table.data-table {
   font-size: 40px;
   box-shadow: var(--glow-blue);
 }
+
+.account-pay-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(320px, .9fr);
+  gap: 24px;
+  align-items: start;
+}
+.payment-form {
+  display: grid;
+  gap: 22px;
+}
+.form-group { display: grid; gap: 10px; }
+.form-label {
+  font-weight: 800;
+  font-size: 14px;
+  color: rgba(255,255,255,.88);
+}
+.form-help {
+  color: var(--off);
+  font-size: 13px;
+  line-height: 1.55;
+}
+.input-field {
+  width: 100%;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,.06);
+  color: var(--white);
+  padding: 15px 16px;
+  font: inherit;
+  outline: none;
+  transition: border-color .2s, box-shadow .2s, background .2s;
+}
+.input-field:focus {
+  border-color: rgba(0,229,255,.45);
+  box-shadow: 0 0 0 4px rgba(0,229,255,.08);
+  background: rgba(255,255,255,.08);
+}
+.choice-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.choice-grid.periods { grid-template-columns: repeat(3, 1fr); }
+.choice-card {
+  text-align: left;
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: rgba(255,255,255,.045);
+  color: var(--white);
+  padding: 16px;
+  cursor: pointer;
+  transition: border-color .2s, background .2s, transform .2s, box-shadow .2s;
+  font: inherit;
+}
+.choice-card:hover {
+  border-color: rgba(0,229,255,.25);
+  background: rgba(255,255,255,.07);
+  transform: translateY(-2px);
+}
+.choice-card.active {
+  border-color: rgba(0,229,255,.55);
+  background: linear-gradient(135deg, rgba(20,87,255,.18), rgba(0,229,255,.07));
+  box-shadow: 0 0 34px rgba(20,87,255,.22);
+}
+.choice-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-weight: 900;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+.choice-price {
+  color: var(--cyan);
+  font-weight: 900;
+  white-space: nowrap;
+}
+.choice-desc {
+  color: var(--off);
+  font-size: 13px;
+  line-height: 1.5;
+}
+.payment-summary {
+  background: rgba(20,87,255,.1);
+  border: 1px solid rgba(20,87,255,.25);
+  border-radius: 20px;
+  padding: 18px;
+}
+.summary-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 9px 0;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+  color: var(--off);
+  font-size: 14px;
+}
+.summary-line:last-child { border-bottom: 0; }
+.summary-line strong { color: var(--white); }
+.status-message {
+  display: none;
+  border-radius: 14px;
+  padding: 13px 14px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.status-message.show { display: block; }
+.status-message.error {
+  background: rgba(255,70,70,.1);
+  border: 1px solid rgba(255,70,70,.25);
+  color: rgba(255,255,255,.9);
+}
+.status-message.ok {
+  background: rgba(45,222,152,.1);
+  border: 1px solid rgba(45,222,152,.25);
+  color: rgba(255,255,255,.9);
+}
+.mini-note {
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 18px;
+}
+.mini-note h3 {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+.mini-note p, .mini-note li {
+  color: var(--off);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.mini-note ul { margin-top: 10px; padding-left: 18px; }
+@media (max-width: 960px) {
+  .account-pay-layout { grid-template-columns: 1fr; }
+  .choice-grid, .choice-grid.periods { grid-template-columns: 1fr; }
+}
+
 @media (max-width: 960px) {
   .content-grid.two, .content-grid.three, .price-row { grid-template-columns: 1fr; }
   .subpage-hero { min-height: 400px; padding-top: 118px; }
@@ -911,27 +1054,78 @@ table.data-table {
     <div class="breadcrumb"><a href="/">Главная</a><span>→</span><span>Оформление доступа</span></div>
     <div class="tag">Оформление доступа</div>
     <h1 class="subpage-title reveal">Оформление <span class="accent">доступа</span></h1>
-    <p class="subpage-lead reveal reveal-d1">Страница будущего выбора тарифа и перехода к оплате через сайт.</p>
+    <p class="subpage-lead reveal reveal-d1">Выберите тариф Start или Premium и перейдите к оплате через ЮKassa.</p>
   </div>
 </section>
 <main class="content-section">
   <div class="container">
 
-    <section class="content-card note-card reveal simple-hero-card">
-      <div class="big-status">💳</div>
-      <h2>Страница готовится</h2>
-      <p>Эта страница будет использоваться для выбора тарифа Start или Premium и перехода к оплате после подключения публичного backend.</p>
-    </section>
-    <section class="content-card reveal reveal-d1" style="margin-top:22px">
-      <h2>Как это будет работать</h2>
-      <ul>
-        <li>Пользователь вводит e-mail аккаунта.</li>
-        <li>Выбирает тариф Start или Premium.</li>
-        <li>Сайт запрашивает у backend ссылку оплаты.</li>
-        <li>Пользователь оплачивает на странице ЮKassa.</li>
-        <li>После webhook от ЮKassa backend активирует выбранный тариф.</li>
-      </ul>
-      <div class="action-row"><a class="btn-main" href="/pricing/">Смотреть тарифы</a><a class="btn-ghost" href="/support/">Поддержка</a></div>
+    <section class="account-pay-layout reveal">
+      <div class="content-card note-card">
+        <div class="big-status">💳</div>
+        <h2>Оформить подписку</h2>
+        <p>Введите e-mail, который используется для входа в приложении NaghVPN, выберите тариф и перейдите к оплате через ЮKassa.</p>
+
+        <form id="payment-form" class="payment-form" style="margin-top:24px">
+          <div class="form-group">
+            <label class="form-label" for="email">E-mail аккаунта</label>
+            <input class="input-field" id="email" name="email" type="email" autocomplete="email" placeholder="name@example.com" required>
+            <div class="form-help">Используйте тот же e-mail, с которым входите в приложении. Если аккаунта ещё нет, сначала войдите в приложение один раз.</div>
+          </div>
+
+          <div class="form-group">
+            <div class="form-label">Тариф</div>
+            <div class="choice-grid" id="plan-choice">
+              <button class="choice-card" type="button" data-plan="start">
+                <div class="choice-title">Start <span class="choice-price">от 149 ₽</span></div>
+                <div class="choice-desc">WireGuard, 1 устройство, базовый платный доступ.</div>
+              </button>
+              <button class="choice-card active" type="button" data-plan="premium">
+                <div class="choice-title">Premium <span class="choice-price">от 299 ₽</span></div>
+                <div class="choice-desc">VLESS + Reality, до 5 устройств, раздельное туннелирование.</div>
+              </button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="form-label">Срок доступа</div>
+            <div class="choice-grid periods" id="period-choice">
+              <button class="choice-card active" type="button" data-period="monthly">
+                <div class="choice-title">1 месяц</div>
+                <div class="choice-desc" data-period-price="monthly">299 ₽</div>
+              </button>
+              <button class="choice-card" type="button" data-period="quarterly">
+                <div class="choice-title">3 месяца</div>
+                <div class="choice-desc" data-period-price="quarterly">699 ₽</div>
+              </button>
+              <button class="choice-card" type="button" data-period="yearly">
+                <div class="choice-title">1 год</div>
+                <div class="choice-desc" data-period-price="yearly">1 899 ₽</div>
+              </button>
+            </div>
+          </div>
+
+          <div class="payment-summary">
+            <div class="summary-line"><span>Выбранный тариф</span><strong id="summary-plan">Premium</strong></div>
+            <div class="summary-line"><span>Срок доступа</span><strong id="summary-period">1 месяц</strong></div>
+            <div class="summary-line"><span>К оплате</span><strong id="summary-price">299 ₽</strong></div>
+          </div>
+
+          <button class="btn-main" id="pay-button" type="submit" style="border:0;cursor:pointer;width:100%">Перейти к оплате</button>
+          <div id="payment-status" class="status-message"></div>
+        </form>
+      </div>
+
+      <aside class="mini-note">
+        <h3>Как это работает</h3>
+        <p>После оплаты ЮKassa отправляет уведомление в backend, а backend активирует выбранный тариф в аккаунте.</p>
+        <ul>
+          <li>Start — 1 устройство и WireGuard.</li>
+          <li>Premium — до 5 устройств, VLESS + Reality и раздельное туннелирование.</li>
+          <li>После оплаты откройте приложение и нажмите «Обновить статус подписки».</li>
+        </ul>
+        <div class="action-row"><a class="btn-ghost" href="/pricing/">Сравнить тарифы</a><a class="btn-ghost" href="/support/">Поддержка</a></div>
+      </aside>
     </section>
 
   </div>
@@ -964,6 +1158,133 @@ const observer = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.08 });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// После переноса backend на VPS этот адрес должен открываться как публичный API.
+const API_BASE = 'https://api.naghvpn.ru';
+
+const PRICES = {
+  start: {
+    monthly: { label: '1 месяц', price: '149 ₽' },
+    quarterly: { label: '3 месяца', price: '399 ₽' },
+    yearly: { label: '1 год', price: '1 190 ₽' }
+  },
+  premium: {
+    monthly: { label: '1 месяц', price: '299 ₽' },
+    quarterly: { label: '3 месяца', price: '699 ₽' },
+    yearly: { label: '1 год', price: '1 899 ₽' }
+  }
+};
+
+let selectedPlan = 'premium';
+let selectedPeriod = 'monthly';
+
+const params = new URLSearchParams(window.location.search);
+if (['start', 'premium'].includes(params.get('plan'))) selectedPlan = params.get('plan');
+if (['monthly', 'quarterly', 'yearly'].includes(params.get('period'))) selectedPeriod = params.get('period');
+
+const form = document.getElementById('payment-form');
+const emailInput = document.getElementById('email');
+const statusBox = document.getElementById('payment-status');
+const payButton = document.getElementById('pay-button');
+
+const savedEmail = localStorage.getItem('naghvpn_payment_email');
+if (savedEmail) emailInput.value = savedEmail;
+
+function setStatus(type, message) {
+  statusBox.className = 'status-message show ' + type;
+  statusBox.textContent = message;
+}
+
+function clearStatus() {
+  statusBox.className = 'status-message';
+  statusBox.textContent = '';
+}
+
+function updateSelection() {
+  document.querySelectorAll('[data-plan]').forEach(button => {
+    button.classList.toggle('active', button.dataset.plan === selectedPlan);
+  });
+
+  document.querySelectorAll('[data-period]').forEach(button => {
+    button.classList.toggle('active', button.dataset.period === selectedPeriod);
+  });
+
+  document.querySelectorAll('[data-period-price]').forEach(el => {
+    const period = el.dataset.periodPrice;
+    el.textContent = PRICES[selectedPlan][period].price;
+  });
+
+  document.getElementById('summary-plan').textContent = selectedPlan === 'premium' ? 'Premium' : 'Start';
+  document.getElementById('summary-period').textContent = PRICES[selectedPlan][selectedPeriod].label;
+  document.getElementById('summary-price').textContent = PRICES[selectedPlan][selectedPeriod].price;
+}
+
+updateSelection();
+
+document.querySelectorAll('[data-plan]').forEach(button => {
+  button.addEventListener('click', () => {
+    selectedPlan = button.dataset.plan;
+    updateSelection();
+    clearStatus();
+  });
+});
+
+document.querySelectorAll('[data-period]').forEach(button => {
+  button.addEventListener('click', () => {
+    selectedPeriod = button.dataset.period;
+    updateSelection();
+    clearStatus();
+  });
+});
+
+form.addEventListener('submit', async (event) => {
+  event.preventDefault();
+  clearStatus();
+
+  const email = emailInput.value.trim().toLowerCase();
+  if (!email) {
+    setStatus('error', 'Введите e-mail аккаунта.');
+    return;
+  }
+
+  localStorage.setItem('naghvpn_payment_email', email);
+  payButton.disabled = true;
+  payButton.textContent = 'Создаём платёж...';
+
+  try {
+    const response = await fetch(`${API_BASE}/payments/create`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email,
+        plan: selectedPlan,
+        period: selectedPeriod
+      })
+    });
+
+    const data = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+      throw new Error(data.detail || 'Не удалось создать платёж.');
+    }
+
+    const paymentUrl = data.payment_url || data.confirmation_url;
+    if (!paymentUrl) {
+      throw new Error('Backend не вернул ссылку на оплату.');
+    }
+
+    setStatus('ok', 'Платёж создан. Перенаправляем на страницу оплаты...');
+    window.location.href = paymentUrl;
+  } catch (error) {
+    setStatus(
+      'error',
+      error.message || 'Платёжный backend временно недоступен. Напишите в поддержку, если проблема повторяется.'
+    );
+  } finally {
+    payButton.disabled = false;
+    payButton.textContent = 'Перейти к оплате';
+  }
+});
 </script>
 
 </body>
