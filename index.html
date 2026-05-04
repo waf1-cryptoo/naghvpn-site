@@ -3,752 +3,106 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Nagh VPN — Защита вашей приватности</title>
-<meta name="description" content="Nagh VPN — мобильный VPN-сервис с бесплатным WireGuard и Premium VLESS+Reality. Защита соединения, приватность и удобное управление доступом.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230066ff'/%3E%3Cpath d='M32 10l18 8v13c0 12-7.5 19.5-18 23-10.5-3.5-18-11-18-23V18l18-8z' fill='white' opacity='.95'/%3E%3Cpath d='M24 32l5 5 12-14' stroke='%230066ff' stroke-width='5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
+<title>Nagh VPN — защита соединения и приватности</title>
+<meta name="description" content="NaghVPN — мобильный VPN-сервис с Free и Premium доступом, e-mail входом и оплатой через сайт после подключения ЮKassa.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230057ff'/%3E%3Cpath d='M32 10l18 8v13c0 12-7.5 19.5-18 23-10.5-3.5-18-11-18-23V18l18-8z' fill='white' opacity='.95'/%3E%3Cpath d='M24 32l5 5 12-14' stroke='%230057ff' stroke-width='5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
 <style>
-:root {
-  --ink: #04091a;
-  --ink2: #0d1630;
-  --surface: #f0f3fa;
-  --white: #ffffff;
-  --blue: #0057ff;
-  --blue-light: #3d8bff;
-  --cyan: #00d4ff;
-  --gold: #f5c842;
-  --muted: #6b7a99;
-  --border: rgba(0,87,255,0.12);
-  --glow: rgba(0,87,255,0.25);
-}
-
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-html { scroll-behavior: smooth; }
-
-body {
-  font-family: 'DM Sans', sans-serif;
-  background: var(--ink);
-  color: var(--white);
-  overflow-x: hidden;
-}
-
-/* ── NAV ── */
-nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 18px 48px;
-  background: rgba(4,9,26,0.7);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-}
-
-.logo {
-  font-family: 'Syne', sans-serif;
-  font-weight: 800; font-size: 22px; letter-spacing: -0.5px;
-  color: var(--white); text-decoration: none;
-}
-.logo span { color: var(--cyan); }
-
-.nav-links { display: flex; gap: 32px; align-items: center; }
-.nav-links a {
-  font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.6);
-  text-decoration: none; transition: color 0.2s;
-}
-.nav-links a:hover { color: var(--white); }
-
-.nav-cta {
-  background: var(--blue); color: var(--white) !important;
-  padding: 9px 20px; border-radius: 10px; font-weight: 600 !important;
-  transition: background 0.2s, transform 0.2s !important;
-}
-.nav-cta:hover { background: var(--blue-light) !important; transform: translateY(-1px); }
-
-/* ── HERO ── */
-.hero {
-  min-height: 100vh;
-  display: flex; flex-direction: column; justify-content: center;
-  padding: 120px 48px 80px;
-  position: relative; overflow: hidden;
-}
-
-.hero-bg {
-  position: absolute; inset: 0; z-index: 0;
-  background:
-    radial-gradient(ellipse 80% 60% at 60% 40%, rgba(0,87,255,0.18) 0%, transparent 70%),
-    radial-gradient(ellipse 40% 40% at 80% 70%, rgba(0,212,255,0.10) 0%, transparent 60%),
-    radial-gradient(ellipse 50% 50% at 10% 80%, rgba(0,87,255,0.08) 0%, transparent 60%);
-}
-
-.hero-grid {
-  position: absolute; inset: 0; z-index: 0;
-  background-image:
-    linear-gradient(rgba(0,87,255,0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,87,255,0.06) 1px, transparent 1px);
-  background-size: 60px 60px;
-  mask-image: radial-gradient(ellipse 70% 80% at 50% 50%, black 0%, transparent 100%);
-}
-
-.hero-content {
-  position: relative; z-index: 1;
-  max-width: 1100px; margin: 0 auto; width: 100%;
-  display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 60px; align-items: center;
-}
-
-.hero-badge {
-  display: inline-flex; align-items: center; gap: 8px;
-  border: 1px solid rgba(0,212,255,0.3);
-  background: rgba(0,212,255,0.08);
-  border-radius: 999px; padding: 6px 14px;
-  font-size: 13px; color: var(--cyan); font-weight: 500;
-  margin-bottom: 24px;
-  animation: fadeUp 0.6s ease both;
-}
-
-.hero-badge::before {
-  content: ''; width: 6px; height: 6px; border-radius: 50%;
-  background: var(--cyan); box-shadow: 0 0 8px var(--cyan);
-  animation: pulse 2s ease-in-out infinite;
-}
-
-@keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
-
-h1 {
-  font-family: 'Syne', sans-serif;
-  font-size: clamp(38px, 5vw, 62px);
-  font-weight: 800; line-height: 1.05;
-  letter-spacing: -1.5px;
-  animation: fadeUp 0.6s 0.1s ease both;
-}
-
-h1 .accent { color: var(--cyan); }
-h1 .accent2 { color: var(--blue-light); }
-
-.hero-sub {
-  font-size: 18px; line-height: 1.6;
-  color: rgba(255,255,255,0.55);
-  margin: 20px 0 36px;
-  animation: fadeUp 0.6s 0.2s ease both;
-}
-
-.hero-buttons {
-  display: flex; gap: 14px; flex-wrap: wrap;
-  animation: fadeUp 0.6s 0.3s ease both;
-}
-
-.btn-primary {
-  display: inline-flex; align-items: center; gap: 8px;
-  background: var(--blue); color: white;
-  padding: 14px 28px; border-radius: 12px;
-  font-size: 15px; font-weight: 600;
-  text-decoration: none;
-  border: 1px solid var(--blue);
-  transition: all 0.2s;
-  box-shadow: 0 0 30px rgba(0,87,255,0.3);
-}
-.btn-primary:hover {
-  background: var(--blue-light);
-  transform: translateY(-2px);
-  box-shadow: 0 0 40px rgba(0,87,255,0.5);
-}
-
-.btn-secondary {
-  display: inline-flex; align-items: center; gap: 8px;
-  background: rgba(255,255,255,0.06);
-  color: rgba(255,255,255,0.8);
-  padding: 14px 28px; border-radius: 12px;
-  font-size: 15px; font-weight: 500;
-  text-decoration: none;
-  border: 1px solid rgba(255,255,255,0.12);
-  transition: all 0.2s;
-}
-.btn-secondary:hover {
-  background: rgba(255,255,255,0.1);
-  border-color: rgba(255,255,255,0.2);
-}
-
-/* Hero card */
-.hero-card {
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 24px;
-  padding: 28px;
-  backdrop-filter: blur(10px);
-  animation: fadeUp 0.6s 0.2s ease both;
-  position: relative; overflow: hidden;
-}
-
-.hero-card::before {
-  content: '';
-  position: absolute; top: 0; left: 0; right: 0; height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(0,212,255,0.5), transparent);
-}
-
-.hero-card-title {
-  font-family: 'Syne', sans-serif;
-  font-size: 13px; font-weight: 600;
-  color: var(--muted); text-transform: uppercase; letter-spacing: 1px;
-  margin-bottom: 20px;
-}
-
-.stat-row {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 14px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-}
-.stat-row:last-child { border-bottom: 0; }
-
-.stat-label { font-size: 14px; color: rgba(255,255,255,0.5); }
-.stat-value {
-  font-family: 'Syne', sans-serif;
-  font-size: 14px; font-weight: 700; color: var(--white);
-}
-.stat-value.cyan { color: var(--cyan); }
-.stat-value.gold { color: var(--gold); }
-.stat-value.green { color: #4ade80; }
-
-.tag-free {
-  display: inline-flex; align-items: center; gap: 5px;
-  background: rgba(74,222,128,0.12);
-  border: 1px solid rgba(74,222,128,0.25);
-  border-radius: 8px; padding: 4px 10px;
-  font-size: 12px; font-weight: 600; color: #4ade80;
-}
-
-.tag-premium {
-  display: inline-flex; align-items: center; gap: 5px;
-  background: rgba(245,200,66,0.12);
-  border: 1px solid rgba(245,200,66,0.25);
-  border-radius: 8px; padding: 4px 10px;
-  font-size: 12px; font-weight: 600; color: var(--gold);
-}
-
-/* ── FEATURES ── */
-.section {
-  max-width: 1100px; margin: 0 auto;
-  padding: 100px 48px;
-}
-
-.section-label {
-  font-family: 'Syne', sans-serif;
-  font-size: 12px; font-weight: 700; letter-spacing: 2px;
-  text-transform: uppercase; color: var(--cyan);
-  margin-bottom: 16px;
-}
-
-.section-title {
-  font-family: 'Syne', sans-serif;
-  font-size: clamp(28px, 4vw, 44px);
-  font-weight: 800; letter-spacing: -1px; line-height: 1.1;
-  margin-bottom: 16px;
-}
-
-.section-sub {
-  font-size: 17px; color: rgba(255,255,255,0.45);
-  max-width: 480px; line-height: 1.6;
-}
-
-.features-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  margin-top: 56px;
-}
-
-.feat-card {
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 20px;
-  padding: 28px;
-  transition: all 0.3s;
-  position: relative; overflow: hidden;
-}
-
-.feat-card:hover {
-  background: rgba(255,255,255,0.06);
-  border-color: rgba(0,87,255,0.3);
-  transform: translateY(-4px);
-  box-shadow: 0 20px 60px rgba(0,87,255,0.15);
-}
-
-.feat-card::after {
-  content: '';
-  position: absolute; inset: 0; border-radius: 20px;
-  background: radial-gradient(ellipse at top left, rgba(0,87,255,0.08) 0%, transparent 60%);
-  opacity: 0; transition: opacity 0.3s;
-}
-.feat-card:hover::after { opacity: 1; }
-
-.feat-icon {
-  width: 48px; height: 48px; border-radius: 14px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 24px; margin-bottom: 18px;
-  background: rgba(0,87,255,0.12);
-  border: 1px solid rgba(0,87,255,0.2);
-}
-
-.feat-title {
-  font-family: 'Syne', sans-serif;
-  font-size: 17px; font-weight: 700; margin-bottom: 8px;
-}
-
-.feat-desc { font-size: 14px; color: rgba(255,255,255,0.5); line-height: 1.6; }
-
-/* ── PLANS ── */
-.plans-wrap {
-  background: rgba(255,255,255,0.02);
-  border-top: 1px solid rgba(255,255,255,0.06);
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-}
-
-.plans-grid {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
-  margin-top: 56px;
-}
-
-.plan-card {
-  border-radius: 24px; padding: 36px;
-  position: relative; overflow: hidden;
-}
-
-.plan-free {
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.1);
-}
-
-.plan-premium {
-  background: linear-gradient(135deg, rgba(0,87,255,0.2) 0%, rgba(0,212,255,0.08) 100%);
-  border: 1px solid rgba(0,87,255,0.4);
-  box-shadow: 0 0 60px rgba(0,87,255,0.15);
-}
-
-.plan-premium::before {
-  content: '';
-  position: absolute; top: 0; left: 0; right: 0; height: 2px;
-  background: linear-gradient(90deg, var(--blue), var(--cyan));
-}
-
-.plan-badge {
-  display: inline-flex; padding: 5px 12px;
-  border-radius: 999px; font-size: 12px; font-weight: 700;
-  text-transform: uppercase; letter-spacing: 0.5px;
-  margin-bottom: 20px;
-}
-.plan-badge.free { background: rgba(74,222,128,0.15); color: #4ade80; border: 1px solid rgba(74,222,128,0.2); }
-.plan-badge.premium { background: rgba(245,200,66,0.15); color: var(--gold); border: 1px solid rgba(245,200,66,0.3); }
-
-.plan-price {
-  font-family: 'Syne', sans-serif;
-  font-size: 42px; font-weight: 800; line-height: 1;
-  margin-bottom: 6px;
-}
-.plan-price span { font-size: 18px; font-weight: 400; color: rgba(255,255,255,0.4); }
-.plan-period { font-size: 14px; color: rgba(255,255,255,0.4); margin-bottom: 28px; }
-
-.plan-features { list-style: none; margin-bottom: 32px; }
-.plan-features li {
-  display: flex; align-items: flex-start; gap: 10px;
-  font-size: 14px; padding: 8px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-  color: rgba(255,255,255,0.75);
-}
-.plan-features li:last-child { border-bottom: 0; }
-.plan-features li::before { content: '✓'; color: var(--cyan); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
-.plan-features li.no::before { content: '✗'; color: rgba(255,255,255,0.2); }
-.plan-features li.no { color: rgba(255,255,255,0.25); }
-
-.plan-btn {
-  display: block; text-align: center;
-  padding: 14px; border-radius: 12px;
-  font-size: 15px; font-weight: 600;
-  text-decoration: none; transition: all 0.2s;
-}
-.plan-btn.free-btn {
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.15);
-  color: rgba(255,255,255,0.8);
-}
-.plan-btn.free-btn:hover { background: rgba(255,255,255,0.12); }
-.plan-btn.premium-btn {
-  background: linear-gradient(135deg, var(--blue), var(--blue-light));
-  color: white; border: none;
-  box-shadow: 0 0 30px rgba(0,87,255,0.4);
-}
-.plan-btn.premium-btn:hover {
-  box-shadow: 0 0 50px rgba(0,87,255,0.6);
-  transform: translateY(-2px);
-}
-
-/* ── NO-LOG ── */
-.nolog-section {
-  background: linear-gradient(135deg, rgba(0,87,255,0.08) 0%, rgba(0,212,255,0.04) 100%);
-  border-top: 1px solid rgba(0,87,255,0.15);
-  border-bottom: 1px solid rgba(0,87,255,0.15);
-}
-
-.nolog-inner {
-  max-width: 1100px; margin: 0 auto; padding: 80px 48px;
-  display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
-}
-
-.nolog-big {
-  font-family: 'Syne', sans-serif;
-  font-size: clamp(48px, 7vw, 80px);
-  font-weight: 800; line-height: 1;
-  background: linear-gradient(135deg, var(--white), var(--cyan));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.nolog-list { list-style: none; margin-top: 16px; }
-.nolog-list li {
-  display: flex; align-items: flex-start; gap: 12px;
-  padding: 12px 0; font-size: 15px; color: rgba(255,255,255,0.7);
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-}
-.nolog-list li:last-child { border-bottom: 0; }
-.nolog-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
-
-/* ── DOCS ── */
-.docs-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
-  margin-top: 40px;
-}
-
-.doc-card {
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 18px; padding: 24px;
-  text-decoration: none; color: inherit;
-  transition: all 0.25s; display: flex; flex-direction: column; gap: 10px;
-}
-.doc-card:hover {
-  background: rgba(255,255,255,0.07);
-  border-color: rgba(0,87,255,0.3);
-  transform: translateY(-3px);
-}
-.doc-icon { font-size: 28px; }
-.doc-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 16px; }
-.doc-desc { font-size: 13px; color: rgba(255,255,255,0.45); line-height: 1.5; }
-.doc-link { font-size: 13px; color: var(--cyan); font-weight: 500; margin-top: auto; }
-
-/* ── FOOTER ── */
-footer {
-  border-top: 1px solid rgba(255,255,255,0.07);
-  padding: 40px 48px;
-  display: flex; align-items: center; justify-content: space-between;
-  flex-wrap: wrap; gap: 16px;
-  max-width: 100%;
-}
-
-.footer-logo {
-  font-family: 'Syne', sans-serif;
-  font-weight: 800; font-size: 18px;
-  color: var(--white); text-decoration: none;
-}
-.footer-logo span { color: var(--cyan); }
-
-.footer-links { display: flex; gap: 24px; }
-.footer-links a { font-size: 14px; color: rgba(255,255,255,0.45); text-decoration: none; transition: color 0.2s; }
-.footer-links a:hover { color: var(--white); }
-
-.footer-copy { font-size: 13px; color: rgba(255,255,255,0.3); }
-
-/* ── ANIMATIONS ── */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.reveal {
-  opacity: 0; transform: translateY(24px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
-.reveal.visible { opacity: 1; transform: translateY(0); }
-
-/* ── RESPONSIVE ── */
-@media (max-width: 900px) {
-  nav { padding: 16px 24px; }
-  .nav-links { gap: 16px; }
-  .hero { padding: 100px 24px 60px; }
-  .hero-content { grid-template-columns: 1fr; gap: 36px; }
-  .section { padding: 70px 24px; }
-  .features-grid { grid-template-columns: 1fr; }
-  .plans-grid { grid-template-columns: 1fr; }
-  .nolog-inner { grid-template-columns: 1fr; padding: 60px 24px; gap: 32px; }
-  .docs-grid { grid-template-columns: 1fr; }
-  footer { padding: 32px 24px; flex-direction: column; align-items: flex-start; }
-}
-
-@media (max-width: 600px) {
-  .nav-links .hide-mobile { display: none; }
-  h1 { font-size: 34px; }
-  .hero-buttons { flex-direction: column; }
-  .btn-primary, .btn-secondary { text-align: center; justify-content: center; }
-}
+:root{--ink:#050918;--panel:#0d1428;--panel2:#101a33;--white:#fff;--muted:#9aa7c7;--line:rgba(255,255,255,.12);--blue:#0057ff;--cyan:#00d4ff;--good:#4ade80;--warn:#f5c842}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Arial,Helvetica,sans-serif;background:var(--ink);color:var(--white);line-height:1.65}
+a{color:var(--cyan);text-decoration:none}a:hover{text-decoration:underline}
+nav{position:sticky;top:0;z-index:20;display:flex;justify-content:space-between;align-items:center;gap:18px;padding:20px 32px;background:rgba(5,9,24,.88);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.logo{font-weight:800;font-size:22px;color:#fff;text-decoration:none;white-space:nowrap}.logo span{color:var(--cyan)}
+.nav{display:flex;gap:18px;flex-wrap:wrap}.nav a{color:rgba(255,255,255,.68);font-size:14px;font-weight:600}.nav a:hover{color:#fff;text-decoration:none}
+main{max-width:1080px;margin:0 auto;padding:58px 24px}.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:32px;align-items:center;min-height:560px}.badge{display:inline-flex;border:1px solid rgba(0,212,255,.28);background:rgba(0,212,255,.08);border-radius:999px;padding:7px 13px;color:var(--cyan);font-size:13px;font-weight:700;margin-bottom:18px}
+h1{font-size:clamp(34px,5vw,58px);line-height:1.08;letter-spacing:-1px;margin-bottom:16px}h2{font-size:30px;line-height:1.2;margin:16px 0 12px}h3{font-size:20px;margin:16px 0 8px}p{color:rgba(255,255,255,.76);margin:10px 0}.muted{color:rgba(255,255,255,.55)}
+.buttons{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}.btn{display:inline-flex;align-items:center;justify-content:center;border-radius:12px;padding:13px 18px;font-weight:800;text-decoration:none}.btn.primary{background:var(--blue);color:#fff}.btn.secondary{border:1px solid var(--line);color:#fff;background:rgba(255,255,255,.06)}.btn:hover{text-decoration:none;filter:brightness(1.08)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:22px}.grid.two{grid-template-columns:repeat(2,1fr)}.card{background:rgba(255,255,255,.045);border:1px solid var(--line);border-radius:22px;padding:26px;margin:18px 0}.card.soft{background:linear-gradient(135deg,rgba(0,87,255,.14),rgba(0,212,255,.06));border-color:rgba(0,87,255,.30)}
+ul{padding-left:22px;color:rgba(255,255,255,.76);margin:12px 0}li{margin:8px 0}.check{list-style:none;padding-left:0}.check li:before{content:'✓';color:var(--cyan);font-weight:900;margin-right:10px}
+table{width:100%;border-collapse:collapse;margin-top:12px}td,th{border:1px solid var(--line);padding:12px;text-align:left;vertical-align:top}th{background:rgba(0,87,255,.16)}
+.notice{background:rgba(245,200,66,.10);border:1px solid rgba(245,200,66,.28);border-radius:16px;padding:16px;color:#ffe8a3}.small{font-size:14px}.price{font-size:34px;font-weight:900;color:#fff}.tag{display:inline-block;border-radius:999px;padding:5px 11px;background:rgba(0,212,255,.10);border:1px solid rgba(0,212,255,.24);color:var(--cyan);font-size:12px;font-weight:800;text-transform:uppercase}
+footer{border-top:1px solid var(--line);padding:28px 32px;color:rgba(255,255,255,.45);font-size:14px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}.footer-links{display:flex;gap:16px;flex-wrap:wrap}.footer-links a{color:rgba(255,255,255,.55)}
+@media(max-width:840px){nav{display:block}.nav{margin-top:12px}.hero,.grid,.grid.two{grid-template-columns:1fr}main{padding:38px 18px}.card{padding:20px}footer{padding:24px 18px}}
 </style>
 </head>
 <body>
+<nav><a class="logo" href="/">Nagh <span>VPN</span></a><div class="nav"><a href="/pricing/">Тарифы</a><a href="/offer/">Оферта</a><a href="/requisites/">Реквизиты</a><a href="/privacy/">Политика</a><a href="/terms/">Соглашение</a><a href="/support/">Поддержка</a></div></nav>
 
-<!-- NAV -->
-<nav>
-  <a class="logo" href="/">Nagh <span>VPN</span></a>
-  <div class="nav-links">
-    <a href="#features" class="hide-mobile">Возможности</a>
-    <a href="#plans" class="hide-mobile">Тарифы</a>
-    <a href="/offer/" class="hide-mobile">Оферта</a>
-    <a href="/requisites/" class="hide-mobile">Реквизиты</a>
-    <a href="/privacy/" class="hide-mobile">Политика</a>
-    <a href="/support/" class="nav-cta">Поддержка</a>
-  </div>
-</nav>
-
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-grid"></div>
-  <div class="hero-content">
+<main>
+  <section class="hero">
     <div>
-      <div class="hero-badge">Доступно для Android · Скоро на iOS</div>
-      <h1>Ваша приватность<br><span class="accent">под защитой.</span><br><span class="accent2">Без компромиссов.</span></h1>
-      <p class="hero-sub">Бесплатный WireGuard и Premium VLESS+Reality для защищённого подключения, приватности и удобного доступа к VPN-сервису.</p>
-      <div class="hero-buttons">
-        <a href="mailto:support@naghvpn.ru" class="btn-primary">
-          <span>📩</span> Написать нам
-        </a>
-        <a href="#plans" class="btn-secondary">
-          <span>⚡</span> Смотреть тарифы
-        </a>
+      <div class="badge">VPN-сервис для Android</div>
+      <h1>Защита соединения и приватности в одном приложении</h1>
+      <p>NaghVPN — мобильный VPN-сервис с бесплатным доступом и Premium-тарифом. Для входа используется e-mail и одноразовый код.</p>
+      <div class="buttons">
+        <a class="btn primary" href="/pricing/">Смотреть тарифы</a>
+        <a class="btn secondary" href="/support/">Связаться с поддержкой</a>
       </div>
     </div>
-    <div class="hero-card">
-      <div class="hero-card-title">Статус сервиса</div>
-      <div class="stat-row">
-        <span class="stat-label">Бесплатный тариф</span>
-        <span class="stat-value green">● Активен</span>
-      </div>
-      <div class="stat-row">
-        <span class="stat-label">Premium тариф</span>
-        <span class="stat-value gold">⭐ от 299 ₽/мес</span>
-      </div>
-      <div class="stat-row">
-        <span class="stat-label">Протокол Free</span>
-        <span class="stat-value">WireGuard</span>
-      </div>
-      <div class="stat-row">
-        <span class="stat-label">Протокол Premium</span>
-        <span class="stat-value cyan">VLESS + Reality</span>
-      </div>
-      <div class="stat-row">
-        <span class="stat-label">Логи трафика</span>
-        <span class="stat-value green">✓ No-Log</span>
-      </div>
-      <div class="stat-row">
-        <span class="stat-label">Поддержка</span>
-        <span class="stat-value" style="font-size:12px">support@naghvpn.ru</span>
-      </div>
+    <div class="card soft">
+      <h2>Статус сервиса</h2>
+      <table>
+        <tr><td>Free</td><td>Бесплатный доступ</td></tr>
+        <tr><td>Premium</td><td>от 299 ₽ за 1 месяц</td></tr>
+        <tr><td>Вход</td><td>По e-mail коду</td></tr>
+        <tr><td>Поддержка</td><td>support@naghvpn.ru</td></tr>
+      </table>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- FEATURES -->
-<section id="features">
-  <div class="section reveal">
-    <div class="section-label">Возможности</div>
-    <h2 class="section-title">Всё что нужно<br>для настоящей защиты</h2>
-    <p class="section-sub">Современные протоколы, анонимный вход и раздельное туннелирование — в одном приложении.</p>
-    <div class="features-grid">
-      <div class="feat-card reveal">
-        <div class="feat-icon">🛡️</div>
-        <div class="feat-title">VLESS + Reality</div>
-        <div class="feat-desc">Современный Premium-протокол для защищённого подключения и стабильной работы сервиса.</div>
-      </div>
-      <div class="feat-card reveal">
-        <div class="feat-icon">📱</div>
-        <div class="feat-title">Раздельное туннелирование</div>
-        <div class="feat-desc">Вы можете выбрать приложения, которые будут работать через VPN, а остальные оставить напрямую.</div>
-      </div>
-      <div class="feat-card reveal">
-        <div class="feat-icon">👻</div>
-        <div class="feat-title">Анонимный аккаунт</div>
-        <div class="feat-desc">Никакого имени, фамилии или номера. Только email и уникальный ID вроде NV-A4X7.</div>
-      </div>
-      <div class="feat-card reveal">
-        <div class="feat-icon">⚡</div>
-        <div class="feat-title">Высокая скорость</div>
-        <div class="feat-desc">WireGuard — один из быстрейших протоколов. Premium без ограничений скорости.</div>
-      </div>
-      <div class="feat-card reveal">
-        <div class="feat-icon">🔑</div>
-        <div class="feat-title">Простой вход</div>
-        <div class="feat-desc">Войдите по коду на email. Никаких паролей, которые легко забыть.</div>
-      </div>
-      <div class="feat-card reveal">
-        <div class="feat-icon">🌍</div>
-        <div class="feat-title">Серверы в Европе</div>
-        <div class="feat-desc">Серверная инфраструктура подбирается для стабильного подключения и комфортной скорости.</div>
-      </div>
+  <section class="card">
+    <span class="tag">Возможности</span>
+    <h2>Что получает пользователь</h2>
+    <div class="grid">
+      <div><h3>Современные VPN-протоколы</h3><p>Сервис использует современные подходы к защищённому подключению и управлению доступом.</p></div>
+      <div><h3>Выбор режима подключения</h3><p>В приложении предусмотрены режимы для всего трафика или выбранных приложений, если это поддерживается текущей версией.</p></div>
+      <div><h3>Минимум данных</h3><p>Для аккаунта нужен e-mail. Мы не требуем имя, фамилию или номер телефона.</p></div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- PLANS -->
-<div class="plans-wrap" id="plans">
-  <div class="section reveal">
-    <div class="section-label">Тарифы</div>
-    <h2 class="section-title">Начните бесплатно.<br>Апгрейд когда захотите.</h2>
-    <div class="plans-grid">
-      <div class="plan-card plan-free reveal">
-        <div class="plan-badge free">Free</div>
-        <div class="plan-price">0 ₽ <span>/мес</span></div>
-        <div class="plan-period">Бесплатно навсегда</div>
-        <ul class="plan-features">
-          <li>Протокол WireGuard</li>
-          <li>До 10 Мбит/с</li>
-          <li>1 устройство</li>
-          <li>Сервер в Европе</li>
-          <li class="no">VLESS + Reality</li>
-          <li class="no">Раздельное туннелирование</li>
-          <li class="no">5 устройств</li>
-        </ul>
-        <a href="mailto:support@naghvpn.ru" class="plan-btn free-btn">Получить приложение</a>
-      </div>
-      <div class="plan-card plan-premium reveal">
-        <div class="plan-badge premium">⭐ Premium</div>
-        <div class="plan-price">299 ₽ <span>/мес</span></div>
-        <div class="plan-period">3 месяца — 699 ₽ · 1 год — 1 899 ₽</div>
-        <ul class="plan-features">
-          <li>Протокол VLESS + Reality</li>
-          <li>Безлимитная скорость</li>
-          <li>До 5 устройств</li>
-          <li>Все серверы</li>
-          <li>WireGuard в подарок</li>
-          <li>Раздельное туннелирование</li>
-          <li>Приоритетная поддержка</li>
-        </ul>
-        <a href="/pricing/" class="plan-btn premium-btn">Смотреть тарифы</a>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- NO-LOG -->
-<div class="nolog-section">
-  <div class="nolog-inner reveal">
-    <div>
-      <div class="nolog-big">Zero<br>Logs.</div>
-      <p style="color:rgba(255,255,255,0.45);margin-top:16px;font-size:16px;line-height:1.6">
-        Мы не знаем что вы делаете в интернете.<br>И не хотим знать.
-      </p>
-    </div>
-    <div>
-      <ul class="nolog-list">
-        <li><span class="nolog-icon">🚫</span>Не храним историю посещений</li>
-        <li><span class="nolog-icon">🚫</span>Не сохраняем содержимое трафика</li>
-        <li><span class="nolog-icon">🚫</span>Не фиксируем IP-адреса назначения</li>
-        <li><span class="nolog-icon">🚫</span>Не записываем время сессий</li>
-        <li><span class="nolog-icon">✅</span>Только email для входа в аккаунт</li>
-        <li><span class="nolog-icon">✅</span>Анонимный ID вместо имени</li>
+  <section class="grid two">
+    <div class="card">
+      <span class="tag">Free</span>
+      <h2>0 ₽</h2>
+      <p>Бесплатный доступ с базовыми условиями использования.</p>
+      <ul class="check">
+        <li>1 устройство</li>
+        <li>Базовый режим подключения</li>
+        <li>Поддержка по e-mail</li>
       </ul>
+      <a class="btn secondary" href="/pricing/">Подробнее</a>
     </div>
-  </div>
-</div>
-
-
-<!-- PAYMENT INFO -->
-<section>
-  <div class="section reveal">
-    <div class="section-label">Оплата и доступ</div>
-    <h2 class="section-title">Premium оформляется<br>через сайт</h2>
-    <p class="section-sub">После подключения ЮKassa оплата будет приниматься на сайте NaghVPN. Доступ активируется в аккаунте пользователя после подтверждения платежа.</p>
-    <div class="features-grid">
-      <a href="/pricing/" class="doc-card reveal">
-        <div class="doc-icon">💳</div>
-        <div class="doc-title">Тарифы и цены</div>
-        <div class="doc-desc">Описание услуг, сроки доступа и стоимость Premium.</div>
-        <div class="doc-link">Открыть →</div>
-      </a>
-      <a href="/offer/" class="doc-card reveal">
-        <div class="doc-icon">📑</div>
-        <div class="doc-title">Оферта</div>
-        <div class="doc-desc">Условия оплаты, активации доступа, возвратов и использования сервиса.</div>
-        <div class="doc-link">Читать →</div>
-      </a>
-      <a href="/requisites/" class="doc-card reveal">
-        <div class="doc-icon">🏢</div>
-        <div class="doc-title">Реквизиты</div>
-        <div class="doc-desc">Данные продавца, контакты и информация для ЮKassa.</div>
-        <div class="doc-link">Смотреть →</div>
-      </a>
+    <div class="card soft">
+      <span class="tag">Premium</span>
+      <h2>от 299 ₽</h2>
+      <p>Расширенный доступ к функциям сервиса на выбранный срок.</p>
+      <ul class="check">
+        <li>1 месяц, 3 месяца или 1 год</li>
+        <li>Расширенные функции аккаунта</li>
+        <li>Приоритетная поддержка</li>
+      </ul>
+      <a class="btn primary" href="/pricing/">Смотреть цены</a>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- DOCS -->
-<section>
-  <div class="section reveal">
-    <div class="section-label">Документы</div>
-    <h2 class="section-title">Прозрачность<br>во всём</h2>
-    <div class="docs-grid">
-      <a href="/privacy/" class="doc-card reveal">
-        <div class="doc-icon">📄</div>
-        <div class="doc-title">Политика конфиденциальности</div>
-        <div class="doc-desc">Как мы обрабатываем ваши данные и почему их минимально.</div>
-        <div class="doc-link">Читать →</div>
-      </a>
-      <a href="/terms/" class="doc-card reveal">
-        <div class="doc-icon">📋</div>
-        <div class="doc-title">Пользовательское соглашение</div>
-        <div class="doc-desc">Условия использования сервиса, оплата и возврат средств.</div>
-        <div class="doc-link">Читать →</div>
-      </a>
-      <a href="/support/" class="doc-card reveal">
-        <div class="doc-icon">💬</div>
-        <div class="doc-title">Поддержка</div>
-        <div class="doc-desc">Вопросы по работе приложения, оплате и техническим проблемам.</div>
-        <div class="doc-link">Открыть →</div>
-      </a>
-    </div>
-  </div>
-</section>
+  <section class="card">
+    <span class="tag">Приватность</span>
+    <h2>Политика отсутствия логов VPN-трафика</h2>
+    <p>Мы не храним историю посещённых сайтов, содержимое интернет-трафика и IP-адреса ресурсов, к которым пользователь подключается через VPN.</p>
+    <p class="muted">При этом для работы аккаунта, оплаты, безопасности сайта и поддержки могут обрабатываться минимальные технические и учётные данные. Подробности указаны в Политике конфиденциальности.</p>
+    <a class="btn secondary" href="/privacy/">Открыть политику</a>
+  </section>
 
-<!-- FOOTER -->
-<footer>
-  <a class="footer-logo" href="/">Nagh <span>VPN</span></a>
-  <div class="footer-links">
-    <a href="/privacy/">Политика</a>
-    <a href="/terms/">Соглашение</a>
-    <a href="/support/">Поддержка</a>
-    <a href="/pricing/">Тарифы</a>
-    <a href="/offer/">Оферта</a>
-    <a href="/requisites/">Реквизиты</a>
-  </div>
-  <div class="footer-copy">© 2026 Nagh VPN. Все права защищены.</div>
-</footer>
+  <section class="card">
+    <span class="tag">Оплата</span>
+    <h2>Как будет оформляться Premium</h2>
+    <p>После подключения ЮKassa пользователь сможет выбрать тариф на сайте, указать e-mail аккаунта и перейти на защищённую страницу оплаты ЮKassa.</p>
+    <p>Платёжные данные банковской карты обрабатываются на стороне ЮKassa. NaghVPN не хранит данные карт.</p>
+    <div class="buttons"><a class="btn secondary" href="/offer/">Оферта</a><a class="btn secondary" href="/requisites/">Реквизиты</a></div>
+  </section>
+</main>
 
-<script>
-// Reveal on scroll
-const els = document.querySelectorAll('.reveal');
-const obs = new IntersectionObserver(entries => {
-  entries.forEach((e, i) => {
-    if (e.isIntersecting) {
-      setTimeout(() => e.target.classList.add('visible'), i * 60);
-      obs.unobserve(e.target);
-    }
-  });
-}, { threshold: 0.1 });
-els.forEach(el => obs.observe(el));
-
-// Smooth scroll for anchors
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-  a.addEventListener('click', e => {
-    const target = document.querySelector(a.getAttribute('href'));
-    if (!target) return;
-    e.preventDefault();
-    target.scrollIntoView({ behavior: 'smooth' });
-  });
-});
-</script>
+<footer><div>© 2026 Nagh VPN. Все права защищены.</div><div class="footer-links"><a href="mailto:support@naghvpn.ru">support@naghvpn.ru</a><a href="/privacy/">Политика</a><a href="/terms/">Соглашение</a></div></footer>
 </body>
 </html>

@@ -5,48 +5,38 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Поддержка — Nagh VPN</title>
 <meta name="description" content="Поддержка пользователей NaghVPN.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230057ff'/%3E%3Cpath d='M32 10l18 8v13c0 12-7.5 19.5-18 23-10.5-3.5-18-11-18-23V18l18-8z' fill='white' opacity='.95'/%3E%3Cpath d='M24 32l5 5 12-14' stroke='%230057ff' stroke-width='5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
 <style>
-:root{--ink:#04091a;--surface:#0d1630;--white:#fff;--blue:#0057ff;--cyan:#00d4ff;--muted:#9aa7c7;--border:rgba(255,255,255,.10)}
+:root{--ink:#050918;--panel:#0d1428;--panel2:#101a33;--white:#fff;--muted:#9aa7c7;--line:rgba(255,255,255,.12);--blue:#0057ff;--cyan:#00d4ff;--good:#4ade80;--warn:#f5c842}
 *{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
 body{font-family:Arial,Helvetica,sans-serif;background:var(--ink);color:var(--white);line-height:1.65}
-nav{display:flex;justify-content:space-between;align-items:center;padding:22px 32px;border-bottom:1px solid var(--border);background:rgba(4,9,26,.88);position:sticky;top:0}
-.logo{font-size:22px;font-weight:800;color:#fff;text-decoration:none}.logo span{color:var(--cyan)}
-.nav a{color:rgba(255,255,255,.68);text-decoration:none;margin-left:18px;font-size:14px}.nav a:hover{color:#fff}
-main{max-width:980px;margin:0 auto;padding:56px 24px}
-.card{background:rgba(255,255,255,.045);border:1px solid var(--border);border-radius:22px;padding:28px;margin:18px 0}
-h1{font-size:42px;line-height:1.15;margin-bottom:14px}h2{font-size:26px;margin:28px 0 12px}h3{font-size:19px;margin:20px 0 8px}
-p{color:rgba(255,255,255,.78);margin:10px 0}.muted{color:rgba(255,255,255,.55)}
-a{color:var(--cyan)}ul{padding-left:22px;color:rgba(255,255,255,.78)}li{margin:8px 0}
-table{width:100%;border-collapse:collapse;margin-top:14px;overflow:hidden;border-radius:16px}
-td,th{border:1px solid var(--border);padding:12px;text-align:left;vertical-align:top}th{background:rgba(0,87,255,.12)}
-.btn{display:inline-block;background:var(--blue);color:#fff;text-decoration:none;padding:12px 18px;border-radius:12px;margin-top:12px;font-weight:700}
-.warning{background:rgba(245,200,66,.10);border:1px solid rgba(245,200,66,.28);border-radius:16px;padding:16px;margin:16px 0;color:#ffedaf}
-.placeholder{background:rgba(255,80,80,.12);border:1px solid rgba(255,80,80,.32);padding:2px 6px;border-radius:6px;color:#ffd0d0;font-weight:700}
-footer{border-top:1px solid var(--border);padding:26px 32px;color:rgba(255,255,255,.45);font-size:14px}
-@media(max-width:700px){nav{display:block}.nav{margin-top:12px}.nav a{display:inline-block;margin:6px 10px 6px 0}h1{font-size:32px}.card{padding:20px}}
+a{color:var(--cyan);text-decoration:none}a:hover{text-decoration:underline}
+nav{position:sticky;top:0;z-index:20;display:flex;justify-content:space-between;align-items:center;gap:18px;padding:20px 32px;background:rgba(5,9,24,.88);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.logo{font-weight:800;font-size:22px;color:#fff;text-decoration:none;white-space:nowrap}.logo span{color:var(--cyan)}
+.nav{display:flex;gap:18px;flex-wrap:wrap}.nav a{color:rgba(255,255,255,.68);font-size:14px;font-weight:600}.nav a:hover{color:#fff;text-decoration:none}
+main{max-width:1080px;margin:0 auto;padding:58px 24px}.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:32px;align-items:center;min-height:560px}.badge{display:inline-flex;border:1px solid rgba(0,212,255,.28);background:rgba(0,212,255,.08);border-radius:999px;padding:7px 13px;color:var(--cyan);font-size:13px;font-weight:700;margin-bottom:18px}
+h1{font-size:clamp(34px,5vw,58px);line-height:1.08;letter-spacing:-1px;margin-bottom:16px}h2{font-size:30px;line-height:1.2;margin:16px 0 12px}h3{font-size:20px;margin:16px 0 8px}p{color:rgba(255,255,255,.76);margin:10px 0}.muted{color:rgba(255,255,255,.55)}
+.buttons{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}.btn{display:inline-flex;align-items:center;justify-content:center;border-radius:12px;padding:13px 18px;font-weight:800;text-decoration:none}.btn.primary{background:var(--blue);color:#fff}.btn.secondary{border:1px solid var(--line);color:#fff;background:rgba(255,255,255,.06)}.btn:hover{text-decoration:none;filter:brightness(1.08)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:22px}.grid.two{grid-template-columns:repeat(2,1fr)}.card{background:rgba(255,255,255,.045);border:1px solid var(--line);border-radius:22px;padding:26px;margin:18px 0}.card.soft{background:linear-gradient(135deg,rgba(0,87,255,.14),rgba(0,212,255,.06));border-color:rgba(0,87,255,.30)}
+ul{padding-left:22px;color:rgba(255,255,255,.76);margin:12px 0}li{margin:8px 0}.check{list-style:none;padding-left:0}.check li:before{content:'✓';color:var(--cyan);font-weight:900;margin-right:10px}
+table{width:100%;border-collapse:collapse;margin-top:12px}td,th{border:1px solid var(--line);padding:12px;text-align:left;vertical-align:top}th{background:rgba(0,87,255,.16)}
+.notice{background:rgba(245,200,66,.10);border:1px solid rgba(245,200,66,.28);border-radius:16px;padding:16px;color:#ffe8a3}.small{font-size:14px}.price{font-size:34px;font-weight:900;color:#fff}.tag{display:inline-block;border-radius:999px;padding:5px 11px;background:rgba(0,212,255,.10);border:1px solid rgba(0,212,255,.24);color:var(--cyan);font-size:12px;font-weight:800;text-transform:uppercase}
+footer{border-top:1px solid var(--line);padding:28px 32px;color:rgba(255,255,255,.45);font-size:14px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}.footer-links{display:flex;gap:16px;flex-wrap:wrap}.footer-links a{color:rgba(255,255,255,.55)}
+@media(max-width:840px){nav{display:block}.nav{margin-top:12px}.hero,.grid,.grid.two{grid-template-columns:1fr}main{padding:38px 18px}.card{padding:20px}footer{padding:24px 18px}}
 </style>
 </head>
 <body>
-<nav>
-  <a class="logo" href="/">Nagh <span>VPN</span></a>
-  <div class="nav">
-    <a href="/pricing/">Тарифы</a>
-    <a href="/offer/">Оферта</a>
-    <a href="/requisites/">Реквизиты</a>
-    <a href="/privacy/">Политика</a>
-    <a href="/terms/">Соглашение</a>
-    <a href="/support/">Поддержка</a>
-  </div>
-</nav>
-<main>
+<nav><a class="logo" href="/">Nagh <span>VPN</span></a><div class="nav"><a href="/pricing/">Тарифы</a><a href="/offer/">Оферта</a><a href="/requisites/">Реквизиты</a><a href="/privacy/">Политика</a><a href="/terms/">Соглашение</a><a href="/support/">Поддержка</a></div></nav>
 
+<main>
 <h1>Поддержка NaghVPN</h1>
-<p class="muted">Связь по вопросам оплаты, доступа и работы приложения.</p>
+<p class="muted">Связь по вопросам доступа, оплаты и работы приложения.</p>
 
 <div class="card">
   <h2>Контакты</h2>
   <p><b>E-mail:</b> <a href="mailto:support@naghvpn.ru">support@naghvpn.ru</a></p>
-  <p>Пишите с e-mail, который использовался для входа или оплаты. Так мы быстрее найдём аккаунт и статус подписки.</p>
+  <p>Пишите с e-mail, который использовался для входа или оплаты. Так мы быстрее найдём аккаунт и статус доступа.</p>
 </div>
 
 <div class="card">
@@ -54,7 +44,7 @@ footer{border-top:1px solid var(--border);padding:26px 32px;color:rgba(255,255,2
   <ul>
     <li>Если платёж прошёл, но Premium не активировался, напишите дату платежа, сумму и e-mail аккаунта.</li>
     <li>Если нужна помощь с возвратом, опишите проблему и приложите данные платежа.</li>
-    <li>Если не приходит код входа, проверьте папку “Спам” и повторите отправку через минуту.</li>
+    <li>Если не приходит код входа, проверьте папку «Спам» и повторите отправку через минуту.</li>
   </ul>
 </div>
 
@@ -68,8 +58,8 @@ footer{border-top:1px solid var(--border);padding:26px 32px;color:rgba(255,255,2
     <li><a href="/terms/">Пользовательское соглашение</a></li>
   </ul>
 </div>
-
 </main>
-<footer>© 2026 Nagh VPN · support@naghvpn.ru</footer>
+
+<footer><div>© 2026 Nagh VPN. Все права защищены.</div><div class="footer-links"><a href="mailto:support@naghvpn.ru">support@naghvpn.ru</a><a href="/privacy/">Политика</a><a href="/terms/">Соглашение</a></div></footer>
 </body>
 </html>
