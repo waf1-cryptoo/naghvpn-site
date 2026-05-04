@@ -1,0 +1,1078 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nagh VPN — Защита соединения и приватности</title>
+<meta name="description" content="NaghVPN — мобильный VPN-сервис с Free и Premium доступом. Вход по e-mail.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400;500;700;800;900&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230057ff'/%3E%3Cpath d='M32 10l18 8v13c0 12-7.5 19.5-18 23-10.5-3.5-18-11-18-23V18l18-8z' fill='white' opacity='.95'/%3E%3Cpath d='M24 32l5 5 12-14' stroke='%230057ff' stroke-width='5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
+<style>
+/* ═══════════════════════════════════════════
+   TOKENS
+═══════════════════════════════════════════ */
+:root {
+  --night: #03060f;
+  --deep: #07102a;
+  --panel: #0b1635;
+  --glass: rgba(255,255,255,0.04);
+  --glass2: rgba(255,255,255,0.07);
+  --white: #ffffff;
+  --off: rgba(255,255,255,0.55);
+  --dim: rgba(255,255,255,0.28);
+  --blue: #1457ff;
+  --blue2: #4d83ff;
+  --cyan: #00e5ff;
+  --cyan2: rgba(0,229,255,0.15);
+  --gold: #ffc94d;
+  --green: #2dde98;
+  --border: rgba(255,255,255,0.09);
+  --border2: rgba(20,87,255,0.35);
+  --glow-blue: 0 0 80px rgba(20,87,255,0.3);
+  --glow-cyan: 0 0 40px rgba(0,229,255,0.2);
+  --r: 20px;
+  --r2: 28px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  font-family: 'Instrument Sans', sans-serif;
+  background: var(--night);
+  color: var(--white);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ═══════════════════════════════════════════
+   UTILITY
+═══════════════════════════════════════════ */
+.container { max-width: 1160px; margin: 0 auto; padding: 0 32px; }
+.tag {
+  display: inline-flex; align-items: center; gap: 7px;
+  border: 1px solid rgba(0,229,255,0.3);
+  background: rgba(0,229,255,0.07);
+  border-radius: 999px; padding: 6px 14px;
+  font-size: 12px; font-weight: 600; letter-spacing: 0.8px;
+  text-transform: uppercase; color: var(--cyan);
+}
+.tag::before {
+  content: ''; width: 5px; height: 5px; border-radius: 50%;
+  background: var(--cyan); box-shadow: 0 0 6px var(--cyan);
+  animation: blink 2s ease-in-out infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+/* ═══════════════════════════════════════════
+   NAV
+═══════════════════════════════════════════ */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+  padding: 0 32px;
+  background: rgba(3,6,15,0.75);
+  backdrop-filter: blur(24px) saturate(1.4);
+  border-bottom: 1px solid var(--border);
+  height: 68px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-logo {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-weight: 900; font-size: 21px; letter-spacing: -0.5px;
+  color: var(--white); text-decoration: none;
+  display: flex; align-items: center; gap: 9px;
+}
+.nav-logo-icon {
+  width: 34px; height: 34px; border-radius: 10px;
+  background: var(--blue); display: flex; align-items: center; justify-content: center;
+  font-size: 16px; box-shadow: 0 0 20px rgba(20,87,255,0.5);
+}
+.nav-logo span { color: var(--cyan); }
+.nav-links { display: flex; gap: 28px; align-items: center; }
+.nav-links a {
+  font-size: 14px; font-weight: 500;
+  color: var(--off); text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--white); }
+.nav-cta {
+  background: var(--blue) !important;
+  color: white !important;
+  padding: 9px 22px; border-radius: 12px;
+  font-weight: 700 !important; font-size: 14px !important;
+  transition: box-shadow 0.2s, transform 0.2s !important;
+  box-shadow: 0 0 24px rgba(20,87,255,0.4);
+}
+.nav-cta:hover {
+  box-shadow: 0 0 40px rgba(20,87,255,0.7) !important;
+  transform: translateY(-1px);
+}
+
+/* ═══════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════ */
+.hero-wrap {
+  position: relative; overflow: hidden;
+  min-height: 100vh;
+  display: flex; align-items: center;
+  padding: 120px 0 80px;
+}
+
+/* Animated background orbs */
+.orb {
+  position: absolute; border-radius: 50%;
+  filter: blur(80px); pointer-events: none;
+}
+.orb-1 {
+  width: 700px; height: 700px;
+  background: radial-gradient(circle, rgba(20,87,255,0.22) 0%, transparent 70%);
+  top: -200px; right: -100px;
+  animation: drift1 12s ease-in-out infinite alternate;
+}
+.orb-2 {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(0,229,255,0.12) 0%, transparent 70%);
+  bottom: -100px; left: -150px;
+  animation: drift2 15s ease-in-out infinite alternate;
+}
+.orb-3 {
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(20,87,255,0.15) 0%, transparent 70%);
+  top: 50%; left: 40%;
+  animation: drift3 10s ease-in-out infinite alternate;
+}
+@keyframes drift1 { to { transform: translate(-60px, 80px) scale(1.1); } }
+@keyframes drift2 { to { transform: translate(80px, -60px) scale(1.05); } }
+@keyframes drift3 { to { transform: translate(-40px, 40px); } }
+
+/* Grid overlay */
+.hero-grid-bg {
+  position: absolute; inset: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(20,87,255,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(20,87,255,0.05) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 0%, transparent 100%);
+}
+
+.hero-inner {
+  position: relative; z-index: 1;
+  display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 64px; align-items: center;
+}
+
+.hero-eyebrow {
+  margin-bottom: 22px;
+  animation: rise 0.7s ease both;
+}
+
+.hero-h1 {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: clamp(42px, 5.5vw, 68px);
+  font-weight: 900; line-height: 1.02;
+  letter-spacing: -2px;
+  animation: rise 0.7s 0.08s ease both;
+}
+
+.hero-h1 .line-accent {
+  display: block;
+  background: linear-gradient(90deg, var(--cyan), var(--blue2));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-desc {
+  font-size: 18px; line-height: 1.65;
+  color: var(--off); margin: 22px 0 36px;
+  max-width: 480px;
+  animation: rise 0.7s 0.16s ease both;
+}
+
+.hero-actions {
+  display: flex; gap: 14px; flex-wrap: wrap;
+  animation: rise 0.7s 0.22s ease both;
+}
+
+.btn-main {
+  display: inline-flex; align-items: center; gap: 9px;
+  background: var(--blue); color: white;
+  padding: 15px 30px; border-radius: 14px;
+  font-size: 15px; font-weight: 700; text-decoration: none;
+  box-shadow: 0 0 40px rgba(20,87,255,0.45);
+  transition: box-shadow 0.25s, transform 0.25s;
+  border: 1px solid rgba(255,255,255,0.15);
+}
+.btn-main:hover {
+  box-shadow: 0 0 70px rgba(20,87,255,0.7);
+  transform: translateY(-2px); text-decoration: none;
+}
+
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 9px;
+  background: var(--glass2); color: rgba(255,255,255,0.85);
+  padding: 15px 30px; border-radius: 14px;
+  font-size: 15px; font-weight: 600; text-decoration: none;
+  border: 1px solid var(--border);
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+}
+.btn-ghost:hover {
+  background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2);
+  transform: translateY(-2px); text-decoration: none;
+}
+
+/* Hero stats */
+.hero-stats {
+  display: flex; gap: 28px; margin-top: 44px;
+  animation: rise 0.7s 0.3s ease both;
+}
+.stat { display: flex; flex-direction: column; gap: 3px; }
+.stat-num {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: 26px; font-weight: 900; letter-spacing: -0.5px;
+}
+.stat-num.c { color: var(--cyan); }
+.stat-num.g { color: var(--green); }
+.stat-num.o { color: var(--gold); }
+.stat-label { font-size: 13px; color: var(--dim); }
+.stat-divider { width: 1px; background: var(--border); }
+
+/* Hero card */
+.hero-card {
+  background: rgba(11,22,53,0.7);
+  border: 1px solid var(--border);
+  border-radius: var(--r2); padding: 30px;
+  backdrop-filter: blur(20px);
+  position: relative; overflow: hidden;
+  animation: rise 0.7s 0.15s ease both;
+  box-shadow: var(--glow-blue);
+}
+.hero-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--cyan) 50%, transparent 100%);
+  opacity: 0.6;
+}
+
+.hc-title {
+  font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--dim); margin-bottom: 20px;
+}
+
+.hc-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 13px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.hc-row:last-child { border-bottom: 0; }
+.hc-key { font-size: 14px; color: var(--off); }
+.hc-val {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: 14px; font-weight: 700;
+}
+.hc-val.cyan { color: var(--cyan); }
+.hc-val.gold { color: var(--gold); }
+.hc-val.green { color: var(--green); }
+
+.hc-pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 4px 10px; border-radius: 999px;
+  font-size: 12px; font-weight: 700;
+}
+.hc-pill.online {
+  background: rgba(45,222,152,0.12);
+  border: 1px solid rgba(45,222,152,0.25);
+  color: var(--green);
+}
+.hc-pill.online::before {
+  content: ''; width: 5px; height: 5px; border-radius: 50%;
+  background: var(--green); box-shadow: 0 0 6px var(--green);
+  animation: blink 2s infinite;
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════════
+   MARQUEE STRIP
+═══════════════════════════════════════════ */
+.strip {
+  background: var(--blue);
+  padding: 14px 0; overflow: hidden;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.strip-inner {
+  display: flex; gap: 48px;
+  animation: marquee 20s linear infinite;
+  white-space: nowrap;
+}
+.strip-item {
+  display: flex; align-items: center; gap: 10px;
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: 14px; font-weight: 700; letter-spacing: 0.3px;
+  flex-shrink: 0;
+}
+.strip-dot { width: 4px; height: 4px; border-radius: 50%; background: rgba(255,255,255,0.5); }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* ═══════════════════════════════════════════
+   SECTION BASE
+═══════════════════════════════════════════ */
+.section { padding: 100px 0; }
+.section-header { margin-bottom: 56px; }
+.section-header .tag { margin-bottom: 18px; }
+.section-title {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: clamp(32px, 4vw, 50px);
+  font-weight: 900; letter-spacing: -1.5px; line-height: 1.05;
+  margin-bottom: 14px;
+}
+.section-sub {
+  font-size: 17px; color: var(--off); line-height: 1.65;
+  max-width: 500px;
+}
+
+/* ═══════════════════════════════════════════
+   FEATURES
+═══════════════════════════════════════════ */
+.features-bg {
+  background: linear-gradient(180deg, var(--night) 0%, var(--deep) 50%, var(--night) 100%);
+}
+
+.feat-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px;
+}
+
+.feat-card {
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: var(--r2); padding: 28px;
+  transition: border-color 0.3s, background 0.3s, transform 0.3s, box-shadow 0.3s;
+  position: relative; overflow: hidden; cursor: default;
+}
+.feat-card::after {
+  content: '';
+  position: absolute; inset: 0; border-radius: var(--r2);
+  background: radial-gradient(circle at 0% 0%, rgba(20,87,255,0.1) 0%, transparent 60%);
+  opacity: 0; transition: opacity 0.3s;
+}
+.feat-card:hover {
+  background: var(--glass2); border-color: var(--border2);
+  transform: translateY(-5px);
+  box-shadow: 0 24px 60px rgba(20,87,255,0.18);
+}
+.feat-card:hover::after { opacity: 1; }
+
+.feat-icon {
+  width: 52px; height: 52px; border-radius: 16px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px; margin-bottom: 20px;
+  background: rgba(20,87,255,0.12);
+  border: 1px solid rgba(20,87,255,0.2);
+  position: relative; z-index: 1;
+}
+.feat-title {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: 18px; font-weight: 800; margin-bottom: 9px;
+  position: relative; z-index: 1;
+}
+.feat-text {
+  font-size: 14px; color: var(--off); line-height: 1.65;
+  position: relative; z-index: 1;
+}
+
+/* ═══════════════════════════════════════════
+   PLANS
+═══════════════════════════════════════════ */
+.plans-bg {
+  position: relative; overflow: hidden;
+  background: var(--deep);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.plans-bg::before {
+  content: '';
+  position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
+  width: 800px; height: 800px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(20,87,255,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.plans-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+  position: relative; z-index: 1;
+}
+
+.plan {
+  border-radius: var(--r2); padding: 38px;
+  position: relative; overflow: hidden;
+}
+
+.plan-free {
+  background: var(--glass);
+  border: 1px solid var(--border);
+}
+
+.plan-premium {
+  background: linear-gradient(145deg, rgba(20,87,255,0.18) 0%, rgba(0,229,255,0.06) 100%);
+  border: 1px solid var(--border2);
+  box-shadow: var(--glow-blue);
+}
+.plan-premium::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--blue), var(--cyan));
+}
+
+.plan-header { margin-bottom: 28px; }
+.plan-name {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: 13px; font-weight: 800; letter-spacing: 1.5px;
+  text-transform: uppercase; margin-bottom: 16px;
+  display: inline-flex; align-items: center; gap: 7px;
+}
+.plan-name.gold { color: var(--gold); }
+.plan-name.muted { color: var(--dim); }
+
+.plan-price {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: 52px; font-weight: 900; letter-spacing: -2px; line-height: 1;
+}
+.plan-price sup { font-size: 22px; letter-spacing: 0; vertical-align: super; }
+.plan-price sub {
+  font-size: 16px; letter-spacing: 0; font-weight: 400;
+  color: var(--off); vertical-align: baseline;
+}
+.plan-period { font-size: 13px; color: var(--dim); margin-top: 6px; }
+
+.plan-divider {
+  height: 1px; background: var(--border); margin: 24px 0;
+}
+
+.plan-feats { list-style: none; margin-bottom: 32px; }
+.plan-feats li {
+  display: flex; align-items: flex-start; gap: 10px;
+  font-size: 14px; padding: 9px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  color: rgba(255,255,255,0.78);
+}
+.plan-feats li:last-child { border-bottom: 0; }
+.feat-check { color: var(--cyan); font-weight: 900; flex-shrink: 0; margin-top: 1px; font-size: 13px; }
+.feat-x { color: rgba(255,255,255,0.2); flex-shrink: 0; margin-top: 1px; font-size: 13px; }
+.plan-feats li.dim { color: rgba(255,255,255,0.28); }
+
+.plan-btn {
+  display: block; text-align: center;
+  padding: 15px; border-radius: 14px;
+  font-size: 15px; font-weight: 700;
+  text-decoration: none; transition: all 0.25s;
+}
+.plan-btn-free {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid var(--border);
+  color: rgba(255,255,255,0.75);
+}
+.plan-btn-free:hover {
+  background: rgba(255,255,255,0.11);
+  text-decoration: none; color: white;
+}
+.plan-btn-premium {
+  background: linear-gradient(135deg, var(--blue) 0%, #3470ff 100%);
+  color: white; border: none;
+  box-shadow: 0 0 36px rgba(20,87,255,0.5);
+}
+.plan-btn-premium:hover {
+  box-shadow: 0 0 60px rgba(20,87,255,0.8);
+  transform: translateY(-2px);
+  text-decoration: none; color: white;
+}
+
+/* ═══════════════════════════════════════════
+   ZERO LOGS
+═══════════════════════════════════════════ */
+.zl-wrap {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+}
+.zl-left { }
+.zl-headline {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: clamp(64px, 9vw, 110px);
+  font-weight: 900; line-height: 0.92;
+  letter-spacing: -4px;
+  background: linear-gradient(145deg, var(--white) 0%, rgba(255,255,255,0.4) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 18px;
+}
+.zl-sub {
+  font-size: 17px; color: var(--off); line-height: 1.65;
+}
+
+.zl-list { list-style: none; }
+.zl-item {
+  display: flex; align-items: flex-start; gap: 14px;
+  padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.06);
+  font-size: 15px;
+}
+.zl-item:last-child { border-bottom: 0; }
+.zl-icon {
+  width: 36px; height: 36px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; flex-shrink: 0;
+  background: rgba(20,87,255,0.1); border: 1px solid rgba(20,87,255,0.2);
+}
+.zl-icon.no { background: rgba(255,60,60,0.08); border-color: rgba(255,60,60,0.15); }
+.zl-icon.yes { background: rgba(45,222,152,0.08); border-color: rgba(45,222,152,0.2); }
+.zl-text { color: rgba(255,255,255,0.72); line-height: 1.5; padding-top: 6px; }
+.zl-text strong { color: white; display: block; font-size: 14px; margin-bottom: 2px; }
+.zl-text span { font-size: 13px; color: var(--dim); }
+
+/* ═══════════════════════════════════════════
+   DOCS
+═══════════════════════════════════════════ */
+.docs-bg {
+  background: var(--deep);
+  border-top: 1px solid var(--border);
+}
+.docs-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px;
+}
+.doc-card {
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: var(--r2); padding: 28px;
+  text-decoration: none; color: inherit;
+  display: flex; flex-direction: column; gap: 12px;
+  transition: border-color 0.25s, background 0.25s, transform 0.25s, box-shadow 0.25s;
+  position: relative; overflow: hidden;
+}
+.doc-card::before {
+  content: ''; position: absolute; inset: 0; border-radius: var(--r2);
+  background: radial-gradient(circle at 0% 0%, rgba(0,229,255,0.06) 0%, transparent 50%);
+  opacity: 0; transition: opacity 0.3s;
+}
+.doc-card:hover {
+  border-color: rgba(0,229,255,0.25);
+  background: var(--glass2);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+  text-decoration: none;
+}
+.doc-card:hover::before { opacity: 1; }
+.doc-icon { font-size: 30px; }
+.doc-name {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: 17px; font-weight: 800; color: white;
+}
+.doc-desc { font-size: 13px; color: var(--off); line-height: 1.55; flex: 1; }
+.doc-arrow {
+  font-size: 13px; color: var(--cyan); font-weight: 600;
+  display: flex; align-items: center; gap: 5px;
+}
+
+/* ═══════════════════════════════════════════
+   PAYMENT
+═══════════════════════════════════════════ */
+.pay-card {
+  background: linear-gradient(135deg, rgba(20,87,255,0.1) 0%, rgba(0,229,255,0.04) 100%);
+  border: 1px solid rgba(20,87,255,0.25);
+  border-radius: var(--r2); padding: 44px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center;
+  position: relative; overflow: hidden;
+  box-shadow: var(--glow-blue);
+}
+.pay-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--blue2), var(--cyan), transparent);
+}
+.pay-title {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: 36px; font-weight: 900; letter-spacing: -1px; line-height: 1.1;
+  margin: 14px 0;
+}
+.pay-desc { font-size: 15px; color: var(--off); line-height: 1.65; }
+.pay-steps { list-style: none; }
+.pay-step {
+  display: flex; align-items: flex-start; gap: 14px;
+  padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.pay-step:last-child { border-bottom: 0; }
+.pay-num {
+  width: 30px; height: 30px; border-radius: 999px;
+  background: var(--blue); color: white;
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: 13px; font-weight: 900;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.pay-text { font-size: 14px; color: rgba(255,255,255,0.72); line-height: 1.5; padding-top: 5px; }
+.pay-text strong { color: white; display: block; font-size: 14px; margin-bottom: 1px; }
+
+/* ═══════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════ */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 40px 0;
+}
+.footer-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 20px;
+}
+.footer-logo {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-weight: 900; font-size: 19px; letter-spacing: -0.5px;
+  color: white; text-decoration: none;
+}
+.footer-logo span { color: var(--cyan); }
+.footer-links { display: flex; gap: 22px; flex-wrap: wrap; }
+.footer-links a {
+  font-size: 14px; color: var(--dim); text-decoration: none; transition: color 0.2s;
+}
+.footer-links a:hover { color: white; }
+.footer-copy { font-size: 13px; color: rgba(255,255,255,0.2); }
+
+/* ═══════════════════════════════════════════
+   SCROLL REVEAL
+═══════════════════════════════════════════ */
+.reveal {
+  opacity: 0; transform: translateY(32px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-d1 { transition-delay: 0.07s; }
+.reveal-d2 { transition-delay: 0.14s; }
+.reveal-d3 { transition-delay: 0.21s; }
+.reveal-d4 { transition-delay: 0.28s; }
+.reveal-d5 { transition-delay: 0.35s; }
+.reveal-d6 { transition-delay: 0.42s; }
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════ */
+@media (max-width: 960px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+  .feat-grid { grid-template-columns: 1fr 1fr; }
+  .plans-grid { grid-template-columns: 1fr; }
+  .zl-wrap { grid-template-columns: 1fr; gap: 40px; }
+  .docs-grid { grid-template-columns: 1fr 1fr; }
+  .pay-card { grid-template-columns: 1fr; gap: 32px; }
+  .section { padding: 72px 0; }
+}
+@media (max-width: 640px) {
+  nav { padding: 0 18px; }
+  .container { padding: 0 18px; }
+  .feat-grid { grid-template-columns: 1fr; }
+  .docs-grid { grid-template-columns: 1fr; }
+  .hero-actions { flex-direction: column; }
+  .btn-main, .btn-ghost { text-align: center; justify-content: center; }
+  .hero-stats { flex-wrap: wrap; gap: 20px; }
+  .stat-divider { display: none; }
+  .nav-links a:not(.nav-cta) { display: none; }
+  .zl-headline { font-size: 72px; letter-spacing: -3px; }
+  .pay-card { padding: 28px 22px; }
+  footer { padding: 32px 0; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <a class="nav-logo" href="/">
+    <div class="nav-logo-icon">🛡️</div>
+    Nagh <span>VPN</span>
+  </a>
+  <div class="nav-links">
+    <a href="#features">Возможности</a>
+    <a href="#plans">Тарифы</a>
+    <a href="/offer/">Оферта</a>
+    <a href="/privacy/">Политика</a>
+    <a href="mailto:support@naghvpn.ru" class="nav-cta">Поддержка →</a>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero-wrap">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div class="hero-grid-bg"></div>
+  <div class="container">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-eyebrow">
+          <div class="tag">VPN-сервис для Android</div>
+        </div>
+        <h1 class="hero-h1">
+          Защита соединения
+          <span class="line-accent">без компромиссов.</span>
+        </h1>
+        <p class="hero-desc">
+          Бесплатный WireGuard и Premium VLESS+Reality — современные протоколы для защиты соединения и стабильного доступа к сервису.
+        </p>
+        <div class="hero-actions">
+          <a href="#plans" class="btn-main">⚡ Смотреть тарифы</a>
+          <a href="mailto:support@naghvpn.ru" class="btn-ghost">Написать нам</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat">
+            <span class="stat-num c">Free</span>
+            <span class="stat-label">WireGuard</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat">
+            <span class="stat-num o">199 ₽</span>
+            <span class="stat-label">Premium / мес</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat">
+            <span class="stat-num g">No-Log</span>
+            <span class="stat-label">VPN-трафик</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-card">
+        <div class="hc-title">Статус сервиса</div>
+        <div class="hc-row">
+          <span class="hc-key">Статус</span>
+          <span class="hc-pill online">Подготовка</span>
+        </div>
+        <div class="hc-row">
+          <span class="hc-key">Free тариф</span>
+          <span class="hc-val green">WireGuard</span>
+        </div>
+        <div class="hc-row">
+          <span class="hc-key">Premium</span>
+          <span class="hc-val cyan">VLESS + Reality</span>
+        </div>
+        <div class="hc-row">
+          <span class="hc-key">Стоимость</span>
+          <span class="hc-val gold">от 199 ₽/мес</span>
+        </div>
+        <div class="hc-row">
+          <span class="hc-key">VPN-трафик</span>
+          <span class="hc-val green">No-Log ✓</span>
+        </div>
+        <div class="hc-row">
+          <span class="hc-key">Поддержка</span>
+          <span class="hc-val" style="font-size:12px;color:var(--off)">support@naghvpn.ru</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── MARQUEE ── -->
+<div class="strip">
+  <div class="strip-inner">
+    <!-- дублируем для бесконечной петли -->
+    <span class="strip-item"><span>🛡️</span> No-Log для VPN-трафика</span>
+    <span class="strip-dot"></span>
+    <span class="strip-item"><span>⚡</span> WireGuard протокол</span>
+    <span class="strip-dot"></span>
+    <span class="strip-item"><span>🔵</span> VLESS + Reality</span>
+    <span class="strip-dot"></span>
+    <span class="strip-item"><span>📱</span> Раздельное туннелирование</span>
+    <span class="strip-dot"></span>
+    <span class="strip-item"><span>👻</span> Минимум данных</span>
+    <span class="strip-dot"></span>
+    <span class="strip-item"><span>🌍</span> Серверная инфраструктура</span>
+    <span class="strip-dot"></span>
+    <span class="strip-item"><span>🛡️</span> No-Log для VPN-трафика</span>
+    <span class="strip-dot"></span>
+    <span class="strip-item"><span>⚡</span> WireGuard протокол</span>
+    <span class="strip-dot"></span>
+    <span class="strip-item"><span>🔵</span> VLESS + Reality</span>
+    <span class="strip-dot"></span>
+    <span class="strip-item"><span>📱</span> Раздельное туннелирование</span>
+    <span class="strip-dot"></span>
+    <span class="strip-item"><span>👻</span> Минимум данных</span>
+    <span class="strip-dot"></span>
+    <span class="strip-item"><span>🌍</span> Серверная инфраструктура</span>
+    <span class="strip-dot"></span>
+  </div>
+</div>
+
+<!-- ── FEATURES ── -->
+<div class="features-bg" id="features">
+  <div class="container">
+    <div class="section">
+      <div class="section-header reveal">
+        <div class="tag">Возможности</div>
+        <h2 class="section-title">Всё что нужно<br>для защиты соединения</h2>
+        <p class="section-sub">Современные протоколы, вход по e-mail и раздельное туннелирование — в одном приложении.</p>
+      </div>
+      <div class="feat-grid">
+        <div class="feat-card reveal reveal-d1">
+          <div class="feat-icon">🛡️</div>
+          <div class="feat-title">VLESS + Reality</div>
+          <div class="feat-text">Использует современные методы маскировки соединения и помогает поддерживать стабильное подключение.</div>
+        </div>
+        <div class="feat-card reveal reveal-d2">
+          <div class="feat-icon">⚡</div>
+          <div class="feat-title">WireGuard бесплатно</div>
+          <div class="feat-text">Быстрый современный протокол доступен на бесплатном тарифе. Без регистрации карты.</div>
+        </div>
+        <div class="feat-card reveal reveal-d3">
+          <div class="feat-icon">📱</div>
+          <div class="feat-title">Split Tunneling</div>
+          <div class="feat-text">Вы можете выбрать, какие приложения используют VPN-подключение, а какие работают напрямую.</div>
+        </div>
+        <div class="feat-card reveal reveal-d4">
+          <div class="feat-icon">👻</div>
+          <div class="feat-title">Минимум данных для входа</div>
+          <div class="feat-text">Для входа используется e-mail и внутренний ID пользователя. Имя, телефон и пароль не требуются.</div>
+        </div>
+        <div class="feat-card reveal reveal-d5">
+          <div class="feat-icon">🔑</div>
+          <div class="feat-title">Вход по коду</div>
+          <div class="feat-text">Получите одноразовый код на e-mail. Пароль не нужен.</div>
+        </div>
+        <div class="feat-card reveal reveal-d6">
+          <div class="feat-icon">🌍</div>
+          <div class="feat-title">Серверная инфраструктура</div>
+          <div class="feat-text">Серверная инфраструктура будет развёрнута перед запуском публичного доступа.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── PLANS ── -->
+<div class="plans-bg" id="plans">
+  <div class="container">
+    <div class="section">
+      <div class="section-header reveal">
+        <div class="tag">Тарифы</div>
+        <h2 class="section-title">Начните бесплатно.<br>Апгрейд когда захотите.</h2>
+      </div>
+      <div class="plans-grid">
+        <div class="plan plan-free reveal reveal-d1">
+          <div class="plan-header">
+            <div class="plan-name muted">Free</div>
+            <div class="plan-price">0 <sub>₽/мес</sub></div>
+            <div class="plan-period">Бесплатно навсегда</div>
+          </div>
+          <div class="plan-divider"></div>
+          <ul class="plan-feats">
+            <li><span class="feat-check">✓</span> Протокол WireGuard</li>
+            <li><span class="feat-check">✓</span> 1 устройство</li>
+            <li><span class="feat-check">✓</span> Доступный сервер</li>
+            <li><span class="feat-check">✓</span> Вход по email-коду</li>
+            <li class="dim"><span class="feat-x">✗</span> VLESS + Reality</li>
+            <li class="dim"><span class="feat-x">✗</span> Раздельное туннелирование</li>
+            <li class="dim"><span class="feat-x">✗</span> До 5 устройств</li>
+          </ul>
+          <a href="/pricing/" class="plan-btn plan-btn-free">Подробнее о тарифе</a>
+        </div>
+        <div class="plan plan-premium reveal reveal-d2">
+          <div class="plan-header">
+            <div class="plan-name gold">⭐ Premium</div>
+            <div class="plan-price">199 <sub>₽/мес</sub></div>
+            <div class="plan-period">или 1 490 ₽/год — экономия 2 месяца</div>
+          </div>
+          <div class="plan-divider"></div>
+          <ul class="plan-feats">
+            <li><span class="feat-check">✓</span> VLESS + Reality</li>
+            <li><span class="feat-check">✓</span> Высокая скорость подключения</li>
+            <li><span class="feat-check">✓</span> До 5 устройств</li>
+            <li><span class="feat-check">✓</span> Раздельное туннелирование</li>
+            <li><span class="feat-check">✓</span> WireGuard в подарок</li>
+            <li><span class="feat-check">✓</span> Доступные серверы</li>
+            <li><span class="feat-check">✓</span> Приоритетная поддержка</li>
+          </ul>
+          <a href="/pricing/" class="plan-btn plan-btn-premium">Подробнее о Premium →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── ZERO LOGS ── -->
+<div class="container">
+  <div class="section">
+    <div class="zl-wrap">
+      <div class="reveal">
+        <div class="tag" style="margin-bottom:20px">Приватность</div>
+        <div class="zl-headline">Zero<br>Logs.</div>
+        <p class="zl-sub">Мы не храним содержимое VPN-трафика, историю посещений и IP-адреса назначения. Для работы аккаунта могут обрабатываться e-mail, ID пользователя, статус подписки и технические события безопасности.</p>
+      </div>
+      <ul class="zl-list reveal reveal-d1">
+        <li class="zl-item">
+          <div class="zl-icon no">🚫</div>
+          <div class="zl-text">
+            <strong>История посещений</strong>
+            <span>Не храним список сайтов и сервисов, которые вы открываете через VPN</span>
+          </div>
+        </li>
+        <li class="zl-item">
+          <div class="zl-icon no">🚫</div>
+          <div class="zl-text">
+            <strong>Содержимое VPN-трафика</strong>
+            <span>Не сохраняем содержимое передаваемых данных</span>
+          </div>
+        </li>
+        <li class="zl-item">
+          <div class="zl-icon no">🚫</div>
+          <div class="zl-text">
+            <strong>IP-адреса назначения</strong>
+            <span>Не храним адреса ресурсов, к которым вы подключаетесь через VPN</span>
+          </div>
+        </li>
+        <li class="zl-item">
+          <div class="zl-icon no">🚫</div>
+          <div class="zl-text">
+            <strong>Статистика активности</strong>
+            <span>Не используем историю VPN-активности для профилирования</span>
+          </div>
+        </li>
+        <li class="zl-item">
+          <div class="zl-icon yes">✅</div>
+          <div class="zl-text">
+            <strong>E-mail для аккаунта</strong>
+            <span>Используется для входа, поддержки и управления подпиской</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ── PAYMENT ── -->
+<div class="container" style="padding-bottom:100px">
+  <div class="pay-card reveal">
+    <div>
+      <div class="tag" style="margin-bottom:16px">Оплата</div>
+      <h2 class="pay-title">Как оформить Premium</h2>
+      <p class="pay-desc">После подключения ЮKassa оплата будет доступна на сайте. После оплаты Premium активируется в аккаунте пользователя. Данные карты обрабатывает ЮKassa — мы их не видим.</p>
+      <div style="margin-top:24px">
+        <a href="mailto:support@naghvpn.ru" class="btn-main" style="display:inline-flex">📩 Связаться с нами</a>
+      </div>
+    </div>
+    <ul class="pay-steps">
+      <li class="pay-step">
+        <div class="pay-num">1</div>
+        <div class="pay-text">
+          <strong>Подготовьте аккаунт</strong>
+          Войдите по e-mail, который будет использоваться в приложении
+        </div>
+      </li>
+      <li class="pay-step">
+        <div class="pay-num">2</div>
+        <div class="pay-text">
+          <strong>Войдите по email-коду</strong>
+          Никакого пароля — только одноразовый код
+        </div>
+      </li>
+      <li class="pay-step">
+        <div class="pay-num">3</div>
+        <div class="pay-text">
+          <strong>Выберите тариф Premium</strong>
+          199 ₽/мес или 1 490 ₽/год на сайте
+        </div>
+      </li>
+      <li class="pay-step">
+        <div class="pay-num">4</div>
+        <div class="pay-text">
+          <strong>Оплатите через ЮKassa</strong>
+          Доступные способы оплаты отображаются на странице ЮKassa
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!-- ── DOCS ── -->
+<div class="docs-bg">
+  <div class="container">
+    <div class="section">
+      <div class="section-header reveal">
+        <div class="tag">Документы</div>
+        <h2 class="section-title">Всё прозрачно</h2>
+        <p class="section-sub">Мы публикуем все юридические документы открыто. Никакого мелкого шрифта.</p>
+      </div>
+      <div class="docs-grid">
+        <a href="/privacy/" class="doc-card reveal reveal-d1">
+          <div class="doc-icon">📄</div>
+          <div class="doc-name">Политика конфиденциальности</div>
+          <div class="doc-desc">Как мы обрабатываем данные аккаунта, оплаты и технической безопасности.</div>
+          <div class="doc-arrow">Читать <span>→</span></div>
+        </a>
+        <a href="/terms/" class="doc-card reveal reveal-d2">
+          <div class="doc-icon">📋</div>
+          <div class="doc-name">Пользовательское соглашение</div>
+          <div class="doc-desc">Условия использования, оплата и возврат средств.</div>
+          <div class="doc-arrow">Читать <span>→</span></div>
+        </a>
+        <a href="/offer/" class="doc-card reveal reveal-d3">
+          <div class="doc-icon">📝</div>
+          <div class="doc-name">Публичная оферта</div>
+          <div class="doc-desc">Договор о предоставлении услуг VPN-сервиса.</div>
+          <div class="doc-arrow">Читать <span>→</span></div>
+        </a>
+        <a href="/requisites/" class="doc-card reveal reveal-d4">
+          <div class="doc-icon">🏢</div>
+          <div class="doc-name">Реквизиты</div>
+          <div class="doc-desc">Данные индивидуального предпринимателя.</div>
+          <div class="doc-arrow">Смотреть <span>→</span></div>
+        </a>
+        <a href="/support/" class="doc-card reveal reveal-d5">
+          <div class="doc-icon">💬</div>
+          <div class="doc-name">Поддержка</div>
+          <div class="doc-desc">Вопросы по приложению, оплате и техническим проблемам.</div>
+          <div class="doc-arrow">Написать <span>→</span></div>
+        </a>
+        <a href="/pricing/" class="doc-card reveal reveal-d6">
+          <div class="doc-icon">💰</div>
+          <div class="doc-name">Тарифы</div>
+          <div class="doc-desc">Подробное сравнение Free и Premium тарифных планов.</div>
+          <div class="doc-arrow">Смотреть <span>→</span></div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <a class="footer-logo" href="/">Nagh <span>VPN</span></a>
+      <div class="footer-links">
+        <a href="/pricing/">Тарифы</a>
+        <a href="/offer/">Оферта</a>
+        <a href="/requisites/">Реквизиты</a>
+        <a href="/privacy/">Политика</a>
+        <a href="/terms/">Соглашение</a>
+        <a href="mailto:support@naghvpn.ru">Поддержка</a>
+      </div>
+      <div class="footer-copy">© 2026 Nagh VPN. Все права защищены.</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+</script>
+</body>
+</html>
