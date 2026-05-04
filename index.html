@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Главная — Nagh VPN</title>
+<meta name="description" content="Nagh VPN — мобильный VPN-сервис с Free и Premium режимами.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232563eb'/%3E%3Cpath d='M32 10l18 8v13c0 12-7.5 19.5-18 23-10.5-3.5-18-11-18-23V18l18-8z' fill='white' opacity='.95'/%3E%3Cpath d='M24 32l5 5 12-14' stroke='%232563eb' stroke-width='5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
+<style>
+:root{
+  --bg:#0b1020; --bg2:#111a33; --card:#ffffff; --text:#172033; --muted:#65708a;
+  --primary:#2563eb; --primary2:#38bdf8; --line:#e6eaf2; --good:#16a34a;
+}
+*{box-sizing:border-box} body{margin:0;font-family:Inter,Arial,sans-serif;color:var(--text);background:#f6f8fc;line-height:1.65}
+a{color:var(--primary);text-decoration:none} a:hover{text-decoration:underline}
+.header{background:radial-gradient(circle at 20% 0%,#1d4ed8 0,#0b1020 44%,#080b14 100%);color:#fff;padding:24px 18px}
+.nav{max-width:1050px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.logo{font-weight:800;font-size:22px;letter-spacing:.2px}.logo span{color:var(--primary2)}
+.navlinks{display:flex;gap:16px;flex-wrap:wrap}.navlinks a{color:#dbeafe;font-weight:600;font-size:14px}
+.hero{max-width:1050px;margin:0 auto;padding:58px 0 42px;display:grid;grid-template-columns:1.2fr .8fr;gap:34px;align-items:center}
+.badge{display:inline-flex;border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:7px 12px;color:#dbeafe;background:rgba(255,255,255,.08);font-size:13px}
+h1{font-size:44px;line-height:1.08;margin:18px 0 14px} .hero p{color:#cbd5e1;font-size:18px;margin:0 0 24px}
+.buttons{display:flex;gap:12px;flex-wrap:wrap}.btn{display:inline-flex;align-items:center;justify-content:center;border-radius:12px;padding:12px 16px;font-weight:700;border:1px solid transparent}
+.btn.primary{background:#fff;color:#0b1020}.btn.secondary{border-color:rgba(255,255,255,.25);color:#fff;background:rgba(255,255,255,.08)}
+.panel{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:22px;padding:22px;box-shadow:0 18px 50px rgba(0,0,0,.25)}
+.panel .status{display:flex;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.12);padding:12px 0;color:#e2e8f0}.panel strong{color:#fff}
+.main{max-width:1050px;margin:0 auto;padding:34px 18px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:0 6px 22px rgba(15,23,42,.05)}
+.card h3{margin:0 0 8px;font-size:18px}.card p{margin:0;color:var(--muted)}
+.legal{max-width:900px;margin:0 auto;background:#fff;border:1px solid var(--line);border-radius:18px;padding:26px;box-shadow:0 6px 22px rgba(15,23,42,.05)}
+.legal h1{font-size:32px;color:#111827;line-height:1.2}.legal h2{font-size:21px;margin-top:30px;color:#111827}.legal h3{font-size:17px;margin-top:20px}.legal p{margin:10px 0}.legal ul{padding-left:22px}.updated{color:var(--muted);font-size:14px}.highlight{background:#eff6ff;border-left:4px solid var(--primary);padding:12px 15px;border-radius:8px;margin:16px 0}.footer{max-width:1050px;margin:0 auto;padding:28px 18px;color:#68758f;font-size:14px;text-align:center}.notice{background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;border-radius:14px;padding:14px 16px;margin:18px 0}
+@media (max-width:780px){.hero{grid-template-columns:1fr;padding-top:36px}.grid{grid-template-columns:1fr}h1{font-size:34px}.nav{align-items:flex-start;flex-direction:column}.legal{padding:18px}}
+</style>
+</head>
+<body>
+<header class="header">
+  <nav class="nav">
+    <a class="logo" href="/">Nagh <span>VPN</span></a>
+    <div class="navlinks">
+      <a href="/privacy/">Политика</a>
+      <a href="/terms/">Соглашение</a>
+      <a href="mailto:support@naghvpn.ru">Поддержка</a>
+    </div>
+  </nav>
+</header>
+<main class="main">
+
+<section class="hero" style="padding-top:0">
+  <div>
+    <div class="badge">VPN для Android · Free и Premium</div>
+    <h1>Защита приватности и удобное подключение</h1>
+    <p>Nagh VPN — мобильное приложение с бесплатным WireGuard-режимом и Premium-режимом VLESS + Reality.</p>
+    <div class="buttons">
+      <a class="btn primary" href="mailto:support@naghvpn.ru">Связаться с поддержкой</a>
+      <a class="btn secondary" href="/privacy/">Политика конфиденциальности</a>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="status"><span>Free</span><strong>WireGuard</strong></div>
+    <div class="status"><span>Premium</span><strong>VLESS + Reality</strong></div>
+    <div class="status"><span>Логи трафика</span><strong>No-log</strong></div>
+    <div class="status" style="border-bottom:0"><span>Поддержка</span><strong>support@naghvpn.ru</strong></div>
+  </div>
+</section>
+<section class="grid">
+  <div class="card"><h3>Бесплатный режим</h3><p>Базовое VPN-подключение через WireGuard.</p></div>
+  <div class="card"><h3>Premium</h3><p>VLESS + Reality, раздельное туннелирование и резервный WireGuard.</p></div>
+  <div class="card"><h3>Документы</h3><p><a href="/privacy/">Политика конфиденциальности</a><br><a href="/terms/">Пользовательское соглашение</a></p></div>
+</section>
+
+</main>
+<footer class="footer">© 2026 Nagh VPN. Все права защищены. Поддержка: <a href="mailto:support@naghvpn.ru">support@naghvpn.ru</a></footer>
+</body>
+</html>
