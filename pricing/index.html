@@ -860,7 +860,9 @@ table.data-table {
   letter-spacing: -1.5px;
   line-height: 1;
 }
-.price-period { color: var(--dim); font-size: 13px; margin-top: 8px; }
+.price-period { color: var(--dim); font-size: 13px; margin-top: 8px; display: flex; flex-wrap: wrap; gap: 4px 10px; line-height: 1.45; }
+.price-period span { white-space: nowrap; }
+.price-card { min-width: 0; }
 .action-row { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 24px; }
 .simple-hero-card {
   max-width: 820px;
@@ -921,17 +923,17 @@ table.data-table {
       <div class="price-card">
         <div class="price-kicker">1 месяц</div>
         <div class="price-amount">от 149 ₽</div>
-        <div class="price-period">Start — 149 ₽ · Plus — 299 ₽ · Premium — 499 ₽</div>
+        <div class="price-period"><span>Start — 149 ₽</span><span>Plus — 299 ₽</span><span>Premium — 499 ₽</span></div>
       </div>
       <div class="price-card featured">
         <div class="price-kicker">3 месяца</div>
         <div class="price-amount">от 399 ₽</div>
-        <div class="price-period">Start — 399 ₽ · Plus — 699 ₽ · Premium — 1 299 ₽</div>
+        <div class="price-period"><span>Start — 399 ₽</span><span>Plus — 699 ₽</span><span>Premium — 1 299 ₽</span></div>
       </div>
       <div class="price-card">
         <div class="price-kicker">1 год</div>
         <div class="price-amount">от 1 190 ₽</div>
-        <div class="price-period">Start — 1 190 ₽ · Plus — 1 899 ₽ · Premium — 3 490 ₽</div>
+        <div class="price-period"><span>Start — 1 190 ₽</span><span>Plus — 1 899 ₽</span><span>Premium — 3 490 ₽</span></div>
       </div>
     </div>
     <div class="content-grid three">
