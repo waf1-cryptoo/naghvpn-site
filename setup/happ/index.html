@@ -3,12 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Nagh VPN — Защита соединения и приватности</title>
-<meta name="description" content="NaghVPN — мобильный VPN-сервис с платными тарифами Start, Plus и Premium. Вход по e-mail или Google.">
+<title>Тарифы — Nagh VPN</title>
+<meta name="description" content="Инструкция по подключению NaghVPN через Happ.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400;500;700;800;900&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230057ff'/%3E%3Cpath d='M32 10l18 8v13c0 12-7.5 19.5-18 23-10.5-3.5-18-11-18-23V18l18-8z' fill='white' opacity='.95'/%3E%3Cpath d='M24 32l5 5 12-14' stroke='%230057ff' stroke-width='5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
 <style>
+
 /* ═══════════════════════════════════════════
    TOKENS
 ═══════════════════════════════════════════ */
@@ -674,389 +675,256 @@ footer {
   .pay-card { padding: 28px 22px; }
   footer { padding: 32px 0; }
 }
+
+
+
+/* ═══════════════════════════════════════════
+   SUBPAGES
+═══════════════════════════════════════════ */
+.subpage-hero {
+  position: relative;
+  overflow: hidden;
+  min-height: 460px;
+  display: flex;
+  align-items: center;
+  padding: 130px 0 76px;
+  border-bottom: 1px solid var(--border);
+}
+.subpage-hero .container { position: relative; z-index: 2; }
+.breadcrumb {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  color: var(--dim);
+  font-size: 13px;
+  margin-bottom: 22px;
+}
+.breadcrumb a { color: var(--off); text-decoration: none; }
+.breadcrumb a:hover { color: var(--white); }
+.subpage-title {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: clamp(42px, 5vw, 72px);
+  font-weight: 900;
+  line-height: .98;
+  letter-spacing: -2px;
+  max-width: 860px;
+}
+.subpage-title .accent {
+  background: linear-gradient(90deg, var(--cyan), var(--blue2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.subpage-lead {
+  color: var(--off);
+  font-size: 18px;
+  line-height: 1.7;
+  max-width: 700px;
+  margin-top: 22px;
+}
+.content-section { padding: 84px 0; }
+.content-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 22px;
+}
+.content-grid.two { grid-template-columns: repeat(2, minmax(0,1fr)); }
+.content-grid.three { grid-template-columns: repeat(3, minmax(0,1fr)); }
+.content-card {
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: var(--r2);
+  padding: 32px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color .25s, background .25s, transform .25s, box-shadow .25s;
+}
+.content-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 0% 0%, rgba(20,87,255,.08) 0%, transparent 55%);
+  opacity: .85;
+  pointer-events: none;
+}
+.content-card > * { position: relative; z-index: 1; }
+.content-card:hover {
+  background: var(--glass2);
+  border-color: var(--border2);
+  transform: translateY(-3px);
+  box-shadow: 0 20px 50px rgba(20,87,255,.14);
+}
+.content-card h2, .content-card h3 {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-weight: 900;
+  letter-spacing: -.6px;
+  line-height: 1.08;
+  margin-bottom: 16px;
+}
+.content-card h2 { font-size: clamp(26px, 3vw, 36px); }
+.content-card h3 { font-size: 22px; }
+.content-card p {
+  color: rgba(255,255,255,.72);
+  line-height: 1.75;
+  font-size: 15px;
+  margin: 12px 0;
+}
+.content-card a { color: var(--cyan); text-decoration: none; }
+.content-card a:hover { text-decoration: underline; }
+.content-card ul { list-style: none; margin: 14px 0 0; }
+.content-card li {
+  color: rgba(255,255,255,.74);
+  padding: 10px 0 10px 28px;
+  border-bottom: 1px solid rgba(255,255,255,.05);
+  position: relative;
+  line-height: 1.6;
+}
+.content-card li:last-child { border-bottom: 0; }
+.content-card li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  top: 10px;
+  color: var(--cyan);
+  font-weight: 900;
+}
+.note-card {
+  background: linear-gradient(135deg, rgba(20,87,255,.12) 0%, rgba(0,229,255,.05) 100%);
+  border-color: rgba(20,87,255,.28);
+  box-shadow: var(--glow-blue);
+}
+.warn-card {
+  background: linear-gradient(135deg, rgba(255,201,77,.10) 0%, rgba(20,87,255,.04) 100%);
+  border-color: rgba(255,201,77,.24);
+}
+.success-card {
+  background: linear-gradient(135deg, rgba(45,222,152,.12) 0%, rgba(0,229,255,.04) 100%);
+  border-color: rgba(45,222,152,.24);
+}
+.data-table-wrap { overflow-x: auto; margin-top: 18px; border-radius: 18px; border: 1px solid var(--border); }
+table.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 650px;
+  background: rgba(255,255,255,.025);
+}
+.data-table th {
+  text-align: left;
+  color: var(--white);
+  background: rgba(20,87,255,.16);
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  padding: 15px 16px;
+  border-bottom: 1px solid var(--border);
+}
+.data-table td {
+  color: rgba(255,255,255,.72);
+  padding: 15px 16px;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+  vertical-align: top;
+  line-height: 1.55;
+}
+.data-table tr:last-child td { border-bottom: 0; }
+.price-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 22px;
+}
+.price-card {
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: var(--r2);
+  padding: 30px;
+  position: relative;
+  overflow: hidden;
+}
+.price-card.featured {
+  background: linear-gradient(145deg, rgba(20,87,255,.18), rgba(0,229,255,.06));
+  border-color: var(--border2);
+  box-shadow: var(--glow-blue);
+}
+.price-kicker {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--cyan);
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+.price-amount {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: 46px;
+  font-weight: 900;
+  letter-spacing: -1.5px;
+  line-height: 1;
+}
+.price-period { color: var(--dim); font-size: 13px; margin-top: 8px; }
+.action-row { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 24px; }
+.simple-hero-card {
+  max-width: 820px;
+  margin: 0 auto;
+  text-align: center;
+}
+.big-status {
+  width: 86px;
+  height: 86px;
+  border-radius: 26px;
+  margin: 0 auto 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(20,87,255,.12);
+  border: 1px solid rgba(20,87,255,.25);
+  font-size: 40px;
+  box-shadow: var(--glow-blue);
+}
+@media (max-width: 960px) {
+  .content-grid.two, .content-grid.three, .price-row { grid-template-columns: 1fr; }
+  .subpage-hero { min-height: 400px; padding-top: 118px; }
+}
+
 </style>
 </head>
 <body>
 
-<!-- ── NAV ── -->
 <nav>
   <a class="nav-logo" href="/">
     <div class="nav-logo-icon">🛡️</div>
     Nagh <span>VPN</span>
   </a>
   <div class="nav-links">
-    <a href="#features">Возможности</a>
-    <a href="#plans">Тарифы</a>
+    <a href="/pricing/">Тарифы</a>
     <a href="/offer/">Оферта</a>
+    <a href="/requisites/">Реквизиты</a>
     <a href="/privacy/">Политика</a>
     <a href="/support/" class="nav-cta">Поддержка →</a>
   </div>
 </nav>
-
-<!-- ── HERO ── -->
-<section class="hero-wrap">
+<section class="subpage-hero">
   <div class="orb orb-1"></div>
   <div class="orb orb-2"></div>
   <div class="orb orb-3"></div>
   <div class="hero-grid-bg"></div>
   <div class="container">
-    <div class="hero-inner">
-      <div>
-        <div class="hero-eyebrow">
-          <div class="tag">VPN-сервис для Android</div>
-        </div>
-        <h1 class="hero-h1">
-          Защита соединения
-          <span class="line-accent">без компромиссов.</span>
-        </h1>
-        <p class="hero-desc">
-          Start на WireGuard, Plus на VLESS+Reality для Android и Premium с подключением ПК через Happ — платные тарифы для защиты соединения.
-        </p>
-        <div class="hero-actions">
-          <a href="#plans" class="btn-main">⚡ Смотреть тарифы</a>
-          <a href="/support/" class="btn-ghost">Поддержка</a>
-        </div>
-        <div class="hero-stats">
-          <div class="stat">
-            <span class="stat-num c">149 ₽</span>
-            <span class="stat-label">Start / мес</span>
-          </div>
-          <div class="stat-divider"></div>
-          <div class="stat">
-            <span class="stat-num o">299 ₽</span>
-            <span class="stat-label">Plus / мес</span>
-          </div>
-          <div class="stat-divider"></div>
-          <div class="stat">
-            <span class="stat-num g">No-Log</span>
-            <span class="stat-label">VPN-трафик</span>
-          </div>
-        </div>
-      </div>
-      <div class="hero-card">
-        <div class="hc-title">Статус сервиса</div>
-        <div class="hc-row">
-          <span class="hc-key">Статус</span>
-          <span class="hc-pill online">Подготовка</span>
-        </div>
-        <div class="hc-row">
-          <span class="hc-key">Start тариф</span>
-          <span class="hc-val green">WireGuard</span>
-        </div>
-        <div class="hc-row">
-          <span class="hc-key">Plus / Premium</span>
-          <span class="hc-val cyan">VLESS + Reality</span>
-        </div>
-        <div class="hc-row">
-          <span class="hc-key">Стоимость</span>
-          <span class="hc-val gold">от 149 ₽/мес</span>
-        </div>
-        <div class="hc-row">
-          <span class="hc-key">VPN-трафик</span>
-          <span class="hc-val green">No-Log ✓</span>
-        </div>
-        <div class="hc-row">
-          <span class="hc-key">E-mail</span>
-          <span class="hc-val" style="font-size:12px;color:var(--off)">support@naghvpn.ru</span>
-        </div>
-        <div class="hc-row">
-          <span class="hc-key">Telegram</span>
-          <span class="hc-val" style="font-size:12px;color:var(--off)">@naghvpn_support</span>
-        </div>
-      </div>
-    </div>
+    <div class="breadcrumb"><a href="/">Главная</a><span>→</span><span>Happ</span></div>
+    <div class="tag">Инструкция</div>
+    <h1 class="subpage-title reveal">Подключение через <span class="accent">Happ</span></h1>
+    <p class="subpage-lead reveal reveal-d1">Инструкция для Premium-пользователей: подключение ПК или другого устройства через персональную VLESS-ссылку.</p>
   </div>
 </section>
-
-<!-- ── MARQUEE ── -->
-<div class="strip">
-  <div class="strip-inner">
-    <!-- дублируем для бесконечной петли -->
-    <span class="strip-item"><span>🛡️</span> No-Log для VPN-трафика</span>
-    <span class="strip-dot"></span>
-    <span class="strip-item"><span>⚡</span> WireGuard протокол</span>
-    <span class="strip-dot"></span>
-    <span class="strip-item"><span>🔵</span> VLESS + Reality</span>
-    <span class="strip-dot"></span>
-    <span class="strip-item"><span>📱</span> Раздельное туннелирование</span>
-    <span class="strip-dot"></span>
-    <span class="strip-item"><span>👻</span> Минимум данных</span>
-    <span class="strip-dot"></span>
-    <span class="strip-item"><span>🌍</span> Серверная инфраструктура</span>
-    <span class="strip-dot"></span>
-    <span class="strip-item"><span>🛡️</span> No-Log для VPN-трафика</span>
-    <span class="strip-dot"></span>
-    <span class="strip-item"><span>⚡</span> WireGuard протокол</span>
-    <span class="strip-dot"></span>
-    <span class="strip-item"><span>🔵</span> VLESS + Reality</span>
-    <span class="strip-dot"></span>
-    <span class="strip-item"><span>📱</span> Раздельное туннелирование</span>
-    <span class="strip-dot"></span>
-    <span class="strip-item"><span>👻</span> Минимум данных</span>
-    <span class="strip-dot"></span>
-    <span class="strip-item"><span>🌍</span> Серверная инфраструктура</span>
-    <span class="strip-dot"></span>
-  </div>
-</div>
-
-<!-- ── FEATURES ── -->
-<div class="features-bg" id="features">
+<main class="content-section">
   <div class="container">
-    <div class="section">
-      <div class="section-header reveal">
-        <div class="tag">Возможности</div>
-        <h2 class="section-title">Всё что нужно<br>для защиты соединения</h2>
-        <p class="section-sub">Современные протоколы, вход по e-mail и раздельное туннелирование — в одном приложении.</p>
-      </div>
-      <div class="feat-grid">
-        <div class="feat-card reveal reveal-d1">
-          <div class="feat-icon">🛡️</div>
-          <div class="feat-title">VLESS + Reality</div>
-          <div class="feat-text">Использует современные методы маскировки соединения и помогает поддерживать стабильное подключение.</div>
-        </div>
-        <div class="feat-card reveal reveal-d2">
-          <div class="feat-icon">⚡</div>
-          <div class="feat-title">WireGuard на Start</div>
-          <div class="feat-text">Быстрый современный протокол доступен на базовом платном тарифе Start.</div>
-        </div>
-        <div class="feat-card reveal reveal-d3">
-          <div class="feat-icon">📱</div>
-          <div class="feat-title">Split Tunneling</div>
-          <div class="feat-text">Вы можете выбрать, какие приложения используют VPN-подключение, а какие работают напрямую.</div>
-        </div>
-        <div class="feat-card reveal reveal-d4">
-          <div class="feat-icon">👻</div>
-          <div class="feat-title">Минимум данных для входа</div>
-          <div class="feat-text">Для входа используется e-mail и внутренний ID пользователя. Имя, телефон и пароль не требуются.</div>
-        </div>
-        <div class="feat-card reveal reveal-d5">
-          <div class="feat-icon">🔑</div>
-          <div class="feat-title">Вход по коду</div>
-          <div class="feat-text">Получите одноразовый код на e-mail. Пароль не нужен.</div>
-        </div>
-        <div class="feat-card reveal reveal-d6">
-          <div class="feat-icon">🌍</div>
-          <div class="feat-title">Серверная инфраструктура</div>
-          <div class="feat-text">Серверная инфраструктура будет развёрнута перед запуском публичного доступа.</div>
-        </div>
-      </div>
+    <div class="content-grid">
+      <section class="content-card note-card reveal reveal-d1"><h2>Важно</h2><p>Подключение через Happ доступно только на тарифе Premium и занимает отдельный слот устройства.</p><p>Не отправляйте персональную ссылку посторонним. Если ссылка попала к другому человеку, удалите это устройство в приложении NaghVPN и создайте новую ссылку.</p></section>
+      <section class="content-card reveal reveal-d2"><h2>Как получить ссылку</h2><ol><li>Откройте приложение NaghVPN.</li><li>Перейдите во вкладку «Устройства».</li><li>Нажмите «Создать ссылку для ПК / Happ».</li><li>Нажмите «Скопировать ссылку».</li></ol></section>
+      <section class="content-card reveal reveal-d3"><h2>Как добавить в Happ</h2><ol><li>Установите Happ на нужное устройство.</li><li>Откройте Happ и нажмите «Добавить профиль» или «+».</li><li>Выберите импорт из буфера обмена или импорт ссылки.</li><li>Вставьте скопированную ссылку NaghVPN.</li><li>Сохраните профиль и подключитесь.</li></ol></section>
+      <section class="content-card reveal reveal-d4"><h2>Если не подключается</h2><p>Проверьте, что у вас активен тариф Premium, ссылка скопирована полностью, а устройство не было удалено во вкладке «Устройства».</p><p>Если проблема остаётся, напишите в поддержку: <a href="mailto:support@naghvpn.ru">support@naghvpn.ru</a> или <a href="https://t.me/naghvpn_support" target="_blank" rel="noopener">@naghvpn_support</a>.</p></section>
     </div>
   </div>
-</div>
+</main>
 
-<!-- ── PLANS ── -->
-<div class="plans-bg" id="plans">
-  <div class="container">
-    <div class="section">
-      <div class="section-header reveal">
-        <div class="tag">Тарифы</div>
-        <h2 class="section-title">Выберите тариф.<br>Апгрейд когда захотите.</h2>
-      </div>
-      <div class="plans-grid">
-        <div class="plan plan-free reveal reveal-d1">
-          <div class="plan-header">
-            <div class="plan-name muted">Start</div>
-            <div class="plan-price">149 <sub>₽/мес</sub></div>
-            <div class="plan-period">3 месяца — 399 ₽, 1 год — 1 190 ₽</div>
-          </div>
-          <div class="plan-divider"></div>
-          <ul class="plan-feats">
-            <li><span class="feat-check">✓</span> 1 Android-устройство</li>
-            <li><span class="feat-check">✓</span> Протокол WireGuard</li>
-            <li><span class="feat-check">✓</span> Базовый платный доступ</li>
-            <li class="dim"><span class="feat-x">✗</span> Раздельное туннелирование</li>
-            <li class="dim"><span class="feat-x">✗</span> ПК через Happ</li>
-          </ul>
-          <a href="/account/?plan=start" class="plan-btn plan-btn-free">Оформить Start</a>
-        </div>
-        <div class="plan plan-premium reveal reveal-d2">
-          <div class="plan-header">
-            <div class="plan-name gold">Plus</div>
-            <div class="plan-price">299 <sub>₽/мес</sub></div>
-            <div class="plan-period">3 месяца — 699 ₽, 1 год — 1 899 ₽</div>
-          </div>
-          <div class="plan-divider"></div>
-          <ul class="plan-feats">
-            <li><span class="feat-check">✓</span> До 2 Android-устройств</li>
-            <li><span class="feat-check">✓</span> VLESS + Reality</li>
-            <li><span class="feat-check">✓</span> Раздельное туннелирование</li>
-            <li><span class="feat-check">✓</span> Код для второго Android</li>
-            <li class="dim"><span class="feat-x">✗</span> ПК через Happ</li>
-          </ul>
-          <a href="/account/?plan=plus" class="plan-btn plan-btn-premium">Оформить Plus</a>
-        </div>
-        <div class="plan plan-premium reveal reveal-d3">
-          <div class="plan-header">
-            <div class="plan-name gold">⭐ Premium</div>
-            <div class="plan-price">499 <sub>₽/мес</sub></div>
-            <div class="plan-period">3 месяца — 1 299 ₽, 1 год — 3 490 ₽</div>
-          </div>
-          <div class="plan-divider"></div>
-          <ul class="plan-feats">
-            <li><span class="feat-check">✓</span> До 4 устройств</li>
-            <li><span class="feat-check">✓</span> До 3 телефонов + 1 ПК</li>
-            <li><span class="feat-check">✓</span> VLESS + Reality</li>
-            <li><span class="feat-check">✓</span> Раздельное туннелирование</li>
-            <li><span class="feat-check">✓</span> ПК через Happ</li>
-          </ul>
-          <a href="/account/?plan=premium" class="plan-btn plan-btn-premium">Оформить Premium</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ── ZERO LOGS ── -->      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ── ZERO LOGS ── -->
-<div class="container">
-  <div class="section">
-    <div class="zl-wrap">
-      <div class="reveal">
-        <div class="tag" style="margin-bottom:20px">Приватность</div>
-        <div class="zl-headline">Zero<br>Logs.</div>
-        <p class="zl-sub">Мы не храним содержимое VPN-трафика, историю посещений и IP-адреса назначения. Для работы аккаунта могут обрабатываться e-mail, ID пользователя, статус подписки и технические события безопасности.</p>
-      </div>
-      <ul class="zl-list reveal reveal-d1">
-        <li class="zl-item">
-          <div class="zl-icon no">🚫</div>
-          <div class="zl-text">
-            <strong>История посещений</strong>
-            <span>Не храним список сайтов и сервисов, которые вы открываете через VPN</span>
-          </div>
-        </li>
-        <li class="zl-item">
-          <div class="zl-icon no">🚫</div>
-          <div class="zl-text">
-            <strong>Содержимое VPN-трафика</strong>
-            <span>Не сохраняем содержимое передаваемых данных</span>
-          </div>
-        </li>
-        <li class="zl-item">
-          <div class="zl-icon no">🚫</div>
-          <div class="zl-text">
-            <strong>IP-адреса назначения</strong>
-            <span>Не храним адреса ресурсов, к которым вы подключаетесь через VPN</span>
-          </div>
-        </li>
-        <li class="zl-item">
-          <div class="zl-icon no">🚫</div>
-          <div class="zl-text">
-            <strong>Статистика активности</strong>
-            <span>Не используем историю VPN-активности для профилирования</span>
-          </div>
-        </li>
-        <li class="zl-item">
-          <div class="zl-icon yes">✅</div>
-          <div class="zl-text">
-            <strong>E-mail для аккаунта</strong>
-            <span>Используется для входа, поддержки и управления подпиской</span>
-          </div>
-        </li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-<!-- ── PAYMENT ── -->
-<div class="container" style="padding-bottom:100px">
-  <div class="pay-card reveal">
-    <div>
-      <div class="tag" style="margin-bottom:16px">Оплата</div>
-      <h2 class="pay-title">Как оформить доступ</h2>
-      <p class="pay-desc">После подключения ЮKassa оплата будет доступна на сайте. После оплаты выбранный тариф активируется в аккаунте пользователя. Данные карты обрабатывает ЮKassa — мы их не видим.</p>
-      <div style="margin-top:24px">
-        <a href="/support/" class="btn-main" style="display:inline-flex">📩 Связаться с поддержкой</a>
-      </div>
-    </div>
-    <ul class="pay-steps">
-      <li class="pay-step">
-        <div class="pay-num">1</div>
-        <div class="pay-text">
-          <strong>Подготовьте аккаунт</strong>
-          Войдите по e-mail, который будет использоваться в приложении
-        </div>
-      </li>
-      <li class="pay-step">
-        <div class="pay-num">2</div>
-        <div class="pay-text">
-          <strong>Войдите по email-коду</strong>
-          Никакого пароля — только одноразовый код
-        </div>
-      </li>
-      <li class="pay-step">
-        <div class="pay-num">3</div>
-        <div class="pay-text">
-          <strong>Выберите тариф Start, Plus или Premium</strong>
-          Start от 149 ₽/мес, Plus от 299 ₽/мес или Premium от 499 ₽/мес на сайте
-        </div>
-      </li>
-      <li class="pay-step">
-        <div class="pay-num">4</div>
-        <div class="pay-text">
-          <strong>Оплатите через ЮKassa</strong>
-          Доступные способы оплаты отображаются на странице ЮKassa
-        </div>
-      </li>
-    </ul>
-  </div>
-</div>
-
-<!-- ── DOCS ── -->
-<div class="docs-bg">
-  <div class="container">
-    <div class="section">
-      <div class="section-header reveal">
-        <div class="tag">Документы</div>
-        <h2 class="section-title">Всё прозрачно</h2>
-        <p class="section-sub">Мы публикуем все юридические документы открыто. Никакого мелкого шрифта.</p>
-      </div>
-      <div class="docs-grid">
-        <a href="/privacy/" class="doc-card reveal reveal-d1">
-          <div class="doc-icon">📄</div>
-          <div class="doc-name">Политика конфиденциальности</div>
-          <div class="doc-desc">Как мы обрабатываем данные аккаунта, оплаты и технической безопасности.</div>
-          <div class="doc-arrow">Читать <span>→</span></div>
-        </a>
-        <a href="/terms/" class="doc-card reveal reveal-d2">
-          <div class="doc-icon">📋</div>
-          <div class="doc-name">Пользовательское соглашение</div>
-          <div class="doc-desc">Условия использования, оплата и возврат средств.</div>
-          <div class="doc-arrow">Читать <span>→</span></div>
-        </a>
-        <a href="/offer/" class="doc-card reveal reveal-d3">
-          <div class="doc-icon">📝</div>
-          <div class="doc-name">Публичная оферта</div>
-          <div class="doc-desc">Договор о предоставлении услуг VPN-сервиса.</div>
-          <div class="doc-arrow">Читать <span>→</span></div>
-        </a>
-        <a href="/requisites/" class="doc-card reveal reveal-d4">
-          <div class="doc-icon">🏢</div>
-          <div class="doc-name">Реквизиты</div>
-          <div class="doc-desc">Данные индивидуального предпринимателя.</div>
-          <div class="doc-arrow">Смотреть <span>→</span></div>
-        </a>
-        <a href="/support/" class="doc-card reveal reveal-d5">
-          <div class="doc-icon">💬</div>
-          <div class="doc-name">Поддержка</div>
-          <div class="doc-desc">Вопросы по приложению, оплате и техническим проблемам.</div>
-          <div class="doc-arrow">Написать <span>→</span></div>
-        </a>
-        <a href="/pricing/" class="doc-card reveal reveal-d6">
-          <div class="doc-icon">💰</div>
-          <div class="doc-name">Тарифы</div>
-          <div class="doc-desc">Подробное сравнение тарифов Start, Plus и Premium.</div>
-          <div class="doc-arrow">Смотреть <span>→</span></div>
-        </a>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ── FOOTER ── -->
 <footer>
   <div class="container">
     <div class="footer-inner">
@@ -1075,7 +943,6 @@ footer {
 </footer>
 
 <script>
-// Scroll reveal
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
@@ -1085,15 +952,7 @@ const observer = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.08 });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-// Smooth scroll
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-  a.addEventListener('click', e => {
-    e.preventDefault();
-    const target = document.querySelector(a.getAttribute('href'));
-    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  });
-});
 </script>
+
 </body>
 </html>
