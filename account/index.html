@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Оформление доступа — Nagh VPN</title>
-<meta name="description" content="Оформление доступа NaghVPN Start, Plus и Premium.">
+<meta name="description" content="Оформление доступа NaghVPN Start, PC, Plus и Premium.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400;500;700;800;900&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230057ff'/%3E%3Cpath d='M32 10l18 8v13c0 12-7.5 19.5-18 23-10.5-3.5-18-11-18-23V18l18-8z' fill='white' opacity='.95'/%3E%3Cpath d='M24 32l5 5 12-14' stroke='%230057ff' stroke-width='5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
@@ -1054,7 +1054,7 @@ table.data-table {
     <div class="breadcrumb"><a href="/">Главная</a><span>→</span><span>Оформление доступа</span></div>
     <div class="tag">Оформление доступа</div>
     <h1 class="subpage-title reveal">Оформление <span class="accent">доступа</span></h1>
-    <p class="subpage-lead reveal reveal-d1">Выберите тариф Start, Plus или Premium и способ оплаты: картой через ЮKassa или криптовалютой через OxaPay.</p>
+    <p class="subpage-lead reveal reveal-d1">Выберите тариф Start, PC, Plus или Premium и способ оплаты: картой через ЮKassa или криптовалютой через OxaPay.</p>
   </div>
 </section>
 <main class="content-section">
@@ -1078,15 +1078,19 @@ table.data-table {
             <div class="choice-grid" id="plan-choice">
               <button class="choice-card" type="button" data-plan="start">
                 <div class="choice-title">Start <span class="choice-price">от 149 ₽</span></div>
-                <div class="choice-desc">До 2 Android-устройств, WireGuard, базовый доступ.</div>
+                <div class="choice-desc">1 Android-устройство, VLESS + Reality, базовый доступ.</div>
+              </button>
+              <button class="choice-card" type="button" data-plan="pc">
+                <div class="choice-title">PC <span class="choice-price">от 149 ₽</span></div>
+                <div class="choice-desc">1 компьютер через Happ и персональная VLESS-ссылка.</div>
               </button>
               <button class="choice-card active" type="button" data-plan="plus">
                 <div class="choice-title">Plus <span class="choice-price">от 299 ₽</span></div>
-                <div class="choice-desc">До 2 Android-устройств, VLESS + Reality, split tunneling.</div>
+                <div class="choice-desc">3 Android-устройства, VLESS + Reality, split tunneling.</div>
               </button>
               <button class="choice-card" type="button" data-plan="premium">
-                <div class="choice-title">Premium <span class="choice-price">от 499 ₽</span></div>
-                <div class="choice-desc">До 4 устройств: Android или ПК через Happ.</div>
+                <div class="choice-title">Premium <span class="choice-price">от 449 ₽</span></div>
+                <div class="choice-desc">5 устройств: Android или ПК через Happ.</div>
               </button>
             </div>
           </div>
@@ -1100,11 +1104,11 @@ table.data-table {
               </button>
               <button class="choice-card" type="button" data-period="quarterly">
                 <div class="choice-title">3 месяца</div>
-                <div class="choice-desc" data-period-price="quarterly">699 ₽</div>
+                <div class="choice-desc" data-period-price="quarterly">749 ₽</div>
               </button>
               <button class="choice-card" type="button" data-period="yearly">
                 <div class="choice-title">1 год</div>
-                <div class="choice-desc" data-period-price="yearly">1 899 ₽</div>
+                <div class="choice-desc" data-period-price="yearly">2 390 ₽</div>
               </button>
             </div>
           </div>
@@ -1139,13 +1143,14 @@ table.data-table {
         <h3>Как это работает</h3>
         <p>После оплаты платёжная система отправляет уведомление в backend, а backend активирует выбранный тариф в аккаунте.</p>
         <ul>
-          <li>Start — до 2 Android-устройств и WireGuard.</li>
-          <li>Plus — до 2 Android-устройств, VLESS + Reality и раздельное туннелирование.</li>
-          <li>Premium — до 4 устройств: Android или ПК через Happ.</li>
+          <li>Start — 1 Android-устройство, VLESS + Reality.</li>
+          <li>PC — 1 компьютер через Happ и персональная VLESS-ссылка.</li>
+          <li>Plus — 3 Android-устройства, VLESS + Reality и раздельное туннелирование.</li>
+          <li>Premium — 5 устройств: Android или ПК через Happ.</li>
           <li>Оплата картой проходит через ЮKassa, криптооплата — через OxaPay.</li>
-          <li>После оплаты откройте приложение и нажмите «Обновить статус подписки».</li>
+          <li>После оплаты откройте приложение или инструкцию Happ и обновите статус подписки.</li>
         </ul>
-        <div class="action-row"><a class="btn-ghost" href="/pricing/">Сравнить тарифы</a><a class="btn-ghost" href="/support/">Поддержка</a></div>
+        <div class="action-row"><a class="btn-ghost" href="/pricing/">Сравнить тарифы</a><a class="btn-ghost" href="/setup/happ/">Инструкция Happ</a><a class="btn-ghost" href="/support/">Поддержка</a></div>
       </aside>
     </section>
 
@@ -1186,19 +1191,31 @@ const API_BASE = 'https://api.naghvpn.ru';
 const PRICES = {
   start: {
     monthly: { label: '1 месяц', price: '149 ₽' },
-    quarterly: { label: '3 месяца', price: '399 ₽' },
+    quarterly: { label: '3 месяца', price: '390 ₽' },
+    yearly: { label: '1 год', price: '1 190 ₽' }
+  },
+  pc: {
+    monthly: { label: '1 месяц', price: '149 ₽' },
+    quarterly: { label: '3 месяца', price: '390 ₽' },
     yearly: { label: '1 год', price: '1 190 ₽' }
   },
   plus: {
     monthly: { label: '1 месяц', price: '299 ₽' },
-    quarterly: { label: '3 месяца', price: '699 ₽' },
-    yearly: { label: '1 год', price: '1 899 ₽' }
+    quarterly: { label: '3 месяца', price: '749 ₽' },
+    yearly: { label: '1 год', price: '2 390 ₽' }
   },
   premium: {
-    monthly: { label: '1 месяц', price: '499 ₽' },
-    quarterly: { label: '3 месяца', price: '1 299 ₽' },
+    monthly: { label: '1 месяц', price: '449 ₽' },
+    quarterly: { label: '3 месяца', price: '1 090 ₽' },
     yearly: { label: '1 год', price: '3 490 ₽' }
   }
+};
+
+const PLAN_LABELS = {
+  start: 'Start',
+  pc: 'PC',
+  plus: 'Plus',
+  premium: 'Premium'
 };
 
 let selectedPlan = 'plus';
@@ -1206,7 +1223,7 @@ let selectedPeriod = 'monthly';
 let selectedPaymentMethod = 'yookassa';
 
 const params = new URLSearchParams(window.location.search);
-if (['start', 'plus', 'premium'].includes(params.get('plan'))) selectedPlan = params.get('plan');
+if (['start', 'pc', 'plus', 'premium'].includes(params.get('plan'))) selectedPlan = params.get('plan');
 if (['monthly', 'quarterly', 'yearly'].includes(params.get('period'))) selectedPeriod = params.get('period');
 if (['yookassa', 'oxapay'].includes(params.get('method'))) selectedPaymentMethod = params.get('method');
 
@@ -1262,7 +1279,7 @@ function updateSelection() {
     el.textContent = PRICES[selectedPlan][period].price;
   });
 
-  document.getElementById('summary-plan').textContent = selectedPlan === 'premium' ? 'Premium' : (selectedPlan === 'plus' ? 'Plus' : 'Start');
+  document.getElementById('summary-plan').textContent = PLAN_LABELS[selectedPlan] || 'Plus';
   document.getElementById('summary-period').textContent = PRICES[selectedPlan][selectedPeriod].label;
   document.getElementById('summary-method').textContent = getPaymentMethodLabel();
   document.getElementById('summary-price').textContent = PRICES[selectedPlan][selectedPeriod].price;
