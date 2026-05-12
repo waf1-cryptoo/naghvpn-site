@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Оформление доступа — Nagh VPN</title>
-<meta name="description" content="Оформление доступа NaghVPN Start, Plus и Premium.">
+<title>Личный кабинет — Nagh VPN</title>
+<meta name="description" content="Личный кабинет NaghVPN: вход, подписка, устройства, Happ и оплата.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400;500;700;800;900&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230057ff'/%3E%3Cpath d='M32 10l18 8v13c0 12-7.5 19.5-18 23-10.5-3.5-18-11-18-23V18l18-8z' fill='white' opacity='.95'/%3E%3Cpath d='M24 32l5 5 12-14' stroke='%230057ff' stroke-width='5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
@@ -1028,6 +1028,33 @@ table.data-table {
   .subpage-hero { min-height: 400px; padding-top: 118px; }
 }
 
+
+/* Account cabinet additions */
+.hidden { display: none !important; }
+.account-panel-grid { display:grid; grid-template-columns: 1fr 1fr; gap:22px; align-items:start; }
+.account-panel-grid.three { grid-template-columns: repeat(3,1fr); }
+.profile-card { background: var(--glass); border:1px solid var(--border); border-radius:22px; padding:20px; }
+.profile-label { color: var(--off); font-size:13px; margin-bottom:6px; }
+.profile-value { color: var(--white); font-weight:800; font-size:20px; word-break:break-word; }
+.profile-value.small { font-size:15px; font-weight:600; color:rgba(255,255,255,.82); }
+.device-list { display:grid; gap:12px; margin-top:16px; }
+.device-item { background:rgba(255,255,255,.045); border:1px solid var(--border); border-radius:18px; padding:16px; }
+.device-head { display:flex; justify-content:space-between; gap:14px; align-items:flex-start; }
+.device-title { font-weight:800; color:var(--white); }
+.device-meta { color:var(--off); font-size:13px; margin-top:5px; line-height:1.5; }
+.device-actions { display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
+.small-btn { border:1px solid var(--border); background:rgba(255,255,255,.06); color:var(--white); border-radius:12px; padding:9px 12px; cursor:pointer; font-weight:700; font-size:13px; text-decoration:none; }
+.small-btn:hover { border-color:rgba(0,229,255,.35); }
+.small-btn.danger { border-color:rgba(255,70,70,.28); color:#ffd6d6; }
+.code-box { background:rgba(0,0,0,.28); border:1px solid var(--border); border-radius:16px; padding:14px; color:var(--white); font-size:13px; line-height:1.5; word-break:break-all; white-space:pre-wrap; }
+.connect-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+.connect-card { background:rgba(255,255,255,.045); border:1px solid var(--border); border-radius:20px; padding:18px; }
+.connect-card h3 { margin:0 0 8px; font-size:19px; }
+.connect-card p { color:var(--off); font-size:14px; line-height:1.55; margin:0 0 14px; }
+.auth-switch { display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-top:16px; }
+.kbd { font-family:ui-monospace, SFMono-Regular, Menlo, monospace; background:rgba(255,255,255,.08); border:1px solid var(--border); padding:2px 6px; border-radius:8px; }
+@media (max-width: 960px) { .account-panel-grid, .account-panel-grid.three, .connect-grid { grid-template-columns:1fr; } .device-head{flex-direction:column;} }
+
 </style>
 </head>
 <body>
@@ -1051,106 +1078,191 @@ table.data-table {
   <div class="orb orb-3"></div>
   <div class="hero-grid-bg"></div>
   <div class="container">
-    <div class="breadcrumb"><a href="/">Главная</a><span>→</span><span>Оформление доступа</span></div>
-    <div class="tag">Оформление доступа</div>
-    <h1 class="subpage-title reveal">Оформление <span class="accent">доступа</span></h1>
-    <p class="subpage-lead reveal reveal-d1">Выберите тариф Start, Plus или Premium и способ оплаты: картой через ЮKassa или криптовалютой через OxaPay.</p>
+    <div class="breadcrumb"><a href="/">Главная</a><span>→</span><span>Личный кабинет</span></div>
+    <div class="tag">Личный кабинет</div>
+    <h1 class="subpage-title reveal">Личный <span class="accent">кабинет</span></h1>
+    <p class="subpage-lead reveal reveal-d1">Войдите по e-mail, оплатите подписку и подключайте устройства через приложение NaghVPN, Happ или код подключения.</p>
   </div>
 </section>
+
 <main class="content-section">
   <div class="container">
 
-    <section class="account-pay-layout reveal">
+    <section class="account-pay-layout reveal" id="auth-section">
       <div class="content-card note-card">
-        <div class="big-status">💳</div>
-        <h2>Оформить подписку</h2>
-        <p>Введите e-mail, который используется для входа в приложении NaghVPN, выберите тариф, срок доступа и способ оплаты.</p>
+        <div class="big-status">🔐</div>
+        <h2>Вход в аккаунт</h2>
+        <p>Введите e-mail, получите код и войдите в личный кабинет. После входа покупка будет привязана именно к вашему аккаунту, без ручного ввода почты при оплате.</p>
 
-        <form id="payment-form" class="payment-form" style="margin-top:24px">
+        <form id="send-code-form" class="payment-form" style="margin-top:24px">
           <div class="form-group">
-            <label class="form-label" for="email">E-mail аккаунта</label>
-            <input class="input-field" id="email" name="email" type="email" autocomplete="email" placeholder="name@example.com" required>
-            <div class="form-help">Используйте тот же e-mail, с которым входите в приложении. Если аккаунта ещё нет, сначала войдите в приложение один раз.</div>
+            <label class="form-label" for="login-email">E-mail</label>
+            <input class="input-field" id="login-email" type="email" autocomplete="email" placeholder="name@example.com" required>
+            <div class="form-help">Если аккаунта ещё нет, backend создаст его автоматически после отправки кода.</div>
           </div>
-
-          <div class="form-group">
-            <div class="form-label">Тариф</div>
-            <div class="choice-grid" id="plan-choice">
-              <button class="choice-card" type="button" data-plan="start">
-                <div class="choice-title">Start <span class="choice-price">от 149 ₽</span></div>
-                <div class="choice-desc">1 устройство, VLESS + Reality, без кодов подключения и Happ.</div>
-              </button>
-              <button class="choice-card active" type="button" data-plan="plus">
-                <div class="choice-title">Plus <span class="choice-price">от 299 ₽</span></div>
-                <div class="choice-desc">3 устройства, split tunneling, коды подключения и Happ.</div>
-              </button>
-              <button class="choice-card" type="button" data-plan="premium">
-                <div class="choice-title">Premium <span class="choice-price">от 449 ₽</span></div>
-                <div class="choice-desc">5 устройств: Android или Happ / VLESS-ссылка.</div>
-              </button>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <div class="form-label">Срок доступа</div>
-            <div class="choice-grid periods" id="period-choice">
-              <button class="choice-card active" type="button" data-period="monthly">
-                <div class="choice-title">1 месяц</div>
-                <div class="choice-desc" data-period-price="monthly">299 ₽</div>
-              </button>
-              <button class="choice-card" type="button" data-period="quarterly">
-                <div class="choice-title">3 месяца</div>
-                <div class="choice-desc" data-period-price="quarterly">749 ₽</div>
-              </button>
-              <button class="choice-card" type="button" data-period="yearly">
-                <div class="choice-title">1 год</div>
-                <div class="choice-desc" data-period-price="yearly">2 390 ₽</div>
-              </button>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <div class="form-label">Способ оплаты</div>
-            <div class="choice-grid" id="payment-method-choice">
-              <button class="choice-card active" type="button" data-payment-method="yookassa">
-                <div class="choice-title">Карта / СБП <span class="choice-price">ЮKassa</span></div>
-                <div class="choice-desc">Оплата банковской картой или другим способом, доступным в ЮKassa.</div>
-              </button>
-              <button class="choice-card" type="button" data-payment-method="oxapay">
-                <div class="choice-title">Криптовалюта <span class="choice-price">OxaPay</span></div>
-                <div class="choice-desc">Оплата через OxaPay: USDT, USDC, BTC, ETH и другие доступные валюты.</div>
-              </button>
-            </div>
-          </div>
-
-          <div class="payment-summary">
-            <div class="summary-line"><span>Выбранный тариф</span><strong id="summary-plan">Plus</strong></div>
-            <div class="summary-line"><span>Срок доступа</span><strong id="summary-period">1 месяц</strong></div>
-            <div class="summary-line"><span>Способ оплаты</span><strong id="summary-method">ЮKassa</strong></div>
-            <div class="summary-line"><span>К оплате</span><strong id="summary-price">299 ₽</strong></div>
-          </div>
-
-          <button class="btn-main" id="pay-button" type="submit" style="border:0;cursor:pointer;width:100%">Перейти к оплате</button>
-          <div id="payment-status" class="status-message"></div>
+          <button class="btn-main" id="send-code-button" type="submit" style="border:0;cursor:pointer;width:100%">Получить код</button>
         </form>
+
+        <form id="verify-code-form" class="payment-form hidden" style="margin-top:18px">
+          <div class="form-group">
+            <label class="form-label" for="login-code">Код из письма</label>
+            <input class="input-field" id="login-code" type="text" inputmode="numeric" autocomplete="one-time-code" placeholder="123456" required>
+            <div class="form-help">Код действует 10 минут. Не угадывайте код: после нескольких ошибок вход временно блокируется.</div>
+          </div>
+          <button class="btn-main" id="verify-code-button" type="submit" style="border:0;cursor:pointer;width:100%">Войти</button>
+        </form>
+        <div id="auth-status" class="status-message"></div>
       </div>
 
       <aside class="mini-note">
-        <h3>Как это работает</h3>
-        <p>После оплаты платёжная система отправляет уведомление в backend, а backend активирует выбранный тариф в аккаунте.</p>
+        <h3>Зачем входить на сайте</h3>
+        <p>Так подписка, устройства и Happ-ссылки хранятся в одном аккаунте.</p>
         <ul>
-          <li>Start — 1 устройство, VLESS + Reality, без кодов подключения и Happ.</li>
-          <li>Plus — 3 устройства, VLESS + Reality, раздельное туннелирование, коды подключения и Happ.</li>
-          <li>Premium — 5 устройств: Android или Happ / VLESS-ссылка.</li>
-          <li>Оплата картой проходит через ЮKassa, криптооплата — через OxaPay.</li>
-          <li>После оплаты откройте приложение или инструкцию Happ и обновите статус подписки.</li>
+          <li>Покупка больше не зависит от ручного ввода e-mail в форме оплаты.</li>
+          <li>В кабинете видно тариф, срок действия и список устройств.</li>
+          <li>Можно выбрать способ подключения: приложение, Happ или код подключения.</li>
         </ul>
-        <div class="action-row"><a class="btn-ghost" href="/pricing/">Сравнить тарифы</a><a class="btn-ghost" href="/setup/happ/">Инструкция Happ</a><a class="btn-ghost" href="/support/">Поддержка</a></div>
       </aside>
+    </section>
+
+    <section class="reveal hidden" id="dashboard-section">
+      <div class="content-card note-card">
+        <div style="display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap">
+          <div>
+            <div class="tag">Личный кабинет</div>
+            <h2 style="margin-top:12px">Ваш аккаунт NaghVPN</h2>
+            <p>Здесь можно оплатить подписку, посмотреть устройства и выбрать способ подключения.</p>
+          </div>
+          <button class="btn-ghost" id="logout-button" type="button">Выйти</button>
+        </div>
+
+        <div class="account-panel-grid three" style="margin-top:24px">
+          <div class="profile-card">
+            <div class="profile-label">Аккаунт</div>
+            <div class="profile-value small" id="profile-email">—</div>
+            <div class="profile-label" style="margin-top:10px">ID</div>
+            <div class="profile-value" id="profile-id">—</div>
+          </div>
+          <div class="profile-card">
+            <div class="profile-label">Тариф</div>
+            <div class="profile-value" id="profile-plan">—</div>
+            <div class="profile-label" style="margin-top:10px">Действует до</div>
+            <div class="profile-value small" id="profile-expires">—</div>
+          </div>
+          <div class="profile-card">
+            <div class="profile-label">Устройства</div>
+            <div class="profile-value" id="profile-devices">—</div>
+            <div class="profile-label" style="margin-top:10px">Возможности</div>
+            <div class="profile-value small" id="profile-capabilities">—</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="account-panel-grid" style="margin-top:22px">
+        <div class="content-card note-card">
+          <h2>Купить или продлить подписку</h2>
+          <p>Оплата будет создана для текущего аккаунта. Вводить e-mail заново не нужно.</p>
+
+          <form id="payment-form" class="payment-form" style="margin-top:22px">
+            <div class="form-group">
+              <div class="form-label">Тариф</div>
+              <div class="choice-grid" id="plan-choice">
+                <button class="choice-card" type="button" data-plan="start">
+                  <div class="choice-title">Start <span class="choice-price">от 149 ₽</span></div>
+                  <div class="choice-desc">1 устройство: приложение NaghVPN или Happ.</div>
+                </button>
+                <button class="choice-card active" type="button" data-plan="plus">
+                  <div class="choice-title">Plus <span class="choice-price">от 299 ₽</span></div>
+                  <div class="choice-desc">3 устройства: приложение, код подключения или Happ.</div>
+                </button>
+                <button class="choice-card" type="button" data-plan="premium">
+                  <div class="choice-title">Premium <span class="choice-price">от 449 ₽</span></div>
+                  <div class="choice-desc">5 устройств любым способом подключения.</div>
+                </button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="form-label">Срок доступа</div>
+              <div class="choice-grid periods" id="period-choice">
+                <button class="choice-card active" type="button" data-period="monthly">
+                  <div class="choice-title">1 месяц</div>
+                  <div class="choice-desc" data-period-price="monthly">299 ₽</div>
+                </button>
+                <button class="choice-card" type="button" data-period="quarterly">
+                  <div class="choice-title">3 месяца</div>
+                  <div class="choice-desc" data-period-price="quarterly">749 ₽</div>
+                </button>
+                <button class="choice-card" type="button" data-period="yearly">
+                  <div class="choice-title">1 год</div>
+                  <div class="choice-desc" data-period-price="yearly">2 390 ₽</div>
+                </button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="form-label">Способ оплаты</div>
+              <div class="choice-grid" id="payment-method-choice">
+                <button class="choice-card active" type="button" data-payment-method="yookassa">
+                  <div class="choice-title">Карта / СБП <span class="choice-price">ЮKassa</span></div>
+                  <div class="choice-desc">Оплата банковской картой или другим способом, доступным в ЮKassa.</div>
+                </button>
+                <button class="choice-card" type="button" data-payment-method="oxapay">
+                  <div class="choice-title">Криптовалюта <span class="choice-price">OxaPay</span></div>
+                  <div class="choice-desc">Оплата через OxaPay: USDT, USDC, BTC, ETH и другие доступные валюты.</div>
+                </button>
+              </div>
+            </div>
+
+            <div class="payment-summary">
+              <div class="summary-line"><span>Выбранный тариф</span><strong id="summary-plan">Plus</strong></div>
+              <div class="summary-line"><span>Срок доступа</span><strong id="summary-period">1 месяц</strong></div>
+              <div class="summary-line"><span>Способ оплаты</span><strong id="summary-method">ЮKassa</strong></div>
+              <div class="summary-line"><span>К оплате</span><strong id="summary-price">299 ₽</strong></div>
+            </div>
+
+            <button class="btn-main" id="pay-button" type="submit" style="border:0;cursor:pointer;width:100%">Перейти к оплате</button>
+            <div id="payment-status" class="status-message"></div>
+          </form>
+        </div>
+
+        <div class="content-card note-card">
+          <h2>Подключить устройство</h2>
+          <p>Доступные способы зависят от тарифа и свободных слотов.</p>
+
+          <div class="connect-grid" style="margin-top:18px">
+            <div class="connect-card">
+              <h3>В приложении</h3>
+              <p>Установите NaghVPN на Android и войдите по той же почте. Подписка подтянется в аккаунт.</p>
+              <a class="small-btn" href="#" id="android-download-link">Скачать Android</a>
+            </div>
+            <div class="connect-card">
+              <h3>Через Happ</h3>
+              <p>Создайте отдельную VLESS-ссылку для Happ. Слот будет занят этим устройством.</p>
+              <button class="small-btn" type="button" id="create-happ-button">Создать Happ-ссылку</button>
+            </div>
+            <div class="connect-card">
+              <h3>Код подключения</h3>
+              <p>Для Plus и Premium. Код действует 10 минут и позволяет добавить устройство к подписке.</p>
+              <button class="small-btn" type="button" id="create-code-button">Создать код</button>
+            </div>
+          </div>
+
+          <div id="connect-status" class="status-message" style="margin-top:16px"></div>
+          <div id="generated-config" class="code-box hidden" style="margin-top:16px"></div>
+        </div>
+      </div>
+
+      <div class="content-card note-card" style="margin-top:22px">
+        <h2>Устройства</h2>
+        <p>Каждая Happ/VLESS-ссылка или подключение через приложение занимает один слот тарифа.</p>
+        <div id="device-list" class="device-list"></div>
+      </div>
     </section>
 
   </div>
 </main>
+
 
 <footer>
   <div class="container">
@@ -1169,6 +1281,7 @@ table.data-table {
   </div>
 </footer>
 
+
 <script>
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
@@ -1180,8 +1293,9 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.08 });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-// После переноса backend на VPS этот адрес должен открываться как публичный API.
 const API_BASE = 'https://api.naghvpn.ru';
+const TOKEN_KEY = 'naghvpn_site_token';
+const EMAIL_KEY = 'naghvpn_site_email';
 
 const PRICES = {
   start: {
@@ -1201,155 +1315,353 @@ const PRICES = {
   }
 };
 
-const PLAN_LABELS = {
-  start: 'Start',
-  plus: 'Plus',
-  premium: 'Premium'
-};
+const PLAN_LABELS = { start: 'Start', plus: 'Plus', premium: 'Premium', free: 'Free' };
+const PLAN_LIMITS = { start: 1, plus: 3, premium: 5, free: 0 };
 
 let selectedPlan = 'plus';
 let selectedPeriod = 'monthly';
 let selectedPaymentMethod = 'yookassa';
+let currentProfile = null;
+let currentDevices = null;
 
 const params = new URLSearchParams(window.location.search);
 if (['start', 'plus', 'premium'].includes(params.get('plan'))) selectedPlan = params.get('plan');
 if (['monthly', 'quarterly', 'yearly'].includes(params.get('period'))) selectedPeriod = params.get('period');
 if (['yookassa', 'oxapay'].includes(params.get('method'))) selectedPaymentMethod = params.get('method');
 
-const form = document.getElementById('payment-form');
-const emailInput = document.getElementById('email');
-const statusBox = document.getElementById('payment-status');
+const authSection = document.getElementById('auth-section');
+const dashboardSection = document.getElementById('dashboard-section');
+const sendCodeForm = document.getElementById('send-code-form');
+const verifyCodeForm = document.getElementById('verify-code-form');
+const loginEmailInput = document.getElementById('login-email');
+const loginCodeInput = document.getElementById('login-code');
+const sendCodeButton = document.getElementById('send-code-button');
+const verifyCodeButton = document.getElementById('verify-code-button');
+const authStatus = document.getElementById('auth-status');
+const logoutButton = document.getElementById('logout-button');
+
+const paymentForm = document.getElementById('payment-form');
+const paymentStatus = document.getElementById('payment-status');
 const payButton = document.getElementById('pay-button');
+const connectStatus = document.getElementById('connect-status');
+const generatedConfig = document.getElementById('generated-config');
+const deviceList = document.getElementById('device-list');
+const createHappButton = document.getElementById('create-happ-button');
+const createCodeButton = document.getElementById('create-code-button');
 
-const savedEmail = localStorage.getItem('naghvpn_payment_email');
-if (savedEmail) emailInput.value = savedEmail;
+function token() { return localStorage.getItem(TOKEN_KEY) || ''; }
+function authHeaders(extra = {}) { return { ...extra, 'Authorization': `Bearer ${token()}` }; }
+function show(el) { el.classList.remove('hidden'); }
+function hide(el) { el.classList.add('hidden'); }
 
-function setStatus(type, message) {
-  statusBox.className = 'status-message show ' + type;
-  statusBox.textContent = message;
+function setStatus(el, type, message) {
+  el.className = 'status-message show ' + type;
+  el.textContent = message;
 }
-
-function clearStatus() {
-  statusBox.className = 'status-message';
-  statusBox.textContent = '';
+function clearStatus(el) {
+  el.className = 'status-message';
+  el.textContent = '';
 }
-
-function getPaymentMethodLabel() {
-  return selectedPaymentMethod === 'oxapay' ? 'OxaPay' : 'ЮKassa';
+function showCodeBox(text) {
+  generatedConfig.textContent = text;
+  show(generatedConfig);
 }
-
+function hideCodeBox() {
+  generatedConfig.textContent = '';
+  hide(generatedConfig);
+}
+function formatDate(value) {
+  if (!value) return 'нет активной подписки';
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value;
+  return date.toLocaleDateString('ru-RU', { year: 'numeric', month: 'long', day: 'numeric' });
+}
+function getPaymentMethodLabel() { return selectedPaymentMethod === 'oxapay' ? 'OxaPay' : 'ЮKassa'; }
 function getPaymentEndpoint() {
-  return selectedPaymentMethod === 'oxapay'
-    ? `${API_BASE}/payments/oxapay/create`
-    : `${API_BASE}/payments/create`;
+  return selectedPaymentMethod === 'oxapay' ? `${API_BASE}/payments/oxapay/create` : `${API_BASE}/payments/create`;
 }
-
 function updatePayButtonText() {
-  payButton.textContent = selectedPaymentMethod === 'oxapay'
-    ? 'Оплатить криптовалютой'
-    : 'Перейти к оплате';
+  payButton.textContent = selectedPaymentMethod === 'oxapay' ? 'Оплатить криптовалютой' : 'Перейти к оплате';
 }
-
 function updateSelection() {
   document.querySelectorAll('[data-plan]').forEach(button => {
     button.classList.toggle('active', button.dataset.plan === selectedPlan);
   });
-
   document.querySelectorAll('[data-period]').forEach(button => {
     button.classList.toggle('active', button.dataset.period === selectedPeriod);
   });
-
   document.querySelectorAll('[data-payment-method]').forEach(button => {
     button.classList.toggle('active', button.dataset.paymentMethod === selectedPaymentMethod);
   });
-
   document.querySelectorAll('[data-period-price]').forEach(el => {
     const period = el.dataset.periodPrice;
     el.textContent = PRICES[selectedPlan][period].price;
   });
-
   document.getElementById('summary-plan').textContent = PLAN_LABELS[selectedPlan] || 'Plus';
   document.getElementById('summary-period').textContent = PRICES[selectedPlan][selectedPeriod].label;
   document.getElementById('summary-method').textContent = getPaymentMethodLabel();
   document.getElementById('summary-price').textContent = PRICES[selectedPlan][selectedPeriod].price;
   updatePayButtonText();
 }
-
-updateSelection();
-
-document.querySelectorAll('[data-plan]').forEach(button => {
-  button.addEventListener('click', () => {
-    selectedPlan = button.dataset.plan;
-    updateSelection();
-    clearStatus();
+async function api(path, options = {}) {
+  const response = await fetch(`${API_BASE}${path}`, options);
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(data.detail || data.message || 'Ошибка запроса к API');
+  return data;
+}
+async function apiAuthed(path, options = {}) {
+  return api(path, {
+    ...options,
+    headers: authHeaders({ 'Content-Type': 'application/json', ...(options.headers || {}) })
   });
-});
+}
 
-document.querySelectorAll('[data-period]').forEach(button => {
-  button.addEventListener('click', () => {
-    selectedPeriod = button.dataset.period;
-    updateSelection();
-    clearStatus();
-  });
-});
+async function loadDashboard() {
+  const profile = await apiAuthed('/auth/me');
+  const devices = await apiAuthed('/devices/me');
+  currentProfile = profile;
+  currentDevices = devices;
+  renderDashboard(profile, devices);
+  hide(authSection);
+  show(dashboardSection);
+}
 
-document.querySelectorAll('[data-payment-method]').forEach(button => {
-  button.addEventListener('click', () => {
-    selectedPaymentMethod = button.dataset.paymentMethod;
-    updateSelection();
-    clearStatus();
-  });
-});
+function renderDashboard(profile, devices) {
+  const plan = devices.plan || profile.plan || 'free';
+  const used = devices.devices_used ?? (devices.devices || []).length;
+  const limit = devices.device_limit ?? PLAN_LIMITS[plan] ?? 0;
 
-form.addEventListener('submit', async (event) => {
-  event.preventDefault();
-  clearStatus();
+  document.getElementById('profile-email').textContent = profile.email || '—';
+  document.getElementById('profile-id').textContent = profile.display_id || profile.user_id || '—';
+  document.getElementById('profile-plan').textContent = PLAN_LABELS[plan] || plan;
+  document.getElementById('profile-expires').textContent = formatDate(profile.subscription_expires);
+  document.getElementById('profile-devices').textContent = `${used} / ${limit}`;
 
-  const email = emailInput.value.trim().toLowerCase();
-  if (!email) {
-    setStatus('error', 'Введите e-mail аккаунта.');
-    return;
+  const caps = [];
+  if (devices.can_create_happ_link) caps.push('Happ');
+  if (devices.can_create_invite_code) caps.push('коды подключения');
+  if (plan === 'plus' || plan === 'premium') caps.push('split tunneling');
+  document.getElementById('profile-capabilities').textContent = caps.length ? caps.join(', ') : 'только основное устройство';
+
+  createHappButton.disabled = !devices.can_create_happ_link || used >= limit;
+  createCodeButton.disabled = !devices.can_create_invite_code || used >= limit;
+
+  if (!devices.can_create_invite_code) {
+    createCodeButton.textContent = 'Коды доступны на Plus/Premium';
+  } else if (used >= limit) {
+    createCodeButton.textContent = 'Нет свободных слотов';
+  } else {
+    createCodeButton.textContent = 'Создать код';
   }
 
-  localStorage.setItem('naghvpn_payment_email', email);
-  payButton.disabled = true;
-  payButton.textContent = selectedPaymentMethod === 'oxapay' ? 'Создаём crypto invoice...' : 'Создаём платёж...';
+  if (used >= limit) {
+    createHappButton.textContent = 'Нет свободных слотов';
+  } else {
+    createHappButton.textContent = 'Создать Happ-ссылку';
+  }
 
+  renderDevices(devices.devices || []);
+}
+
+function renderDevices(devices) {
+  if (!devices.length) {
+    deviceList.innerHTML = '<div class="mini-note"><p>Пока нет активных устройств. Нажмите “Подключить устройство”.</p></div>';
+    return;
+  }
+  deviceList.innerHTML = devices.map(device => `
+    <div class="device-item">
+      <div class="device-head">
+        <div>
+          <div class="device-title">${escapeHtml(device.device_name || 'Устройство')}</div>
+          <div class="device-meta">Тип: <span class="kbd">${escapeHtml(device.device_type || 'unknown')}</span> · Протокол: <span class="kbd">${escapeHtml(device.protocol || 'unknown')}</span> · ID: ${device.id}</div>
+        </div>
+        <div class="device-meta">${device.is_primary ? 'Основное' : 'Дополнительное'}</div>
+      </div>
+      <div class="device-actions">
+        ${device.config_link ? `<button class="small-btn" type="button" data-copy="${escapeAttr(device.config_link)}">Копировать ссылку</button>` : ''}
+        <button class="small-btn danger" type="button" data-delete-device="${device.id}">Удалить</button>
+      </div>
+    </div>
+  `).join('');
+}
+function escapeHtml(value) {
+  return String(value).replace(/[&<>'"]/g, ch => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', "'":'&#39;', '"':'&quot;' }[ch]));
+}
+function escapeAttr(value) { return escapeHtml(value).replace(/`/g, '&#96;'); }
+async function copyText(value) {
+  await navigator.clipboard.writeText(value);
+  setStatus(connectStatus, 'ok', 'Скопировано в буфер обмена.');
+}
+
+sendCodeForm.addEventListener('submit', async (event) => {
+  event.preventDefault();
+  clearStatus(authStatus);
+  const email = loginEmailInput.value.trim().toLowerCase();
+  if (!email) return setStatus(authStatus, 'error', 'Введите e-mail.');
+  sendCodeButton.disabled = true;
+  sendCodeButton.textContent = 'Отправляем код...';
   try {
-    const response = await fetch(getPaymentEndpoint(), {
+    await api('/auth/send-code', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        email,
-        plan: selectedPlan,
-        period: selectedPeriod
-      })
+      body: JSON.stringify({ email })
     });
+    localStorage.setItem(EMAIL_KEY, email);
+    show(verifyCodeForm);
+    loginCodeInput.focus();
+    setStatus(authStatus, 'ok', 'Код отправлен. Проверьте почту.');
+  } catch (error) {
+    setStatus(authStatus, 'error', error.message || 'Не удалось отправить код.');
+  } finally {
+    sendCodeButton.disabled = false;
+    sendCodeButton.textContent = 'Получить код';
+  }
+});
 
-    const data = await response.json().catch(() => ({}));
+verifyCodeForm.addEventListener('submit', async (event) => {
+  event.preventDefault();
+  clearStatus(authStatus);
+  const email = (loginEmailInput.value || localStorage.getItem(EMAIL_KEY) || '').trim().toLowerCase();
+  const code = loginCodeInput.value.trim();
+  if (!email || !code) return setStatus(authStatus, 'error', 'Введите e-mail и код.');
+  verifyCodeButton.disabled = true;
+  verifyCodeButton.textContent = 'Проверяем код...';
+  try {
+    const data = await api('/auth/verify-code', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, code })
+    });
+    localStorage.setItem(TOKEN_KEY, data.token);
+    localStorage.setItem(EMAIL_KEY, data.email || email);
+    setStatus(authStatus, 'ok', 'Вход выполнен. Загружаем кабинет...');
+    await loadDashboard();
+  } catch (error) {
+    setStatus(authStatus, 'error', error.message || 'Не удалось войти.');
+  } finally {
+    verifyCodeButton.disabled = false;
+    verifyCodeButton.textContent = 'Войти';
+  }
+});
 
-    if (!response.ok) {
-      throw new Error(data.detail || 'Не удалось создать платёж.');
-    }
+logoutButton.addEventListener('click', () => {
+  localStorage.removeItem(TOKEN_KEY);
+  hide(dashboardSection);
+  show(authSection);
+  clearStatus(authStatus);
+  clearStatus(paymentStatus);
+  clearStatus(connectStatus);
+  hideCodeBox();
+});
 
+document.querySelectorAll('[data-plan]').forEach(button => {
+  button.addEventListener('click', () => { selectedPlan = button.dataset.plan; updateSelection(); clearStatus(paymentStatus); });
+});
+document.querySelectorAll('[data-period]').forEach(button => {
+  button.addEventListener('click', () => { selectedPeriod = button.dataset.period; updateSelection(); clearStatus(paymentStatus); });
+});
+document.querySelectorAll('[data-payment-method]').forEach(button => {
+  button.addEventListener('click', () => { selectedPaymentMethod = button.dataset.paymentMethod; updateSelection(); clearStatus(paymentStatus); });
+});
+
+paymentForm.addEventListener('submit', async (event) => {
+  event.preventDefault();
+  clearStatus(paymentStatus);
+  if (!token()) return setStatus(paymentStatus, 'error', 'Сначала войдите в аккаунт.');
+  payButton.disabled = true;
+  payButton.textContent = selectedPaymentMethod === 'oxapay' ? 'Создаём crypto invoice...' : 'Создаём платёж...';
+  try {
+    const data = await apiAuthed(selectedPaymentMethod === 'oxapay' ? '/payments/oxapay/create' : '/payments/create', {
+      method: 'POST',
+      body: JSON.stringify({ plan: selectedPlan, period: selectedPeriod })
+    });
     const paymentUrl = data.payment_url || data.confirmation_url;
-    if (!paymentUrl) {
-      throw new Error('Backend не вернул ссылку на оплату.');
-    }
-
-    setStatus('ok', `${getPaymentMethodLabel()}: платёж создан. Перенаправляем на страницу оплаты...`);
+    if (!paymentUrl) throw new Error('Backend не вернул ссылку на оплату.');
+    setStatus(paymentStatus, 'ok', `${getPaymentMethodLabel()}: платёж создан. Перенаправляем на страницу оплаты...`);
     window.location.href = paymentUrl;
   } catch (error) {
-    setStatus(
-      'error',
-      error.message || 'Платёжный backend временно недоступен. Напишите в поддержку, если проблема повторяется.'
-    );
+    setStatus(paymentStatus, 'error', error.message || 'Платёжный backend временно недоступен.');
   } finally {
     payButton.disabled = false;
     updatePayButtonText();
   }
 });
+
+createHappButton.addEventListener('click', async () => {
+  clearStatus(connectStatus);
+  hideCodeBox();
+  createHappButton.disabled = true;
+  createHappButton.textContent = 'Создаём...';
+  try {
+    const data = await apiAuthed('/devices/create', {
+      method: 'POST',
+      body: JSON.stringify({ device_name: 'Happ устройство', device_type: 'happ', protocol: 'vless_reality' })
+    });
+    const link = data.device && data.device.config_link;
+    if (!link) throw new Error('Backend создал устройство, но не вернул VLESS-ссылку.');
+    setStatus(connectStatus, 'ok', 'Happ-ссылка создана. Скопируйте её и вставьте в Happ.');
+    showCodeBox(link);
+    await loadDashboard();
+  } catch (error) {
+    setStatus(connectStatus, 'error', error.message || 'Не удалось создать Happ-ссылку.');
+  } finally {
+    createHappButton.disabled = false;
+    if (currentDevices) renderDashboard(currentProfile, currentDevices);
+  }
+});
+
+createCodeButton.addEventListener('click', async () => {
+  clearStatus(connectStatus);
+  hideCodeBox();
+  createCodeButton.disabled = true;
+  createCodeButton.textContent = 'Создаём...';
+  try {
+    const data = await apiAuthed('/devices/invite-code', {
+      method: 'POST',
+      body: JSON.stringify({ device_name: 'Новое устройство', device_type: 'android', protocol: 'vless_reality' })
+    });
+    setStatus(connectStatus, 'ok', 'Код подключения создан. Он действует 10 минут.');
+    showCodeBox(data.code || JSON.stringify(data, null, 2));
+  } catch (error) {
+    setStatus(connectStatus, 'error', error.message || 'Не удалось создать код подключения.');
+  } finally {
+    createCodeButton.disabled = false;
+    if (currentDevices) renderDashboard(currentProfile, currentDevices);
+  }
+});
+
+deviceList.addEventListener('click', async (event) => {
+  const copyButton = event.target.closest('[data-copy]');
+  const deleteButton = event.target.closest('[data-delete-device]');
+  if (copyButton) {
+    await copyText(copyButton.dataset.copy);
+  }
+  if (deleteButton) {
+    if (!confirm('Удалить это устройство? Старая ссылка перестанет работать.')) return;
+    clearStatus(connectStatus);
+    try {
+      await apiAuthed(`/devices/${deleteButton.dataset.deleteDevice}`, { method: 'DELETE' });
+      setStatus(connectStatus, 'ok', 'Устройство удалено.');
+      await loadDashboard();
+    } catch (error) {
+      setStatus(connectStatus, 'error', error.message || 'Не удалось удалить устройство.');
+    }
+  }
+});
+
+updateSelection();
+const savedEmail = localStorage.getItem(EMAIL_KEY);
+if (savedEmail) loginEmailInput.value = savedEmail;
+if (token()) {
+  loadDashboard().catch(error => {
+    localStorage.removeItem(TOKEN_KEY);
+    show(authSection);
+    hide(dashboardSection);
+    setStatus(authStatus, 'error', error.message || 'Сессия истекла. Войдите заново.');
+  });
+}
 </script>
+
 
 </body>
 </html>
