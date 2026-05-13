@@ -894,6 +894,11 @@ table.data-table {
 .price-period span { white-space: nowrap; }
 .price-card { min-width: 0; }
 .action-row { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 24px; }
+.plan-tier-card { display: flex; flex-direction: column; height: 100%; }
+.plan-tier-card > p:last-of-type { margin-bottom: 0; }
+.plan-tier-card ul { flex: 1; }
+.plan-tier-card .action-row { margin-top: auto; padding-top: 24px; }
+.plan-tier-card .btn-main { width: 100%; justify-content: center; text-align: center; }
 .simple-hero-card {
   max-width: 820px;
   margin: 0 auto;
@@ -944,8 +949,7 @@ table.data-table {
     <div class="breadcrumb"><a href="/">Главная</a><span>→</span><span>Тарифы</span></div>
     <div class="tag">Тарифы</div>
     <h1 class="subpage-title reveal">Тарифы <span class="accent">NaghVPN</span></h1>
-    <p class="subpage-lead reveal reveal-d1">Описание услуг, сроков доступа и стоимости тарифов Start, Plus и Premium.</p>
-  </div>
+      </div>
 </section>
 <main class="content-section">
   <div class="container">
@@ -968,7 +972,7 @@ table.data-table {
       </div>
     </div>
     <div class="content-grid three">
-      <section class="content-card reveal reveal-d1">
+      <section class="content-card plan-tier-card reveal reveal-d1">
         <h2>Start</h2>
         <p><strong style="color:white;font-size:24px">от 149 ₽</strong></p>
         <p>Базовый доступ для одного устройства через приложение NaghVPN или Happ.</p>
@@ -981,7 +985,7 @@ table.data-table {
         </ul>
         <div class="action-row"><a class="btn-main" href="/account/?plan=start">Оформить Start</a></div>
       </section>
-      <section class="content-card note-card reveal reveal-d3">
+      <section class="content-card note-card plan-tier-card reveal reveal-d3">
         <h2>Plus</h2>
         <p><strong style="color:white;font-size:24px">от 299 ₽</strong></p>
         <p>Оптимальный тариф: до 3 устройств, раздельное туннелирование, коды подключения и Happ/VLESS-ссылки.</p>
@@ -994,7 +998,7 @@ table.data-table {
         </ul>
         <div class="action-row"><a class="btn-main" href="/account/?plan=plus">Оформить Plus</a></div>
       </section>
-      <section class="content-card reveal reveal-d4">
+      <section class="content-card plan-tier-card reveal reveal-d4">
         <h2>Premium</h2>
         <p><strong style="color:white;font-size:24px">от 449 ₽</strong></p>
         <p>Расширенный тариф для Android и ПК: до 5 устройств, где слот можно занять Android или Happ / VLESS-ссылка.</p>
