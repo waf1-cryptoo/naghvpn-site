@@ -887,6 +887,52 @@ footer {
   .hero-actions { grid-template-columns: 1fr; }
 }
 
+/* Final compact hero/status polish */
+.hero-actions{
+  display:flex !important;
+  flex-wrap:nowrap !important;
+  gap:18px;
+  align-items:stretch;
+}
+.hero-actions .btn-main,
+.hero-actions .btn-ghost{
+  width:auto !important;
+  min-width:318px;
+  white-space:nowrap;
+  padding-left:24px;
+  padding-right:24px;
+}
+.hero-actions .btn-main{min-width:330px;}
+.hero-actions .btn-ghost{min-width:300px;}
+.hc-row .hc-pill{
+  justify-self:end;
+  align-self:center;
+}
+.hc-row .hc-pill.online{
+  padding:3px 10px;
+  font-size:11px;
+  line-height:1;
+  min-height:24px;
+  min-width:0;
+}
+.hc-row{
+  grid-template-columns: minmax(112px,.9fr) max-content;
+}
+.hc-val{
+  justify-self:end;
+  max-width:190px;
+}
+@media (min-width:961px) and (max-width:1240px){
+  .hero-actions{display:flex !important;}
+  .hero-actions .btn-main{min-width:316px;font-size:15.5px;}
+  .hero-actions .btn-ghost{min-width:282px;font-size:15.5px;}
+}
+@media (max-width:760px){
+  .hero-actions{flex-direction:column;flex-wrap:nowrap !important;}
+  .hero-actions .btn-main,
+  .hero-actions .btn-ghost{width:100% !important;min-width:0;}
+}
+
 </style>
 </head>
 <body>
