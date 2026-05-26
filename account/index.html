@@ -1206,6 +1206,9 @@ table.data-table {
   .account-actions-row .btn-ghost { width: 100%; justify-content: center; }
 }
 
+/* Payment section should not lock page scroll */
+.payment-modal.show{display:block;}
+
 </style>
 </head>
 <body>
@@ -1525,13 +1528,11 @@ function openPaymentModal() {
   if (!paymentModal) return;
   paymentModal.classList.add('show');
   paymentModal.setAttribute('aria-hidden', 'false');
-  document.body.style.overflow = 'hidden';
 }
 function closePaymentModal() {
   if (!paymentModal) return;
   paymentModal.classList.remove('show');
   paymentModal.setAttribute('aria-hidden', 'true');
-  document.body.style.overflow = '';
 }
 
 function setStatus(el, type, message) {
