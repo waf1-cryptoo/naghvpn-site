@@ -971,6 +971,58 @@ table.data-table {
 .setup-step span { display:block; color:var(--off); line-height:1.55; }
 @media (max-width: 900px) { .setup-choice-grid { grid-template-columns:1fr; } }
 
+
+
+/* Setup page polish */
+.setup-choice-grid {
+  align-items: stretch;
+  gap: 24px;
+}
+.setup-choice-card {
+  min-height: 720px;
+  display: flex;
+  flex-direction: column;
+  padding: 34px;
+}
+.setup-choice-top {
+  min-height: 160px;
+  align-items: flex-start;
+}
+.setup-choice-card h2 {
+  max-width: 390px;
+  font-size: clamp(30px, 3vw, 42px);
+  line-height: 1.02;
+  letter-spacing: -1.1px;
+}
+.setup-choice-card p {
+  max-width: 440px;
+  margin-top: 18px;
+}
+.setup-actions {
+  margin: 26px 0 0;
+}
+.setup-actions .btn-main,
+.setup-actions .btn-ghost {
+  min-width: 185px;
+  justify-content: center;
+  min-height: 52px;
+}
+.setup-steps {
+  margin-top: 30px;
+}
+.setup-step {
+  align-items: flex-start;
+  min-height: 90px;
+}
+@media (max-width: 900px) {
+  .setup-choice-card { min-height: auto; padding: 26px; }
+  .setup-choice-top { min-height: auto; }
+}
+@media (max-width: 560px) {
+  .setup-actions .btn-main,
+  .setup-actions .btn-ghost { width: 100%; }
+}
+
 </style>
 </head>
 <body>

@@ -823,6 +823,70 @@ footer {
 .hero-actions{display:grid;grid-template-columns:repeat(2,340px);gap:18px;align-items:stretch}.hero-actions .btn-main,.hero-actions .btn-ghost{height:60px}.feat-card{display:flex;flex-direction:column;justify-content:flex-start}.feat-icon,.doc-icon{box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 12px 34px rgba(0,229,255,.08)}.doc-card{min-height:214px}.doc-icon{width:48px;height:48px;border-radius:15px;display:flex;align-items:center;justify-content:center;background:rgba(20,87,255,.12);border:1px solid rgba(20,87,255,.2);color:var(--cyan)}.zl-icon.no{color:#ff6b75}.zl-icon.yes{color:var(--green)}.strip-item span{width:18px;height:18px;display:inline-flex;color:rgba(255,255,255,.9)}.strip-item .icon-svg{width:18px;height:18px}.section-title{overflow:visible}.plan-feats li{line-height:1.32}.pay-card{align-items:start}.pay-steps{padding-top:4px}.pay-title,.pay-desc,.pay-text{max-width:100%}
 @media (max-width:760px){.hero-actions{grid-template-columns:1fr}.hero-actions .btn-main,.hero-actions .btn-ghost{width:100%}}
 
+
+
+/* Release layout fixes */
+.hero-inner {
+  grid-template-columns: minmax(0, 1fr) 400px;
+  gap: 48px;
+}
+.hero-h1 {
+  font-size: clamp(44px, 5.1vw, 74px);
+  line-height: 1.02;
+  letter-spacing: -2.3px;
+  max-width: 720px;
+}
+.hero-actions {
+  grid-template-columns: repeat(2, minmax(240px, 340px));
+}
+.hero-card {
+  width: 100%;
+  max-width: 400px;
+  justify-self: end;
+  padding: 28px;
+  overflow: hidden;
+}
+.hc-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+.hc-row {
+  grid-template-columns: minmax(112px, .9fr) minmax(0, 1.1fr);
+  gap: 14px;
+}
+.hc-key {
+  line-height: 1.25;
+}
+.hc-val {
+  min-width: 0;
+  overflow: visible;
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}
+.hc-val.cyan,
+.hc-val.green {
+  font-size: 13.5px;
+}
+@media (min-width: 961px) and (max-width: 1240px) {
+  .hero-inner { grid-template-columns: minmax(0, 1fr) 370px; gap: 34px; }
+  .hero-card { max-width: 370px; padding: 24px; }
+  .hero-h1 { font-size: clamp(42px, 5vw, 66px); }
+  .hero-actions { grid-template-columns: repeat(2, minmax(210px, 1fr)); }
+  .hero-actions .btn-main,
+  .hero-actions .btn-ghost { width: auto; }
+}
+@media (max-width: 960px) {
+  .hero-inner { grid-template-columns: 1fr; }
+  .hero-card { justify-self: stretch; max-width: none; }
+}
+@media (max-width: 640px) {
+  .hero-h1 { font-size: clamp(40px, 13vw, 56px); }
+  .hero-actions { grid-template-columns: 1fr; }
+}
+
 </style>
 </head>
 <body>
@@ -905,12 +969,12 @@ footer {
           <span class="hc-val cyan">VLESS + Reality</span>
         </div>
         <div class="hc-row">
-          <span class="hc-key">Split<br>Tunneling</span>
-          <span class="hc-val green">Start / Plus / Premium</span>
+          <span class="hc-key">Split-tunneling</span>
+          <span class="hc-val green">для всех тарифов</span>
         </div>
         <div class="hc-row">
           <span class="hc-key">Подключение</span>
-          <span class="hc-val green">приложение / код</span>
+          <span class="hc-val green">приложение / Happ</span>
         </div>
         <div class="hc-row">
           <span class="hc-key">Оплата</span>
