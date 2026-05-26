@@ -1120,6 +1120,39 @@ table.data-table {
 }
 .auth-switch { display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-top:16px; }
 .kbd { font-family:ui-monospace, SFMono-Regular, Menlo, monospace; background:rgba(255,255,255,.08); border:1px solid var(--border); padding:2px 6px; border-radius:8px; }
+
+.account-actions-row { display:flex; gap:14px; flex-wrap:wrap; margin-top:24px; align-items:center; }
+.account-actions-row .btn-main, .account-actions-row .btn-ghost { min-height:52px; }
+.account-panel-grid.three { align-items: stretch; }
+.profile-card { min-height: 138px; display:flex; flex-direction:column; justify-content:center; }
+.profile-value.small { line-height:1.35; }
+.payment-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: none;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 92px 24px 32px;
+  background: rgba(3,6,15,.74);
+  backdrop-filter: blur(18px);
+  overflow-y: auto;
+}
+.payment-modal.show { display:flex; }
+.payment-modal-card {
+  width: min(1060px, 100%);
+  background: linear-gradient(145deg, rgba(11,22,53,.98), rgba(6,16,36,.98));
+  border: 1px solid rgba(0,229,255,.25);
+  border-radius: 30px;
+  box-shadow: 0 30px 90px rgba(0,0,0,.45), var(--glow-blue);
+  padding: 30px;
+  position: relative;
+}
+.payment-modal-head { display:flex; justify-content:space-between; gap:18px; align-items:flex-start; margin-bottom:18px; }
+.payment-modal-head h2 { margin:0; }
+.payment-modal-close { min-width:46px; height:46px; border-radius:15px; border:1px solid var(--border); background:rgba(255,255,255,.06); color:var(--white); font-size:22px; cursor:pointer; }
+@media (max-width: 720px) { .payment-modal { padding:84px 14px 24px; } .payment-modal-card { padding:22px; border-radius:24px; } }
+
 @media (max-width: 960px) { .account-panel-grid, .account-panel-grid.three, .connect-grid { grid-template-columns:1fr; } .device-head{flex-direction:column;} }
 
 </style>
@@ -1199,7 +1232,7 @@ table.data-table {
           <div>
             <div class="tag">Личный кабинет</div>
             <h2 style="margin-top:12px">Ваш аккаунт NaghVPN</h2>
-            <p>Здесь можно оплатить подписку, посмотреть устройства и выбрать способ подключения.</p>
+            <p>Здесь можно посмотреть тариф, устройства и выбрать способ подключения. Оплата открывается отдельным окном.</p>
           </div>
           <button class="btn-ghost" id="logout-button" type="button">Выйти</button>
         </div>
@@ -1224,12 +1257,23 @@ table.data-table {
             <div class="profile-value small" id="profile-capabilities">—</div>
           </div>
         </div>
+
+        <div class="account-actions-row">
+          <button class="btn-main" id="open-payment-modal" type="button" style="border:0;cursor:pointer">Продлить или оплатить подписку</button>
+          <a class="btn-ghost" href="/setup/">Инструкция по установке</a>
+        </div>
       </div>
 
-      <div class="account-panel-grid" style="margin-top:22px">
-        <div class="content-card note-card">
-          <h2>Купить или продлить подписку</h2>
-          <p>Оплата будет создана для текущего аккаунта. Вводить e-mail заново не нужно.</p>
+      <div class="payment-modal" id="payment-modal" aria-hidden="true">
+        <div class="payment-modal-card">
+          <div class="payment-modal-head">
+            <div>
+              <div class="tag">Оплата</div>
+              <h2 style="margin-top:12px">Купить или продлить подписку</h2>
+              <p>Оплата будет создана для текущего аккаунта. Вводить e-mail заново не нужно.</p>
+            </div>
+            <button class="payment-modal-close" id="close-payment-modal" type="button" aria-label="Закрыть">×</button>
+          </div>
 
           <form id="payment-form" class="payment-form" style="margin-top:22px">
             <div class="form-group">
@@ -1293,7 +1337,9 @@ table.data-table {
             <div id="payment-status" class="status-message"></div>
           </form>
         </div>
+      </div>
 
+      <div class="account-panel-grid" style="margin-top:22px">
         <div class="content-card note-card connect-panel">
           <h2>Подключить устройство</h2>
           <p>Доступные способы зависят от тарифа и свободных слотов.</p>
@@ -1302,7 +1348,7 @@ table.data-table {
             <div class="connect-card">
               <h3>В приложении</h3>
               <p>Установите NaghVPN на Android и войдите по той же почте. Подписка подтянется в аккаунт.</p>
-              <a class="small-btn" href="#" id="android-download-link">Скачать Android</a>
+              <a class="small-btn" href="/setup/" id="android-download-link">Скачать Android</a>
             </div>
             <div class="connect-card">
               <h3>Через Happ</h3>
@@ -1416,11 +1462,26 @@ const generatedConfig = document.getElementById('generated-config');
 const deviceList = document.getElementById('device-list');
 const createHappButton = document.getElementById('create-happ-button');
 const createCodeButton = document.getElementById('create-code-button');
+const openPaymentModalButton = document.getElementById('open-payment-modal');
+const closePaymentModalButton = document.getElementById('close-payment-modal');
+const paymentModal = document.getElementById('payment-modal');
 
 function token() { return localStorage.getItem(TOKEN_KEY) || ''; }
 function authHeaders(extra = {}) { return { ...extra, 'Authorization': `Bearer ${token()}` }; }
 function show(el) { el.classList.remove('hidden'); }
 function hide(el) { el.classList.add('hidden'); }
+function openPaymentModal() {
+  if (!paymentModal) return;
+  paymentModal.classList.add('show');
+  paymentModal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+}
+function closePaymentModal() {
+  if (!paymentModal) return;
+  paymentModal.classList.remove('show');
+  paymentModal.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
 
 function setStatus(el, type, message) {
   el.className = 'status-message show ' + type;
@@ -1630,6 +1691,17 @@ document.querySelectorAll('[data-period]').forEach(button => {
 });
 document.querySelectorAll('[data-payment-method]').forEach(button => {
   button.addEventListener('click', () => { selectedPaymentMethod = button.dataset.paymentMethod; updateSelection(); clearStatus(paymentStatus); });
+});
+
+if (openPaymentModalButton) openPaymentModalButton.addEventListener('click', openPaymentModal);
+if (closePaymentModalButton) closePaymentModalButton.addEventListener('click', closePaymentModal);
+if (paymentModal) {
+  paymentModal.addEventListener('click', (event) => {
+    if (event.target === paymentModal) closePaymentModal();
+  });
+}
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape') closePaymentModal();
 });
 
 paymentForm.addEventListener('submit', async (event) => {

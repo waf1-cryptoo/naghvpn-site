@@ -301,14 +301,20 @@ nav {
 }
 
 .hc-row {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 13px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+  display: grid;
+  grid-template-columns: minmax(118px, 0.92fr) minmax(150px, 1.08fr);
+  gap: 16px;
+  align-items: center;
+  padding: 13px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 .hc-row:last-child { border-bottom: 0; }
-.hc-key { font-size: 14px; color: var(--off); }
+.hc-key { font-size: 14px; color: var(--off); line-height: 1.25; }
 .hc-val {
   font-family: 'Cabinet Grotesk', sans-serif;
   font-size: 14px; font-weight: 700;
+  text-align: right;
+  line-height: 1.2;
 }
 .hc-val.cyan { color: var(--cyan); }
 .hc-val.gold { color: var(--gold); }
@@ -861,7 +867,7 @@ footer {
             </span>
             Ознакомиться с тарифами
           </a>
-          <a href="/setup/happ/" class="btn-ghost">
+          <a href="/setup/" class="btn-ghost">
             <span class="btn-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24"><rect x="8" y="3" width="8" height="18" rx="2"></rect><path d="M11 18h2"></path></svg>
             </span>
@@ -899,7 +905,7 @@ footer {
           <span class="hc-val cyan">VLESS + Reality</span>
         </div>
         <div class="hc-row">
-          <span class="hc-key">Split Tunneling</span>
+          <span class="hc-key">Split<br>Tunneling</span>
           <span class="hc-val green">Start / Plus / Premium</span>
         </div>
         <div class="hc-row">
