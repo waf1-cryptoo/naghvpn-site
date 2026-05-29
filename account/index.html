@@ -1428,9 +1428,9 @@ table.data-table {
               <a class="small-btn" href="/setup/" id="android-download-link">Скачать Android</a>
             </div>
             <div class="connect-card">
-              <h3>Через Happ</h3>
-              <p>Создайте постоянную ссылку подписки для Happ. Внутри неё backend будет отдавать актуальный VLESS-профиль.</p>
-              <button class="small-btn" type="button" id="create-happ-button">Создать Happ-подписку</button>
+              <h3>Happ / iOS / ПК</h3>
+              <p>Постоянная ссылка подписки создаётся автоматически после покупки тарифа. Её нужно просто скопировать и добавить в Happ.</p>
+              <button class="small-btn" type="button" id="create-happ-button">Скопировать Happ-ссылку</button>
             </div>
             <div class="connect-card">
               <h3>Код подключения</h3>
@@ -1443,8 +1443,8 @@ table.data-table {
           <div id="generated-config" class="code-box hidden" style="margin-top:16px"></div>
 
           <div class="happ-subscriptions-box" style="margin-top:18px">
-            <h3>Happ-подписки</h3>
-            <p>Скопируйте ссылку подписки и добавьте её в Happ: <strong>Подписки → Добавить → URL</strong>.</p>
+            <h3>Happ-подписка</h3>
+            <p>Это постоянная ссылка вашего аккаунта для Happ. После продления подписки ссылка остаётся прежней. Добавьте её в Happ: <strong>Подписки → Добавить → URL</strong>.</p>
             <div id="happ-subscription-list" class="device-list"></div>
           </div>
         </div>
@@ -1452,7 +1452,7 @@ table.data-table {
 
       <div class="content-card note-card" style="margin-top:22px">
         <h2>Устройства</h2>
-        <p>Каждая Happ-подписка, VLESS-ссылка или подключение через приложение занимает один слот тарифа.</p>
+        <p>Здесь отображаются активные подключения аккаунта. Happ-подписка занимает один слот тарифа и используется как постоянная ссылка для Happ.</p>
         <div id="device-list" class="device-list"></div>
       </div>
     </section>
@@ -1630,10 +1630,26 @@ async function apiAuthed(path, options = {}) {
 
 async function loadDashboard() {
   const profile = await apiAuthed('/auth/me');
-  const devices = await apiAuthed('/devices/me');
+  let devices = await apiAuthed('/devices/me');
   let happSubscriptions = { subscriptions: [] };
   try {
     happSubscriptions = await apiAuthed('/happ-subscriptions/me');
+    const plan = devices.plan || profile.plan || 'free';
+    const used = devices.devices_used ?? (devices.devices || []).length;
+    const limit = devices.device_limit ?? PLAN_LIMITS[plan] ?? 0;
+    const shouldAutoCreateHapp = limit > 0 && used < limit && (!happSubscriptions.subscriptions || happSubscriptions.subscriptions.length === 0);
+    if (shouldAutoCreateHapp) {
+      try {
+        await apiAuthed('/happ-subscriptions', {
+          method: 'POST',
+          body: JSON.stringify({ device_name: 'Happ subscription', device_type: 'happ' })
+        });
+        devices = await apiAuthed('/devices/me');
+        happSubscriptions = await apiAuthed('/happ-subscriptions/me');
+      } catch (createError) {
+        console.warn('Не удалось автоматически создать Happ-подписку', createError);
+      }
+    }
   } catch (error) {
     console.warn('Не удалось загрузить Happ-подписки', error);
   }
@@ -1662,7 +1678,10 @@ function renderDashboard(profile, devices, happSubscriptions = { subscriptions: 
   }
   document.getElementById('profile-capabilities').textContent = caps.length ? caps.join(', ') : 'нет активной подписки';
 
-  createHappButton.disabled = limit <= 0 || used >= limit;
+  const happItems = (happSubscriptions && happSubscriptions.subscriptions) || [];
+  const firstHappSubscription = happItems[0] || null;
+  createHappButton.disabled = limit <= 0 || !firstHappSubscription || !firstHappSubscription.subscription_url;
+  createHappButton.dataset.copyHappSubscription = firstHappSubscription && firstHappSubscription.subscription_url ? firstHappSubscription.subscription_url : '';
   createCodeButton.disabled = !devices.can_create_invite_code || used >= limit;
 
   if (!devices.can_create_invite_code) {
@@ -1673,10 +1692,12 @@ function renderDashboard(profile, devices, happSubscriptions = { subscriptions: 
     createCodeButton.textContent = 'Создать код';
   }
 
-  if (used >= limit) {
-    createHappButton.textContent = 'Нет свободных слотов';
+  if (limit <= 0) {
+    createHappButton.textContent = 'Happ доступен после покупки';
+  } else if (!firstHappSubscription) {
+    createHappButton.textContent = used >= limit ? 'Нет свободных слотов' : 'Подписка создаётся автоматически';
   } else {
-    createHappButton.textContent = 'Создать Happ-подписку';
+    createHappButton.textContent = 'Скопировать Happ-ссылку';
   }
 
   renderDevices(devices.devices || []);
@@ -1708,26 +1729,26 @@ function renderDevices(devices) {
 function renderHappSubscriptions(subscriptions) {
   if (!happSubscriptionList) return;
   if (!subscriptions.length) {
-    happSubscriptionList.innerHTML = '<div class="mini-note"><p>Пока нет Happ-подписок. Нажмите “Создать Happ-подписку”.</p></div>';
+    happSubscriptionList.innerHTML = '<div class="mini-note"><p>Happ-ссылка появится автоматически после покупки подписки, если есть свободный слот устройства.</p></div>';
     return;
   }
 
-  happSubscriptionList.innerHTML = subscriptions.map(item => `
+  const item = subscriptions[0];
+  happSubscriptionList.innerHTML = `
     <div class="device-item">
       <div class="device-head">
         <div>
-          <div class="device-title">${escapeHtml(item.device_name || 'Happ-подписка')}</div>
-          <div class="device-meta">ID: ${item.device_id || item.id} · UUID: <span class="kbd">${escapeHtml(item.vless_uuid || '—')}</span></div>
+          <div class="device-title">Ваша Happ-подписка</div>
+          <div class="device-meta">Постоянная ссылка аккаунта · UUID: <span class="kbd">${escapeHtml(item.vless_uuid || '—')}</span></div>
           <div class="subscription-url">${escapeHtml(item.subscription_url || '')}</div>
         </div>
-        <div class="device-meta">${item.subscription_last_used_at ? 'Обновлялась: ' + formatDate(item.subscription_last_used_at) : 'Постоянная ссылка'}</div>
+        <div class="device-meta">${item.subscription_last_used_at ? 'Обновлялась: ' + formatDate(item.subscription_last_used_at) : 'Готова к использованию'}</div>
       </div>
       <div class="device-actions">
-        <button class="small-btn" type="button" data-copy="${escapeAttr(item.subscription_url || '')}">Копировать subscription URL</button>
-        <button class="small-btn danger" type="button" data-delete-happ-subscription="${item.device_id || item.id}">Удалить подписку</button>
+        <button class="small-btn" type="button" data-copy="${escapeAttr(item.subscription_url || '')}">Скопировать ссылку на подписку</button>
       </div>
     </div>
-  `).join('');
+  `;
 }
 function escapeHtml(value) {
   return String(value).replace(/[&<>'"]/g, ch => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', "'":'&#39;', '"':'&quot;' }[ch]));
@@ -1846,23 +1867,17 @@ paymentForm.addEventListener('submit', async (event) => {
 createHappButton.addEventListener('click', async () => {
   clearStatus(connectStatus);
   hideCodeBox();
-  createHappButton.disabled = true;
-  createHappButton.textContent = 'Создаём...';
+  const link = createHappButton.dataset.copyHappSubscription || '';
+  if (!link) {
+    setStatus(connectStatus, 'error', 'Happ-ссылка пока недоступна. Проверьте активную подписку и свободный слот устройства.');
+    return;
+  }
   try {
-    const data = await apiAuthed('/happ-subscriptions', {
-      method: 'POST',
-      body: JSON.stringify({ device_name: 'Happ subscription', device_type: 'happ' })
-    });
-    const link = data.subscription && data.subscription.subscription_url;
-    if (!link) throw new Error('Backend создал подписку, но не вернул subscription URL.');
-    setStatus(connectStatus, 'ok', 'Happ-подписка создана. Скопируйте ссылку и добавьте её в Happ как подписку.');
+    await copyText(link);
     showCodeBox(link);
-    await loadDashboard();
+    setStatus(connectStatus, 'ok', 'Ссылка на Happ-подписку скопирована. Добавьте её в Happ как Subscription / Подписка.');
   } catch (error) {
-    setStatus(connectStatus, 'error', error.message || 'Не удалось создать Happ-подписку.');
-  } finally {
-    createHappButton.disabled = false;
-    if (currentDevices) renderDashboard(currentProfile, currentDevices, currentHappSubscriptions || { subscriptions: [] });
+    setStatus(connectStatus, 'error', 'Не удалось скопировать ссылку. Скопируйте её из блока ниже вручную.');
   }
 });
 
@@ -1908,20 +1923,8 @@ deviceList.addEventListener('click', async (event) => {
 if (happSubscriptionList) {
   happSubscriptionList.addEventListener('click', async (event) => {
     const copyButton = event.target.closest('[data-copy]');
-    const deleteButton = event.target.closest('[data-delete-happ-subscription]');
     if (copyButton) {
       await copyText(copyButton.dataset.copy);
-    }
-    if (deleteButton) {
-      if (!confirm('Удалить эту Happ-подписку? В Happ она перестанет обновляться.')) return;
-      clearStatus(connectStatus);
-      try {
-        await apiAuthed(`/happ-subscriptions/${deleteButton.dataset.deleteHappSubscription}`, { method: 'DELETE' });
-        setStatus(connectStatus, 'ok', 'Happ-подписка удалена.');
-        await loadDashboard();
-      } catch (error) {
-        setStatus(connectStatus, 'error', error.message || 'Не удалось удалить Happ-подписку.');
-      }
     }
   });
 }
