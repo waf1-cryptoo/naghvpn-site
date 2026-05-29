@@ -1065,9 +1065,9 @@ table.data-table {
 .account-panel-grid { display:grid; grid-template-columns: 1fr 1fr; gap:22px; align-items:start; }
 .account-panel-grid.three { grid-template-columns: repeat(3,1fr); }
 .profile-card { background: var(--glass); border:1px solid var(--border); border-radius:22px; padding:20px; }
-.profile-label { color: var(--off); font-size:13px; margin-bottom:6px; }
-.profile-value { color: var(--white); font-weight:800; font-size:20px; word-break:break-word; }
-.profile-value.small { font-size:15px; font-weight:600; color:rgba(255,255,255,.82); }
+.profile-label { color: var(--off); font-size:14px; margin-bottom:8px; line-height:1.5; }
+.profile-value { color: var(--white); font-weight:700; font-size:18px; line-height:1.45; word-break:break-word; }
+.profile-value.small { font-size:18px; font-weight:700; line-height:1.45; color:var(--white); word-break:break-word; }
 .device-list { display:grid; gap:12px; margin-top:16px; }
 .device-item { background:rgba(255,255,255,.045); border:1px solid var(--border); border-radius:18px; padding:16px; }
 .device-head { display:flex; justify-content:space-between; gap:14px; align-items:flex-start; }
@@ -1084,23 +1084,20 @@ table.data-table {
   border-radius:18px;
   padding:16px;
 }
-.happ-subscriptions-box h3 {
-  font-family:'Cabinet Grotesk', sans-serif;
-  font-size:20px;
-  margin-bottom:8px;
-}
-.happ-subscriptions-box p {
+.happ-subscriptions-note {
   color:var(--off);
-  font-size:14px;
-  line-height:1.6;
-  margin-bottom:10px;
+  font-size:15px;
+  line-height:1.65;
+  margin-bottom:14px;
 }
 .subscription-url {
   color:var(--cyan);
   word-break:break-all;
-  font-size:12px;
-  margin-top:8px;
+  font-size:13px;
+  line-height:1.6;
+  margin-top:10px;
 }
+.device-date { color: var(--off); font-size:13px; margin-top:8px; line-height:1.5; }
 #dashboard-section > .account-panel-grid { grid-template-columns: 1fr; }
 .connect-grid {
   display:grid;
@@ -1113,7 +1110,7 @@ table.data-table {
   border:1px solid var(--border);
   border-radius:22px;
   padding:22px;
-  min-height:238px;
+  min-height:248px;
   display:flex;
   flex-direction:column;
   gap:12px;
@@ -1182,13 +1179,13 @@ table.data-table {
   gap: 2px;
 }
 .profile-label {
-  min-height: 18px;
+  min-height: 21px;
 }
 .profile-value {
-  min-height: 30px;
+  min-height: 32px;
 }
 .profile-value.small {
-  min-height: 22px;
+  min-height: 32px;
 }
 .choice-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1259,7 +1256,6 @@ table.data-table {
     <div class="breadcrumb"><a href="/">Главная</a><span>→</span><span>Личный кабинет</span></div>
     <div class="tag">Личный кабинет</div>
     <h1 class="subpage-title reveal">Личный <span class="accent">кабинет</span></h1>
-    <p class="subpage-lead reveal reveal-d1">Войдите по e-mail, оплатите подписку и подключайте устройства через приложение NaghVPN, Happ или код подключения.</p>
   </div>
 </section>
 
@@ -1309,7 +1305,6 @@ table.data-table {
           <div>
             <div class="tag">Личный кабинет</div>
             <h2 style="margin-top:12px">Ваш аккаунт NaghVPN</h2>
-            <p>Здесь можно посмотреть тариф, устройства и выбрать способ подключения. Оплата открывается отдельным окном.</p>
           </div>
           <button class="btn-ghost" id="logout-button" type="button">Выйти</button>
         </div>
@@ -1419,7 +1414,6 @@ table.data-table {
       <div class="account-panel-grid" style="margin-top:22px">
         <div class="content-card note-card connect-panel">
           <h2>Подключить устройство</h2>
-          <p>Доступные способы зависят от тарифа и свободных слотов.</p>
 
           <div class="connect-grid" style="margin-top:18px">
             <div class="connect-card">
@@ -1428,9 +1422,9 @@ table.data-table {
               <a class="small-btn" href="/setup/" id="android-download-link">Скачать Android</a>
             </div>
             <div class="connect-card">
-              <h3>Happ / iOS / ПК</h3>
+              <h3>Через Happ</h3>
               <p>Постоянная ссылка подписки создаётся автоматически после покупки тарифа. Её нужно просто скопировать и добавить в Happ.</p>
-              <button class="small-btn" type="button" id="create-happ-button">Скопировать Happ-ссылку</button>
+              <button class="small-btn" type="button" id="create-happ-button">Скопировать ссылку на подписку</button>
             </div>
             <div class="connect-card">
               <h3>Код подключения</h3>
@@ -1443,8 +1437,7 @@ table.data-table {
           <div id="generated-config" class="code-box hidden" style="margin-top:16px"></div>
 
           <div class="happ-subscriptions-box" style="margin-top:18px">
-            <h3>Happ-подписка</h3>
-            <p>Это постоянная ссылка вашего аккаунта для Happ. После продления подписки ссылка остаётся прежней. Добавьте её в Happ: <strong>Подписки → Добавить → URL</strong>.</p>
+            <p class="happ-subscriptions-note">Скопируйте ссылку подписки и добавьте её в Happ: <strong>Подписки → Добавить → URL</strong>.</p>
             <div id="happ-subscription-list" class="device-list"></div>
           </div>
         </div>
@@ -1452,7 +1445,6 @@ table.data-table {
 
       <div class="content-card note-card" style="margin-top:22px">
         <h2>Устройства</h2>
-        <p>Здесь отображаются активные подключения аккаунта. Happ-подписка занимает один слот тарифа и используется как постоянная ссылка для Happ.</p>
         <div id="device-list" class="device-list"></div>
       </div>
     </section>
@@ -1693,11 +1685,11 @@ function renderDashboard(profile, devices, happSubscriptions = { subscriptions: 
   }
 
   if (limit <= 0) {
-    createHappButton.textContent = 'Happ доступен после покупки';
+    createHappButton.textContent = 'Ссылка появится после покупки';
   } else if (!firstHappSubscription) {
     createHappButton.textContent = used >= limit ? 'Нет свободных слотов' : 'Подписка создаётся автоматически';
   } else {
-    createHappButton.textContent = 'Скопировать Happ-ссылку';
+    createHappButton.textContent = 'Скопировать ссылку на подписку';
   }
 
   renderDevices(devices.devices || []);
@@ -1706,43 +1698,57 @@ function renderDashboard(profile, devices, happSubscriptions = { subscriptions: 
 
 function renderDevices(devices) {
   if (!devices.length) {
-    deviceList.innerHTML = '<div class="mini-note"><p>Пока нет активных устройств. Нажмите “Подключить устройство”.</p></div>';
+    deviceList.innerHTML = '<div class="mini-note"><p>Пока нет активных устройств.</p></div>';
     return;
   }
-  deviceList.innerHTML = devices.map(device => `
-    <div class="device-item">
-      <div class="device-head">
-        <div>
-          <div class="device-title">${escapeHtml(device.device_name || 'Устройство')}</div>
-          <div class="device-meta">Тип: <span class="kbd">${escapeHtml(device.device_type || 'unknown')}</span> · Протокол: <span class="kbd">${escapeHtml(device.protocol || 'unknown')}</span> · ID: ${device.id}</div>
+
+  const sortedDevices = [...devices].sort((a, b) => {
+    const aTime = a && a.created_at ? new Date(a.created_at).getTime() : 0;
+    const bTime = b && b.created_at ? new Date(b.created_at).getTime() : 0;
+    return aTime - bTime;
+  });
+
+  deviceList.innerHTML = sortedDevices.map((device, index) => {
+    const title = `Устройство ${index + 1}`;
+    const name = device.device_name ? ` — ${escapeHtml(device.device_name)}` : '';
+    const createdAt = device.created_at ? formatDate(device.created_at) : 'дата неизвестна';
+    return `
+      <div class="device-item">
+        <div class="device-head">
+          <div>
+            <div class="device-title">${title}${name}</div>
+            <div class="device-meta">Тип: <span class="kbd">${escapeHtml(device.device_type || 'unknown')}</span> · Протокол: <span class="kbd">${escapeHtml(device.protocol || 'unknown')}</span> · ID: ${device.id}</div>
+            <div class="device-date">Дата подключения: ${createdAt}</div>
+          </div>
         </div>
-        <div class="device-meta">${device.is_primary ? 'Основное' : 'Дополнительное'}</div>
+        <div class="device-actions">
+          ${device.config_link ? `<button class="small-btn" type="button" data-copy="${escapeAttr(device.config_link)}">Копировать ссылку</button>` : ''}
+          <button class="small-btn danger" type="button" data-delete-device="${device.id}">Удалить</button>
+        </div>
       </div>
-      <div class="device-actions">
-        ${device.config_link ? `<button class="small-btn" type="button" data-copy="${escapeAttr(device.config_link)}">Копировать ссылку</button>` : ''}
-        <button class="small-btn danger" type="button" data-delete-device="${device.id}">Удалить</button>
-      </div>
-    </div>
-  `).join('');
+    `;
+  }).join('');
 }
 
 function renderHappSubscriptions(subscriptions) {
   if (!happSubscriptionList) return;
   if (!subscriptions.length) {
-    happSubscriptionList.innerHTML = '<div class="mini-note"><p>Happ-ссылка появится автоматически после покупки подписки, если есть свободный слот устройства.</p></div>';
+    happSubscriptionList.innerHTML = '<div class="mini-note"><p>Ссылка для Happ появится автоматически после покупки подписки.</p></div>';
     return;
   }
 
   const item = subscriptions[0];
+  const createdAt = item.created_at ? formatDate(item.created_at) : null;
+  const updatedAt = item.subscription_last_used_at ? formatDate(item.subscription_last_used_at) : null;
   happSubscriptionList.innerHTML = `
     <div class="device-item">
       <div class="device-head">
         <div>
-          <div class="device-title">Ваша Happ-подписка</div>
-          <div class="device-meta">Постоянная ссылка аккаунта · UUID: <span class="kbd">${escapeHtml(item.vless_uuid || '—')}</span></div>
+          <div class="device-title">Ваша ссылка для Happ</div>
           <div class="subscription-url">${escapeHtml(item.subscription_url || '')}</div>
+          ${createdAt ? `<div class="device-date">Создана: ${createdAt}</div>` : ''}
         </div>
-        <div class="device-meta">${item.subscription_last_used_at ? 'Обновлялась: ' + formatDate(item.subscription_last_used_at) : 'Готова к использованию'}</div>
+        <div class="device-meta">${updatedAt ? 'Обновлялась: ' + updatedAt : 'Постоянная ссылка'}</div>
       </div>
       <div class="device-actions">
         <button class="small-btn" type="button" data-copy="${escapeAttr(item.subscription_url || '')}">Скопировать ссылку на подписку</button>
@@ -1875,7 +1881,7 @@ createHappButton.addEventListener('click', async () => {
   try {
     await copyText(link);
     showCodeBox(link);
-    setStatus(connectStatus, 'ok', 'Ссылка на Happ-подписку скопирована. Добавьте её в Happ как Subscription / Подписка.');
+    setStatus(connectStatus, 'ok', 'Ссылка на подписку скопирована. Добавьте её в Happ: Подписки → Добавить → URL.');
   } catch (error) {
     setStatus(connectStatus, 'error', 'Не удалось скопировать ссылку. Скопируйте её из блока ниже вручную.');
   }
