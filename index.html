@@ -942,6 +942,16 @@ footer {
   .hc-head .hc-pill.live{margin-right:0;}
 }
 
+
+/* Final visual alignment tweaks */
+.zl-wrap { align-items: stretch; }
+.zl-intro { display: flex; flex-direction: column; justify-content: center; min-height: 100%; }
+.pay-card { align-items: stretch; }
+.pay-intro { display: flex; flex-direction: column; justify-content: center; min-height: 100%; }
+@media (max-width: 900px) {
+  .zl-intro, .pay-intro { min-height: auto; }
+}
+
 </style>
 </head>
 <body>
@@ -1082,8 +1092,7 @@ footer {
       <div class="section-header reveal">
         <div class="tag">Преимущества</div>
         <h2 class="section-title">VPN, который удобно<br>использовать каждый день</h2>
-        <p class="section-sub">Мы убрали лишнее и оставили то, что важно: современный протокол, стабильность, понятные тарифы и поддержку.</p>
-      </div>
+              </div>
       <div class="feat-grid">
         <div class="feat-card reveal reveal-d1">
           <div class="feat-icon"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 3 19 6v5c0 4.8-2.8 8-7 10-4.2-2-7-5.2-7-10V6l7-3Z"/><path d="M9 12h6M12 9v6"/></svg></div>
@@ -1184,11 +1193,10 @@ footer {
 <div class="container">
   <div class="section">
     <div class="zl-wrap">
-      <div class="reveal">
+      <div class="reveal zl-intro">
         <div class="tag" style="margin-bottom:20px">Приватность</div>
         <div class="zl-headline">Zero<br>Logs.</div>
-        <p class="zl-sub">Мы не храним содержимое VPN-трафика, историю посещений и IP-адреса назначения. Для работы аккаунта могут обрабатываться e-mail, ID пользователя, статус подписки и технические события безопасности.</p>
-      </div>
+              </div>
       <ul class="zl-list reveal reveal-d1">
         <li class="zl-item">
           <div class="zl-icon no"><svg class="icon-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M7 7l10 10"/></svg></div>
@@ -1233,7 +1241,7 @@ footer {
 <!-- ── PAYMENT ── -->
 <div class="container" style="padding-bottom:100px">
   <div class="pay-card reveal">
-    <div>
+    <div class="pay-intro">
       <div class="tag" style="margin-bottom:16px">Оплата</div>
       <h2 class="pay-title">Как оформить доступ</h2>
       <p class="pay-desc">Оплата доступна на сайте: картой/СБП через ЮKassa или криптовалютой через OxaPay. После подтверждения платежа выбранный тариф активируется в аккаунте пользователя. Данные карты обрабатывает ЮKassa — мы их не видим.</p>
@@ -1281,8 +1289,7 @@ footer {
       <div class="section-header reveal">
         <div class="tag">Документы</div>
         <h2 class="section-title">Всё прозрачно</h2>
-        <p class="section-sub">Мы публикуем все юридические документы открыто. Никакого мелкого шрифта.</p>
-      </div>
+              </div>
       <div class="docs-grid">
         <a href="/privacy/" class="doc-card reveal reveal-d1">
           <div class="doc-icon"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 3 19 6v5c0 4.8-2.8 8-7 10-4.2-2-7-5.2-7-10V6l7-3Z"/><path d="M9.5 12.5 11 14l3.5-4"/></svg></div>

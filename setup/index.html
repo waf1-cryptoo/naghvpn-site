@@ -999,14 +999,20 @@ table.data-table {
   margin-top: 18px;
 }
 .setup-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
   margin: 26px 0 0;
 }
 .setup-actions .btn-main,
 .setup-actions .btn-ghost {
-  min-width: 185px;
+  width: 100%;
+  min-width: 0;
   justify-content: center;
+  text-align: center;
   min-height: 52px;
 }
+.setup-choice-card p:empty { display: none; }
 .setup-steps {
   margin-top: 30px;
 }
@@ -1019,6 +1025,7 @@ table.data-table {
   .setup-choice-top { min-height: auto; }
 }
 @media (max-width: 560px) {
+  .setup-actions { grid-template-columns: 1fr; }
   .setup-actions .btn-main,
   .setup-actions .btn-ghost { width: 100%; }
 }
@@ -1050,8 +1057,7 @@ table.data-table {
     <div class="breadcrumb"><a href="/">Главная</a><span>→</span><span>Установка</span></div>
     <div class="tag">Установка</div>
     <h1 class="subpage-title reveal">Выберите способ <span class="accent">подключения</span></h1>
-    <p class="subpage-lead reveal reveal-d1">Для Android используйте приложение NaghVPN. Для iOS, Windows, macOS и других устройств можно подключиться через Happ и персональную ссылку.</p>
-  </div>
+      </div>
 </section>
 <main class="content-section">
   <div class="container">
@@ -1060,12 +1066,11 @@ table.data-table {
         <div class="setup-choice-top">
           <div>
             <div class="tag">Android</div>
-            <h2 style="margin-top:14px">Приложение NaghVPN</h2>
+            <h2 style="margin-top:14px">Android</h2>
           </div>
           <div class="setup-choice-icon" aria-hidden="true"><svg class="icon-svg" viewBox="0 0 24 24"><rect x="8" y="4" width="8" height="16" rx="2"/><path d="M11 17h2"/><path d="M7 8h10"/></svg></div>
         </div>
-        <p>Лучший вариант для Android: вход по e-mail, автоматическое создание устройства, выбор режима «Весь трафик» или «Приложения».</p>
-        <div class="setup-actions">
+                <div class="setup-actions">
           <a class="btn-main" href="#" id="android-app-download-link">Скачать приложение</a>
           <a class="btn-ghost" href="/account/">Личный кабинет</a>
         </div>
@@ -1082,19 +1087,18 @@ table.data-table {
         <div class="setup-choice-top">
           <div>
             <div class="tag">iOS / ПК / другое</div>
-            <h2 style="margin-top:14px">Подключение через Happ</h2>
+            <h2 style="margin-top:14px">Happ</h2>
           </div>
           <div class="setup-choice-icon" aria-hidden="true"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/><path d="M7 3v18"/></svg></div>
         </div>
-        <p>Подходит для iPhone, iPad, Windows, macOS и других устройств. В личном кабинете создайте персональную Happ/VLESS-ссылку и добавьте её в Happ.</p>
-        <div class="setup-actions">
+                <div class="setup-actions">
           <a class="btn-main" href="https://happ.su/" target="_blank" rel="noopener">Скачать Happ</a>
-          <a class="btn-ghost" href="/account/">Создать Happ-ссылку</a>
+          <a class="btn-ghost" href="/account/">Получить ссылку для подключения</a>
         </div>
 
         <div class="setup-steps">
           <div class="setup-step"><div class="setup-step-num">1</div><div><strong>Установите Happ</strong><span>Скачайте Happ для нужной платформы с официального сайта.</span></div></div>
-          <div class="setup-step"><div class="setup-step-num">2</div><div><strong>Создайте ссылку</strong><span>В личном кабинете NaghVPN нажмите «Создать Happ-ссылку». Она занимает один слот устройства.</span></div></div>
+          <div class="setup-step"><div class="setup-step-num">2</div><div><strong>Создайте ссылку</strong><span>В личном кабинете NaghVPN нажмите «Получить ссылку для подключения». Она создаётся автоматически после покупки тарифа.</span></div></div>
           <div class="setup-step"><div class="setup-step-num">3</div><div><strong>Добавьте профиль</strong><span>В Happ нажмите «+» или «Добавить профиль», затем вставьте скопированную ссылку.</span></div></div>
           <div class="setup-step"><div class="setup-step-num">4</div><div><strong>Подключитесь</strong><span>Сохраните профиль и включите подключение в Happ. Не передавайте персональную ссылку другим людям.</span></div></div>
         </div>
