@@ -1271,6 +1271,28 @@ table.data-table {
   }
 }
 
+
+/* round 3 polish: connect panel cleanup */
+.connect-grid { align-items: stretch; }
+.connect-card { display: flex; flex-direction: column; }
+.connect-card p { flex: 1; }
+.connect-card-note {
+  margin-top: auto;
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px dashed rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.03);
+  color: var(--off);
+  font-size: 13px;
+  line-height: 1.45;
+  font-weight: 600;
+}
+
 </style>
 </head>
 <body>
@@ -1466,7 +1488,7 @@ table.data-table {
             <div class="connect-card">
               <h3>Через Happ</h3>
               <p>Постоянная ссылка подписки создаётся автоматически после покупки тарифа. Её нужно просто скопировать и добавить в Happ.</p>
-              <button class="small-btn" type="button" id="create-happ-button">Скопировать ссылку на подписку</button>
+              <div class="connect-card-note">Ссылка уже создана и доступна в блоке ниже.</div>
             </div>
             <div class="connect-card">
               <h3>Код подключения</h3>
@@ -1720,8 +1742,10 @@ function renderDashboard(profile, devices, happSubscriptions = { subscriptions: 
 
   const happItems = (happSubscriptions && happSubscriptions.subscriptions) || [];
   const firstHappSubscription = happItems[0] || null;
-  createHappButton.disabled = limit <= 0 || !firstHappSubscription || !firstHappSubscription.subscription_url;
-  createHappButton.dataset.copyHappSubscription = firstHappSubscription && firstHappSubscription.subscription_url ? firstHappSubscription.subscription_url : '';
+  if (createHappButton) {
+    createHappButton.disabled = limit <= 0 || !firstHappSubscription || !firstHappSubscription.subscription_url;
+    createHappButton.dataset.copyHappSubscription = firstHappSubscription && firstHappSubscription.subscription_url ? firstHappSubscription.subscription_url : '';
+  }
   createCodeButton.disabled = !devices.can_create_invite_code || used >= limit;
 
   if (!devices.can_create_invite_code) {
@@ -1732,12 +1756,14 @@ function renderDashboard(profile, devices, happSubscriptions = { subscriptions: 
     createCodeButton.textContent = 'Создать код';
   }
 
-  if (limit <= 0) {
-    createHappButton.textContent = 'Ссылка появится после покупки';
-  } else if (!firstHappSubscription) {
-    createHappButton.textContent = used >= limit ? 'Нет свободных слотов' : 'Подписка создаётся автоматически';
-  } else {
-    createHappButton.textContent = 'Скопировать ссылку на подписку';
+  if (createHappButton) {
+    if (limit <= 0) {
+      createHappButton.textContent = 'Ссылка появится после покупки';
+    } else if (!firstHappSubscription) {
+      createHappButton.textContent = used >= limit ? 'Нет свободных слотов' : 'Подписка создаётся автоматически';
+    } else {
+      createHappButton.textContent = 'Скопировать ссылку на подписку';
+    }
   }
 
   renderDevices(devices.devices || []);
@@ -1917,7 +1943,7 @@ paymentForm.addEventListener('submit', async (event) => {
   }
 });
 
-createHappButton.addEventListener('click', async () => {
+if (createHappButton) createHappButton.addEventListener('click', async () => {
   clearStatus(connectStatus);
   hideCodeBox();
   const link = createHappButton.dataset.copyHappSubscription || '';
