@@ -1402,6 +1402,177 @@ table.data-table {
   .modal-actions { flex-direction: column; }
 }
 
+
+/* step 5: referral modal centered + mobile cabinet fix */
+.modal-overlay {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 9999 !important;
+  display: none !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 22px !important;
+  background: rgba(2, 6, 16, .72) !important;
+  backdrop-filter: blur(14px) !important;
+}
+.modal-overlay.show { display: flex !important; }
+.modal-overlay .payment-modal-card,
+.modal-overlay .referral-modal-card {
+  width: min(640px, 100%) !important;
+  max-width: 640px !important;
+  max-height: calc(100vh - 44px) !important;
+  overflow: auto !important;
+  margin: 0 !important;
+  box-shadow: 0 30px 90px rgba(0,0,0,.45), 0 0 0 1px rgba(0,229,255,.12) inset !important;
+}
+.referral-actions {
+  width: 240px !important;
+  min-width: 220px !important;
+}
+.referral-actions .small-btn {
+  white-space: normal !important;
+}
+@media (max-width: 760px) {
+  .account-panel-grid.three,
+  .account-panel-grid,
+  #dashboard-section > .account-panel-grid {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+  .profile-card {
+    min-height: auto !important;
+    padding: 18px !important;
+    display: block !important;
+  }
+  .profile-label {
+    font-size: 13px !important;
+    margin-bottom: 6px !important;
+  }
+  .profile-value,
+  .profile-value.small {
+    font-size: 18px !important;
+    line-height: 1.35 !important;
+    word-break: normal !important;
+    overflow-wrap: anywhere !important;
+    min-height: auto !important;
+  }
+  #profile-capabilities {
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    line-height: 1.45 !important;
+  }
+  .account-actions-row {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+  .account-actions-row .btn-main,
+  .account-actions-row .btn-ghost {
+    width: 100% !important;
+    justify-content: center !important;
+    text-align: center !important;
+  }
+  .referral-actions {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+  .modal-overlay {
+    padding: 14px !important;
+    align-items: center !important;
+  }
+}
+
+
+
+/* FINAL R6: centered referral modal, compact referral actions, mobile account */
+#referral-modal.referral-modal-overlay{
+  position:fixed !important;
+  inset:0 !important;
+  z-index:99999 !important;
+  display:none !important;
+  align-items:center !important;
+  justify-content:center !important;
+  padding:24px !important;
+  margin:0 !important;
+  background:rgba(2,6,16,.76) !important;
+  backdrop-filter:blur(14px) !important;
+}
+#referral-modal.referral-modal-overlay.show{
+  display:flex !important;
+}
+#referral-modal .referral-modal-card{
+  width:min(640px,100%) !important;
+  max-width:640px !important;
+  max-height:calc(100vh - 48px) !important;
+  overflow:auto !important;
+  margin:0 auto !important;
+  position:relative !important;
+  box-shadow:0 34px 100px rgba(0,0,0,.55), 0 0 0 1px rgba(0,229,255,.16) inset !important;
+}
+.referral-actions{
+  display:flex !important;
+  flex-direction:column !important;
+  gap:10px !important;
+  width:220px !important;
+  min-width:220px !important;
+  max-width:220px !important;
+  align-items:stretch !important;
+  justify-content:center !important;
+}
+.connect-grid.referral-layout .connect-card .referral-actions .small-btn,
+.referral-actions .small-btn{
+  width:100% !important;
+  min-width:0 !important;
+  max-width:none !important;
+  min-height:44px !important;
+  height:44px !important;
+  padding:0 14px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  text-align:center !important;
+  white-space:normal !important;
+}
+@media (max-width:760px){
+  .account-panel-grid.three,
+  .account-panel-grid{
+    display:grid !important;
+    grid-template-columns:1fr !important;
+    gap:14px !important;
+  }
+  .profile-card{
+    width:100% !important;
+    min-height:auto !important;
+    padding:18px !important;
+    box-sizing:border-box !important;
+    display:block !important;
+  }
+  .profile-label{
+    min-height:0 !important;
+    font-size:13px !important;
+    line-height:1.35 !important;
+    margin:0 0 6px !important;
+  }
+  .profile-value,
+  .profile-value.small,
+  #profile-email,
+  #profile-plan,
+  #profile-expires,
+  #profile-capabilities{
+    min-height:0 !important;
+    font-size:18px !important;
+    line-height:1.35 !important;
+    word-break:normal !important;
+    overflow-wrap:anywhere !important;
+    white-space:normal !important;
+  }
+  #profile-capabilities{font-size:15px !important;font-weight:700 !important;}
+  .account-actions-row{display:grid !important;grid-template-columns:1fr !important;gap:12px !important;}
+  .account-actions-row .btn-main,.account-actions-row .btn-ghost{width:100% !important;}
+  .referral-actions{width:100% !important;min-width:0 !important;max-width:none !important;}
+  #referral-modal.referral-modal-overlay{padding:14px !important;align-items:center !important;}
+}
+
 </style>
 </head>
 <body>
@@ -1641,7 +1812,7 @@ table.data-table {
   </div>
 </main>
 
-<div class="payment-modal" id="referral-modal" aria-hidden="true">
+<div class="payment-modal referral-modal-overlay" id="referral-modal" aria-hidden="true">
   <div class="payment-modal-card referral-modal-card" role="dialog" aria-modal="true" aria-labelledby="referral-modal-title">
     <div class="payment-modal-head">
       <div>
