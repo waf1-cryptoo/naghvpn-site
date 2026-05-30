@@ -1634,6 +1634,64 @@ table.data-table {
   .discount-badge { margin-left: 0; margin-top: 6px; }
 }
 
+
+
+/* FINAL referral discount visibility fix */
+.choice-card.has-discount {
+  box-shadow: inset 0 0 0 1px rgba(0,229,255,.18);
+}
+.choice-price .price-stack,
+.choice-desc .price-stack,
+#summary-price .price-stack,
+#summary-price .discounted-total {
+  display: inline-flex !important;
+  flex-direction: column !important;
+  align-items: flex-end !important;
+  gap: 2px !important;
+}
+.choice-desc .price-stack { align-items: flex-start !important; }
+.price-old {
+  color: rgba(255,255,255,.48) !important;
+  text-decoration: line-through !important;
+  text-decoration-thickness: 2px !important;
+}
+.price-new {
+  color: var(--cyan) !important;
+  font-weight: 900 !important;
+}
+.choice-desc .price-new,
+#summary-price .price-new {
+  font-size: 18px !important;
+}
+.discount-badge {
+  vertical-align: middle !important;
+}
+.discount-notice.show {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+}
+.discount-notice.show::before {
+  content: '-50%';
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 54px;
+  height: 30px;
+  border-radius: 999px;
+  background: rgba(0,229,255,.14);
+  border: 1px solid rgba(0,229,255,.30);
+  color: var(--cyan);
+  font-weight: 900;
+}
+@media (max-width: 720px) {
+  .choice-title { gap: 10px !important; }
+  .choice-price .price-stack { align-items: flex-end !important; }
+  .choice-desc .price-stack { align-items: flex-start !important; }
+  .discount-badge { display: inline-flex !important; margin-left: 0 !important; margin-top: 6px !important; }
+  .discount-notice.show { align-items: flex-start !important; }
+}
+
 </style>
 </head>
 <body>
@@ -2014,6 +2072,7 @@ function authHeaders(extra = {}) { return { ...extra, 'Authorization': `Bearer $
 function show(el) { el.classList.remove('hidden'); }
 function hide(el) { el.classList.add('hidden'); }
 function openPaymentModal() {
+  updateSelection();
   if (!paymentModal) return;
   paymentModal.classList.add('show');
   paymentModal.setAttribute('aria-hidden', 'false');
@@ -2088,16 +2147,21 @@ function formatRubValue(value) {
   }) + ' ₽';
 }
 function getReferralDiscountPercent() {
-  if (!currentReferrals) return 0;
-  if (currentReferrals.discount_used_at) return 0;
-  if (Number(currentReferrals.active_discount_percent || 0) > 0) return Number(currentReferrals.active_discount_percent || 0);
-  if (currentReferrals.referred_by) return Number(currentReferrals.discount_percent_for_friend || 50);
+  const stored = localStorage.getItem(REFERRAL_KEY) || '';
+  if (currentReferrals && currentReferrals.discount_used_at) return 0;
+  if (currentReferrals && Number(currentReferrals.active_discount_percent || 0) > 0) return Number(currentReferrals.active_discount_percent || 0);
+  if (currentReferrals && currentReferrals.referred_by) return Number(currentReferrals.discount_percent_for_friend || 50);
+  // UX fallback: if the user has just pasted a referral link/code, show the discount immediately.
+  // The backend is still the source of truth and recalculates the final payment amount.
+  if (stored) return 50;
   return 0;
 }
 function getReferralCodeForPayment() {
   const stored = localStorage.getItem(REFERRAL_KEY) || '';
   if (stored) return stored;
   if (currentReferrals && currentReferrals.active_referral_code) return currentReferrals.active_referral_code;
+  if (currentReferrals && currentReferrals.referred_by && currentReferrals.referred_by.referral_code) return currentReferrals.referred_by.referral_code;
+  if (currentReferrals && currentReferrals.referred_by && currentReferrals.referred_by.display_id) return `NAGH${currentReferrals.referred_by.display_id}`;
   return '';
 }
 function getDiscountedPrice(plan, period) {
@@ -2128,6 +2192,7 @@ function updateSelection() {
   const discount = getReferralDiscountPercent();
   document.querySelectorAll('[data-plan]').forEach(button => {
     button.classList.toggle('active', button.dataset.plan === selectedPlan);
+    button.classList.toggle('has-discount', Boolean(discount));
     const priceEl = button.querySelector('.choice-price');
     if (priceEl && button.dataset.plan) {
       priceEl.innerHTML = renderPriceHtml(button.dataset.plan, 'monthly', 'от ');
@@ -2156,7 +2221,7 @@ function updateSelection() {
   if (discountNotice) {
     if (discount) {
       discountNotice.classList.add('show');
-      discountNotice.textContent = `Реферальная скидка -${discount}% применится к первой оплате. Итоговая сумма будет передана в ЮKassa/OxaPay.`;
+      discountNotice.textContent = `Реферальная скидка применена. Цены ниже уже показаны с учётом скидки, платёж будет создан на новую сумму.`;
     } else {
       discountNotice.classList.remove('show');
       discountNotice.textContent = '';
@@ -2494,7 +2559,14 @@ if (applyReferralButton) applyReferralButton.addEventListener('click', async () 
       body: JSON.stringify({ referral_code: referralCode })
     });
     localStorage.setItem(REFERRAL_KEY, referralCode);
-    setStatus(referralModalStatus, 'ok', 'Реферальная скидка применена к аккаунту.');
+    currentReferrals = Object.assign({}, currentReferrals || {}, {
+      active_referral_code: referralCode,
+      active_discount_percent: 50,
+      discount_used_at: null,
+      referred_by: (currentReferrals && currentReferrals.referred_by) || { referral_code: referralCode }
+    });
+    updateSelection();
+    setStatus(referralModalStatus, 'ok', 'Реферальная скидка применена к аккаунту. Цены в оплате обновлены.');
     await loadDashboard();
     updateSelection();
     setTimeout(closeReferralModal, 700);
