@@ -1030,6 +1030,55 @@ table.data-table {
   .setup-actions .btn-ghost { width: 100%; }
 }
 
+
+/* round 4 setup page polish */
+.setup-choice-card {
+  min-height: 0 !important;
+  padding: 32px !important;
+  gap: 22px !important;
+}
+.setup-choice-top {
+  min-height: 74px !important;
+  align-items: center !important;
+}
+.setup-choice-card h2 {
+  margin-top: 0 !important;
+  max-width: none !important;
+  font-size: clamp(34px, 4vw, 46px) !important;
+}
+.setup-actions {
+  margin: 8px 0 0 !important;
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 14px !important;
+}
+.setup-actions .btn-main,
+.setup-actions .btn-ghost {
+  min-height: 58px !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  justify-content: center !important;
+  text-align: center !important;
+  padding-left: 14px !important;
+  padding-right: 14px !important;
+}
+.setup-steps {
+  margin-top: 18px !important;
+  display: grid !important;
+  grid-template-rows: repeat(4, minmax(106px, auto));
+  gap: 16px !important;
+}
+.setup-step {
+  min-height: 106px !important;
+  align-items: center !important;
+  padding: 18px !important;
+}
+.setup-step span { line-height: 1.5 !important; }
+@media (max-width: 560px) {
+  .setup-actions { grid-template-columns: 1fr !important; }
+  .setup-steps { grid-template-rows: none; }
+}
+
 </style>
 </head>
 <body>
@@ -1065,7 +1114,6 @@ table.data-table {
       <section class="setup-choice-card reveal reveal-d1">
         <div class="setup-choice-top">
           <div>
-            <div class="tag">Android</div>
             <h2 style="margin-top:14px">Android</h2>
           </div>
           <div class="setup-choice-icon" aria-hidden="true"><svg class="icon-svg" viewBox="0 0 24 24"><rect x="8" y="4" width="8" height="16" rx="2"/><path d="M11 17h2"/><path d="M7 8h10"/></svg></div>
@@ -1086,7 +1134,6 @@ table.data-table {
       <section class="setup-choice-card alt reveal reveal-d2">
         <div class="setup-choice-top">
           <div>
-            <div class="tag">iOS / ПК / другое</div>
             <h2 style="margin-top:14px">Happ</h2>
           </div>
           <div class="setup-choice-icon" aria-hidden="true"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/><path d="M7 3v18"/></svg></div>

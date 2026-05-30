@@ -1369,51 +1369,37 @@ table.data-table {
 }
 
 
-/* Referral modal and compact buttons */
+/* round 4 referral polish */
 .referral-actions {
   display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
   gap: 10px;
-  align-items: center;
-  justify-content: flex-end;
-  flex-wrap: wrap;
+  width: 260px;
+  max-width: 100%;
 }
 .connect-grid.referral-layout .connect-card .referral-actions .small-btn {
+  width: 100%;
   min-width: 0;
-  width: auto;
   min-height: 44px;
   padding: 10px 16px;
   margin-top: 0;
+  text-align: center;
+  justify-content: center;
 }
 .referral-copy-btn {
   background: linear-gradient(135deg, rgba(20,87,255,.26), rgba(0,229,255,.10));
   border-color: rgba(0,229,255,.22);
 }
-.referral-apply-btn {
-  color: var(--cyan);
-}
-.referral-modal-card {
-  max-width: 640px;
-}
-.modal-actions {
-  display: flex;
-  gap: 12px;
-  margin-top: 18px;
-}
+.referral-apply-btn { color: var(--cyan); }
+.referral-modal-card { max-width: 640px; margin-top: 18px; }
+.modal-actions { display: flex; gap: 12px; margin-top: 18px; }
 .modal-actions .btn-main,
-.modal-actions .btn-ghost {
-  justify-content: center;
-  min-height: 50px;
-}
+.modal-actions .btn-ghost { justify-content: center; min-height: 50px; }
 @media (max-width: 820px) {
-  .referral-actions {
-    justify-content: stretch;
-  }
-  .connect-grid.referral-layout .connect-card .referral-actions .small-btn {
-    width: 100%;
-  }
-  .modal-actions {
-    flex-direction: column;
-  }
+  .referral-actions { width: 100%; }
+  .modal-actions { flex-direction: column; }
 }
 
 </style>
@@ -1624,7 +1610,7 @@ table.data-table {
               </div>
               <div class="referral-actions">
                 <button class="small-btn referral-copy-btn" type="button" id="copy-referral-button" disabled>Скопировать ссылку</button>
-                <button class="small-btn referral-apply-btn" type="button" id="open-referral-modal-button">Ввести ссылку друга</button>
+                <button class="small-btn referral-apply-btn" type="button" id="open-referral-modal-button">Вставить ссылку</button>
               </div>
             </div>
             <div class="connect-card">
@@ -1655,15 +1641,15 @@ table.data-table {
   </div>
 </main>
 
-<div class="modal-overlay" id="referral-modal" aria-hidden="true">
-  <div class="modal-card referral-modal-card" role="dialog" aria-modal="true" aria-labelledby="referral-modal-title">
-    <div class="modal-head">
+<div class="payment-modal" id="referral-modal" aria-hidden="true">
+  <div class="payment-modal-card referral-modal-card" role="dialog" aria-modal="true" aria-labelledby="referral-modal-title">
+    <div class="payment-modal-head">
       <div>
         <div class="tag">Скидка</div>
-        <h2 id="referral-modal-title">Ввести реферальную ссылку</h2>
+        <h2 id="referral-modal-title" style="margin-top:12px">Ввести реферальную ссылку</h2>
         <p>Вставьте ссылку или код друга. Скидка 50% применится к первой оплате, если аккаунт ещё не использовал реферальную скидку.</p>
       </div>
-      <button class="modal-close" type="button" id="close-referral-modal-button">×</button>
+      <button class="payment-modal-close" type="button" id="close-referral-modal-button">×</button>
     </div>
     <div class="form-group">
       <label class="form-label" for="referral-code-input">Ссылка или код</label>
@@ -2166,7 +2152,22 @@ logoutButton.addEventListener('click', () => {
 });
 
 document.querySelectorAll('[data-plan]').forEach(button => {
-  button.addEventListener('click', () => { selectedPlan = button.dataset.plan; 
+  button.addEventListener('click', () => { selectedPlan = button.dataset.plan; updateSelection(); clearStatus(paymentStatus); });
+});
+document.querySelectorAll('[data-period]').forEach(button => {
+  button.addEventListener('click', () => { selectedPeriod = button.dataset.period; updateSelection(); clearStatus(paymentStatus); });
+});
+document.querySelectorAll('[data-payment-method]').forEach(button => {
+  button.addEventListener('click', () => { selectedPaymentMethod = button.dataset.paymentMethod; updateSelection(); clearStatus(paymentStatus); });
+});
+
+if (openPaymentModalButton) openPaymentModalButton.addEventListener('click', openPaymentModal);
+if (closePaymentModalButton) closePaymentModalButton.addEventListener('click', closePaymentModal);
+if (paymentModal) {
+  paymentModal.addEventListener('click', (event) => {
+    if (event.target === paymentModal) closePaymentModal();
+  });
+}
 if (openReferralModalButton) openReferralModalButton.addEventListener('click', openReferralModal);
 if (closeReferralModalButton) closeReferralModalButton.addEventListener('click', closeReferralModal);
 if (cancelReferralButton) cancelReferralButton.addEventListener('click', closeReferralModal);
@@ -2206,23 +2207,6 @@ if (applyReferralButton) applyReferralButton.addEventListener('click', async () 
   }
 });
 
-
-updateSelection(); clearStatus(paymentStatus); });
-});
-document.querySelectorAll('[data-period]').forEach(button => {
-  button.addEventListener('click', () => { selectedPeriod = button.dataset.period; updateSelection(); clearStatus(paymentStatus); });
-});
-document.querySelectorAll('[data-payment-method]').forEach(button => {
-  button.addEventListener('click', () => { selectedPaymentMethod = button.dataset.paymentMethod; updateSelection(); clearStatus(paymentStatus); });
-});
-
-if (openPaymentModalButton) openPaymentModalButton.addEventListener('click', openPaymentModal);
-if (closePaymentModalButton) closePaymentModalButton.addEventListener('click', closePaymentModal);
-if (paymentModal) {
-  paymentModal.addEventListener('click', (event) => {
-    if (event.target === paymentModal) closePaymentModal();
-  });
-}
 document.addEventListener('keydown', (event) => {
   if (event.key === 'Escape') { closePaymentModal(); closeReferralModal(); }
 });
