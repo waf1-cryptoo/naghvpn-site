@@ -1573,6 +1573,67 @@ table.data-table {
   #referral-modal.referral-modal-overlay{padding:14px !important;align-items:center !important;}
 }
 
+
+/* Referral discount price UI */
+.discount-notice {
+  display: none;
+  margin: 12px 0 18px;
+  padding: 13px 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(0,229,255,.24);
+  background: linear-gradient(135deg, rgba(0,229,255,.09), rgba(20,87,255,.08));
+  color: var(--white);
+  font-weight: 700;
+  line-height: 1.45;
+}
+.discount-notice.show { display: block; }
+.price-stack {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+.price-old {
+  color: rgba(255,255,255,.45);
+  text-decoration: line-through;
+  font-size: 13px;
+  font-weight: 700;
+}
+.price-new {
+  color: var(--cyan);
+  font-weight: 900;
+}
+.discount-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 8px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(0,229,255,.30);
+  background: rgba(0,229,255,.10);
+  color: var(--cyan);
+  font-size: 12px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+.summary-line.discount-line {
+  display: none;
+  color: var(--cyan);
+}
+.summary-line.discount-line.show { display: flex; }
+.summary-line strong.discounted-total {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+@media (max-width: 720px) {
+  .price-stack { align-items: flex-start; }
+  .choice-title .price-stack { align-items: flex-end; }
+  .discount-badge { margin-left: 0; margin-top: 6px; }
+}
+
 </style>
 </head>
 <body>
@@ -1692,6 +1753,7 @@ table.data-table {
           </div>
 
           <form id="payment-form" class="payment-form" style="margin-top:22px">
+            <div id="discount-notice" class="discount-notice"></div>
             <div class="form-group">
               <div class="form-label">Тариф</div>
               <div class="choice-grid" id="plan-choice">
@@ -1746,6 +1808,7 @@ table.data-table {
               <div class="summary-line"><span>Выбранный тариф</span><strong id="summary-plan">Plus</strong></div>
               <div class="summary-line"><span>Срок доступа</span><strong id="summary-period">1 месяц</strong></div>
               <div class="summary-line"><span>Способ оплаты</span><strong id="summary-method">ЮKassa</strong></div>
+              <div class="summary-line discount-line" id="summary-discount"><span>Реферальная скидка</span><strong>-50%</strong></div>
               <div class="summary-line"><span>К оплате</span><strong id="summary-price">299 ₽</strong></div>
             </div>
 
@@ -1936,6 +1999,8 @@ const referralDays = document.getElementById('referral-days');
 const openPaymentModalButton = document.getElementById('open-payment-modal');
 const closePaymentModalButton = document.getElementById('close-payment-modal');
 const paymentModal = document.getElementById('payment-modal');
+const discountNotice = document.getElementById('discount-notice');
+const summaryDiscount = document.getElementById('summary-discount');
 const referralModal = document.getElementById('referral-modal');
 const openReferralModalButton = document.getElementById('open-referral-modal-button');
 const closeReferralModalButton = document.getElementById('close-referral-modal-button');
@@ -2010,6 +2075,48 @@ function formatDateTime(value) {
   if (Number.isNaN(date.getTime())) return value;
   return date.toLocaleString('ru-RU', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
 }
+
+function rubToNumber(value) {
+  return Number(String(value || '').replace(/[^0-9,\.]/g, '').replace(',', '.')) || 0;
+}
+function formatRubValue(value) {
+  const amount = Math.round(Number(value || 0) * 100) / 100;
+  const hasKopecks = Math.abs(amount - Math.round(amount)) > 0.001;
+  return amount.toLocaleString('ru-RU', {
+    minimumFractionDigits: hasKopecks ? 2 : 0,
+    maximumFractionDigits: hasKopecks ? 2 : 0
+  }) + ' ₽';
+}
+function getReferralDiscountPercent() {
+  if (!currentReferrals) return 0;
+  if (currentReferrals.discount_used_at) return 0;
+  if (Number(currentReferrals.active_discount_percent || 0) > 0) return Number(currentReferrals.active_discount_percent || 0);
+  if (currentReferrals.referred_by) return Number(currentReferrals.discount_percent_for_friend || 50);
+  return 0;
+}
+function getReferralCodeForPayment() {
+  const stored = localStorage.getItem(REFERRAL_KEY) || '';
+  if (stored) return stored;
+  if (currentReferrals && currentReferrals.active_referral_code) return currentReferrals.active_referral_code;
+  return '';
+}
+function getDiscountedPrice(plan, period) {
+  const originalText = PRICES[plan][period].price;
+  const original = rubToNumber(originalText);
+  const discount = getReferralDiscountPercent();
+  const finalAmount = discount ? Math.round(original * (100 - discount)) / 100 : original;
+  return {
+    originalText,
+    finalText: formatRubValue(finalAmount),
+    discount
+  };
+}
+function renderPriceHtml(plan, period, prefix = '') {
+  const price = getDiscountedPrice(plan, period);
+  if (!price.discount) return `${prefix}${price.originalText}`;
+  return `<span class="price-stack"><span class="price-old">${prefix}${price.originalText}</span><span class="price-new">${prefix}${price.finalText}</span></span><span class="discount-badge">-${price.discount}%</span>`;
+}
+
 function getPaymentMethodLabel() { return selectedPaymentMethod === 'oxapay' ? 'OxaPay' : 'ЮKassa'; }
 function getPaymentEndpoint() {
   return selectedPaymentMethod === 'oxapay' ? `${API_BASE}/payments/oxapay/create` : `${API_BASE}/payments/create`;
@@ -2018,8 +2125,13 @@ function updatePayButtonText() {
   payButton.textContent = selectedPaymentMethod === 'oxapay' ? 'Оплатить криптовалютой' : 'Перейти к оплате';
 }
 function updateSelection() {
+  const discount = getReferralDiscountPercent();
   document.querySelectorAll('[data-plan]').forEach(button => {
     button.classList.toggle('active', button.dataset.plan === selectedPlan);
+    const priceEl = button.querySelector('.choice-price');
+    if (priceEl && button.dataset.plan) {
+      priceEl.innerHTML = renderPriceHtml(button.dataset.plan, 'monthly', 'от ');
+    }
   });
   document.querySelectorAll('[data-period]').forEach(button => {
     button.classList.toggle('active', button.dataset.period === selectedPeriod);
@@ -2029,12 +2141,27 @@ function updateSelection() {
   });
   document.querySelectorAll('[data-period-price]').forEach(el => {
     const period = el.dataset.periodPrice;
-    el.textContent = PRICES[selectedPlan][period].price;
+    el.innerHTML = renderPriceHtml(selectedPlan, period);
   });
+
+  const selectedPrice = getDiscountedPrice(selectedPlan, selectedPeriod);
   document.getElementById('summary-plan').textContent = PLAN_LABELS[selectedPlan] || 'Plus';
   document.getElementById('summary-period').textContent = PRICES[selectedPlan][selectedPeriod].label;
   document.getElementById('summary-method').textContent = getPaymentMethodLabel();
-  document.getElementById('summary-price').textContent = PRICES[selectedPlan][selectedPeriod].price;
+  document.getElementById('summary-price').innerHTML = selectedPrice.discount
+    ? `<span class="discounted-total"><span class="price-old">${selectedPrice.originalText}</span><span class="price-new">${selectedPrice.finalText}</span></span>`
+    : selectedPrice.originalText;
+
+  if (summaryDiscount) summaryDiscount.classList.toggle('show', Boolean(discount));
+  if (discountNotice) {
+    if (discount) {
+      discountNotice.classList.add('show');
+      discountNotice.textContent = `Реферальная скидка -${discount}% применится к первой оплате. Итоговая сумма будет передана в ЮKassa/OxaPay.`;
+    } else {
+      discountNotice.classList.remove('show');
+      discountNotice.textContent = '';
+    }
+  }
   updatePayButtonText();
 }
 async function api(path, options = {}) {
@@ -2366,9 +2493,10 @@ if (applyReferralButton) applyReferralButton.addEventListener('click', async () 
       method: 'POST',
       body: JSON.stringify({ referral_code: referralCode })
     });
-    localStorage.removeItem(REFERRAL_KEY);
+    localStorage.setItem(REFERRAL_KEY, referralCode);
     setStatus(referralModalStatus, 'ok', 'Реферальная скидка применена к аккаунту.');
     await loadDashboard();
+    updateSelection();
     setTimeout(closeReferralModal, 700);
   } catch (error) {
     setStatus(referralModalStatus, 'error', error.message || 'Не удалось применить реферальную ссылку.');
@@ -2391,7 +2519,7 @@ paymentForm.addEventListener('submit', async (event) => {
   try {
     const data = await apiAuthed(selectedPaymentMethod === 'oxapay' ? '/payments/oxapay/create' : '/payments/create', {
       method: 'POST',
-      body: JSON.stringify({ plan: selectedPlan, period: selectedPeriod, referral_code: localStorage.getItem(REFERRAL_KEY) || undefined })
+      body: JSON.stringify({ plan: selectedPlan, period: selectedPeriod, referral_code: getReferralCodeForPayment() || undefined })
     });
     const paymentUrl = data.payment_url || data.confirmation_url;
     if (!paymentUrl) throw new Error('Backend не вернул ссылку на оплату.');
