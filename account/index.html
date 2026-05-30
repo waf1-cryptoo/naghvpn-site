@@ -1939,7 +1939,7 @@ table.data-table {
       <div>
         <div class="tag">Скидка</div>
         <h2 id="referral-modal-title" style="margin-top:12px">Ввести реферальную ссылку</h2>
-        <p>Вставьте ссылку или код друга. Скидка 50% применится к первой оплате, если аккаунт ещё не использовал реферальную скидку.</p>
+        <p>Вставьте ссылку или код друга. Скидка 50% применяется только один раз — к первой оплате. После использования скидки вы всё равно можете делиться своей ссылкой и получать бонусные дни.</p>
       </div>
       <button class="payment-modal-close" type="button" id="close-referral-modal-button">×</button>
     </div>
@@ -2086,9 +2086,12 @@ function openReferralModal() {
   if (!referralModal) return;
   clearStatus(referralModalStatus);
   referralCodeInput.value = localStorage.getItem(REFERRAL_KEY) || '';
+  updateReferralModalState();
   referralModal.classList.add('show');
   referralModal.setAttribute('aria-hidden', 'false');
-  setTimeout(() => referralCodeInput.focus(), 50);
+  setTimeout(() => {
+    if (!referralCodeInput.disabled) referralCodeInput.focus();
+  }, 50);
 }
 function closeReferralModal() {
   if (!referralModal) return;
@@ -2146,24 +2149,49 @@ function formatRubValue(value) {
     maximumFractionDigits: hasKopecks ? 2 : 0
   }) + ' ₽';
 }
+function hasBackendReferralDiscount() {
+  // Скидка показывается и отправляется в оплату только когда backend подтвердил,
+  // что текущий пользователь сам пришёл по реферальной ссылке и ещё не использовал скидку.
+  return Boolean(
+    currentReferrals &&
+    currentReferrals.referred_by &&
+    !currentReferrals.discount_used_at
+  );
+}
 function getReferralDiscountPercent() {
-  const stored = localStorage.getItem(REFERRAL_KEY) || '';
-  if (currentReferrals && currentReferrals.discount_used_at) return 0;
-  if (currentReferrals && Number(currentReferrals.active_discount_percent || 0) > 0) return Number(currentReferrals.active_discount_percent || 0);
-  if (currentReferrals && currentReferrals.referred_by) return Number(currentReferrals.discount_percent_for_friend || 50);
-  // UX fallback: if the user has just pasted a referral link/code, show the discount immediately.
-  // The backend is still the source of truth and recalculates the final payment amount.
-  if (stored) return 50;
-  return 0;
+  if (!hasBackendReferralDiscount()) return 0;
+  return Number(currentReferrals.discount_percent_for_friend || currentReferrals.active_discount_percent || 50);
 }
 function getReferralCodeForPayment() {
-  const stored = localStorage.getItem(REFERRAL_KEY) || '';
-  if (stored) return stored;
-  if (currentReferrals && currentReferrals.active_referral_code) return currentReferrals.active_referral_code;
-  if (currentReferrals && currentReferrals.referred_by && currentReferrals.referred_by.referral_code) return currentReferrals.referred_by.referral_code;
-  if (currentReferrals && currentReferrals.referred_by && currentReferrals.referred_by.display_id) return `NAGH${currentReferrals.referred_by.display_id}`;
+  if (!hasBackendReferralDiscount()) return '';
+  if (currentReferrals.referred_by && currentReferrals.referred_by.display_id) {
+    return `NAGH${currentReferrals.referred_by.display_id}`;
+  }
+  if (currentReferrals.active_referral_code) return currentReferrals.active_referral_code;
   return '';
 }
+
+function hasUsedReferralDiscount() {
+  return Boolean(currentReferrals && currentReferrals.referred_by && currentReferrals.discount_used_at);
+}
+function updateReferralModalState() {
+  if (!referralModal || !referralCodeInput || !applyReferralButton || !referralModalStatus) return;
+  clearStatus(referralModalStatus);
+
+  if (hasUsedReferralDiscount()) {
+    referralCodeInput.value = '';
+    referralCodeInput.disabled = true;
+    applyReferralButton.disabled = true;
+    applyReferralButton.textContent = 'Скидка уже использована';
+    setStatus(referralModalStatus, 'error', 'Вы уже воспользовались реферальной скидкой. Повторно применить ссылку нельзя, но вы можете делиться своей ссылкой и получать бонусные дни.');
+    return;
+  }
+
+  referralCodeInput.disabled = false;
+  applyReferralButton.disabled = false;
+  applyReferralButton.textContent = 'Применить скидку';
+}
+
 function getDiscountedPrice(plan, period) {
   const originalText = PRICES[plan][period].price;
   const original = rubToNumber(originalText);
@@ -2221,7 +2249,7 @@ function updateSelection() {
   if (discountNotice) {
     if (discount) {
       discountNotice.classList.add('show');
-      discountNotice.textContent = `Реферальная скидка применена. Цены ниже уже показаны с учётом скидки, платёж будет создан на новую сумму.`;
+      discountNotice.textContent = `Реферальная скидка подтверждена аккаунтом. Цены ниже уже показаны с учётом скидки, платёж будет создан на новую сумму.`;
     } else {
       discountNotice.classList.remove('show');
       discountNotice.textContent = '';
@@ -2253,6 +2281,9 @@ async function loadDashboard() {
       localStorage.removeItem(REFERRAL_KEY);
     } catch (error) {
       console.warn('Не удалось применить реферальный код', error);
+      // Не держим старый ref-код в браузере бесконечно:
+      // скидку всё равно можно показывать только после подтверждения backend через /referrals/me.
+      localStorage.removeItem(REFERRAL_KEY);
     }
   }
   const profile = await apiAuthed('/auth/me');
@@ -2290,6 +2321,7 @@ async function loadDashboard() {
   currentHappSubscriptions = happSubscriptions;
   currentReferrals = referrals;
   renderDashboard(profile, devices, happSubscriptions, referrals);
+  updateReferralModalState();
   hide(authSection);
   show(dashboardSection);
 }
@@ -2506,6 +2538,8 @@ verifyCodeForm.addEventListener('submit', async (event) => {
 
 logoutButton.addEventListener('click', () => {
   localStorage.removeItem(TOKEN_KEY);
+  localStorage.removeItem(REFERRAL_KEY);
+  currentReferrals = null;
   hide(dashboardSection);
   show(authSection);
   clearStatus(authStatus);
@@ -2541,6 +2575,10 @@ if (referralModal) {
 }
 if (applyReferralButton) applyReferralButton.addEventListener('click', async () => {
   clearStatus(referralModalStatus);
+  if (hasUsedReferralDiscount()) {
+    updateReferralModalState();
+    return;
+  }
   const referralCode = extractReferralCode(referralCodeInput.value);
   if (!referralCode) {
     setStatus(referralModalStatus, 'error', 'Вставьте реферальную ссылку или код.');
@@ -2558,15 +2596,8 @@ if (applyReferralButton) applyReferralButton.addEventListener('click', async () 
       method: 'POST',
       body: JSON.stringify({ referral_code: referralCode })
     });
-    localStorage.setItem(REFERRAL_KEY, referralCode);
-    currentReferrals = Object.assign({}, currentReferrals || {}, {
-      active_referral_code: referralCode,
-      active_discount_percent: 50,
-      discount_used_at: null,
-      referred_by: (currentReferrals && currentReferrals.referred_by) || { referral_code: referralCode }
-    });
-    updateSelection();
-    setStatus(referralModalStatus, 'ok', 'Реферальная скидка применена к аккаунту. Цены в оплате обновлены.');
+    localStorage.removeItem(REFERRAL_KEY);
+    setStatus(referralModalStatus, 'ok', 'Реферальная скидка применена к аккаунту. Загружаем актуальные цены...');
     await loadDashboard();
     updateSelection();
     setTimeout(closeReferralModal, 700);
