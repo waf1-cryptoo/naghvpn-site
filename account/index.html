@@ -1692,6 +1692,11 @@ table.data-table {
   .discount-notice.show { align-items: flex-start !important; }
 }
 
+
+.referral-modal-card .hidden {
+  display: none !important;
+}
+
 </style>
 </head>
 <body>
@@ -2182,14 +2187,17 @@ function updateReferralModalState() {
     referralCodeInput.value = '';
     referralCodeInput.disabled = true;
     applyReferralButton.disabled = true;
-    applyReferralButton.textContent = 'Скидка уже использована';
+    applyReferralButton.classList.add('hidden');
+    if (cancelReferralButton) cancelReferralButton.textContent = 'Выйти';
     setStatus(referralModalStatus, 'error', 'Вы уже воспользовались реферальной скидкой. Повторно применить ссылку нельзя, но вы можете делиться своей ссылкой и получать бонусные дни.');
     return;
   }
 
   referralCodeInput.disabled = false;
   applyReferralButton.disabled = false;
+  applyReferralButton.classList.remove('hidden');
   applyReferralButton.textContent = 'Применить скидку';
+  if (cancelReferralButton) cancelReferralButton.textContent = 'Отмена';
 }
 
 function getDiscountedPrice(plan, period) {
