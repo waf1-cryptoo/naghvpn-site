@@ -690,18 +690,36 @@ table.data-table {
 .docs-clean-list{
   display:grid !important;
   grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:0 28px;
+  column-gap:28px;
+  row-gap:0;
   margin-top:16px !important;
+  list-style:none !important;
 }
 .docs-clean-list li{
-  min-height:48px;
+  min-height:50px;
   display:flex !important;
   align-items:center !important;
   border-bottom:1px solid rgba(255,255,255,.07) !important;
-  padding:13px 0 !important;
+  padding:13px 0 13px 34px !important;
+  position:relative !important;
+  line-height:1.35 !important;
 }
-.docs-clean-list li::before{top:auto !important;transform:none !important;}
-.docs-clean-list a{line-height:1.35;}
+.docs-clean-list li::before{
+  content:'✓' !important;
+  position:absolute !important;
+  left:2px !important;
+  top:50% !important;
+  transform:translateY(-50%) !important;
+  width:18px !important;
+  color:var(--cyan) !important;
+  font-weight:900 !important;
+  line-height:1 !important;
+}
+.docs-clean-list a{
+  display:block !important;
+  line-height:1.35 !important;
+  padding-left:0 !important;
+}
 @media (max-width:720px){.docs-clean-list{grid-template-columns:1fr;}}
 
 </style>
