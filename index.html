@@ -837,6 +837,16 @@ footer {
   .hc-payments{font-size:14px;}
 }
 
+
+/* FINAL status card overflow fix */
+.hero-card{overflow:visible !important;}
+.hero-card .hc-row{grid-template-columns:minmax(108px,.85fr) minmax(0,1.15fr) !important; gap:14px !important;}
+.hero-card .hc-key{max-width:none !important; min-width:0 !important;}
+.hero-card .hc-val{max-width:none !important; min-width:0 !important; overflow:visible !important; overflow-wrap:normal !important; word-break:normal !important;}
+.hero-card .hc-payments{font-size:13px !important; line-height:1.35 !important; white-space:normal !important; text-align:right !important;}
+@media (min-width:961px) and (max-width:1240px){.hero-card .hc-payments{font-size:12.5px !important;}}
+@media (max-width:640px){.hero-card .hc-row{grid-template-columns:1fr !important; gap:7px !important;}.hero-card .hc-val{text-align:left !important; justify-self:start !important;}.hero-card .hc-payments{text-align:left !important;}}
+
 </style>
 </head>
 <body>
@@ -926,7 +936,7 @@ footer {
         </div>
         <div class="hc-row">
           <span class="hc-key">Оплата</span>
-          <span class="hc-val hc-payments">СБП · VISA / MasterCard · МИР · Криптовалюта</span>
+          <span class="hc-val hc-payments">СБП<br>Visa / MasterCard / МИР<br>Криптовалюта</span>
         </div>
         <div class="hc-row">
           <span class="hc-key">No-Log</span>
