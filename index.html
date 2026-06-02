@@ -847,6 +847,13 @@ footer {
 @media (min-width:961px) and (max-width:1240px){.hero-card .hc-payments{font-size:12.5px !important;}}
 @media (max-width:640px){.hero-card .hc-row{grid-template-columns:1fr !important; gap:7px !important;}.hero-card .hc-val{text-align:left !important; justify-self:start !important;}.hero-card .hc-payments{text-align:left !important;}}
 
+
+/* FINAL micro polish for service status card */
+.hero-card .hc-pill{justify-self:end !important; align-self:center !important; width:auto !important; min-width:0 !important; max-width:max-content !important; padding:5px 12px !important; line-height:1 !important; white-space:nowrap !important;}
+.hero-card .hc-pill.online{padding:5px 12px !important;}
+.hero-card .hc-payments{font-size:12.5px !important; line-height:1.32 !important;}
+@media (max-width:640px){.hero-card .hc-pill{justify-self:start !important;}}
+
 </style>
 </head>
 <body>
@@ -936,7 +943,7 @@ footer {
         </div>
         <div class="hc-row">
           <span class="hc-key">Оплата</span>
-          <span class="hc-val hc-payments">СБП<br>Visa / MasterCard / МИР<br>Криптовалюта</span>
+          <span class="hc-val hc-payments">СБП<br>Банковские карты<br>Криптовалюта</span>
         </div>
         <div class="hc-row">
           <span class="hc-key">No-Log</span>
