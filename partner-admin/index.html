@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>NaghVPN — партнёр service</title>
+  <style>
+    body{font-family:Arial,sans-serif;background:#07111d;color:#f3f7ff;margin:0;padding:32px;line-height:1.5}
+    .wrap{max-width:980px;margin:0 auto}.card{background:#111b2c;border:1px solid #263653;border-radius:18px;padding:22px;margin:18px 0}
+    input,textarea{width:100%;box-sizing:border-box;background:#07111d;border:1px solid #42506b;border-radius:12px;color:#fff;padding:12px;margin:8px 0 14px}
+    button{background:#145cff;color:#fff;border:0;border-radius:12px;padding:12px 18px;font-weight:700;cursor:pointer}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+    .stat{background:#07111d;border-radius:14px;padding:14px}.stat span{display:block;color:#9eadc2;font-size:13px}.stat strong{font-size:24px}.muted{color:#9eadc2}.ok{color:#3df6c8}.err{color:#ff6f7a}
+    table{width:100%;border-collapse:collapse;margin-top:14px}td,th{border-bottom:1px solid #263653;padding:10px;text-align:left;font-size:14px}a{color:#33e8ff}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Партнёрская программа NaghVPN</h1>
+  <p class="muted">Партнёр: <b>service</b>. Ссылка: <a href="/p/service/">https://naghvpn.ru/p/service/</a>. QR: <a href="/partners/service_qr.png">скачать</a>.</p>
+  <div class="card">
+    <label>ADMIN_API_KEY</label>
+    <input id="token" type="password" placeholder="Вставьте admin token">
+    <button onclick="loadPartner()">Загрузить статистику</button>
+    <span id="status" class="muted"></span>
+  </div>
+  <div class="card" id="summary"></div>
+  <div class="card">
+    <h2>Отметить выплату</h2>
+    <label>Сумма выплаты</label>
+    <input id="payoutAmount" inputmode="decimal" placeholder="Например: 500">
+    <label>Комментарий</label>
+    <textarea id="payoutNote" rows="2" placeholder="Например: перевод за май"></textarea>
+    <button onclick="createPayout()">Выплатить</button>
+  </div>
+  <div class="card"><h2>Начисления</h2><div id="commissions"></div></div>
+  <div class="card"><h2>Выплаты</h2><div id="payouts"></div></div>
+</div>
+<script>
+const API='https://api.naghvpn.ru';
+function token(){return document.getElementById('token').value.trim()}
+function money(v){return Number(v||0).toLocaleString('ru-RU',{minimumFractionDigits:2,maximumFractionDigits:2})+' ₽'}
+async function api(path, opts={}){const r=await fetch(API+path,{...opts,headers:{'Content-Type':'application/json','X-Admin-Token':token(),...(opts.headers||{})}});const d=await r.json().catch(()=>({}));if(!r.ok)throw new Error(d.detail||'Ошибка API');return d}
+function render(data){const p=data.partner;document.getElementById('summary').innerHTML=`<h2>${p.name}</h2><div class="grid"><div class="stat"><span>Регистрации</span><strong>${p.registrations}</strong></div><div class="stat"><span>Оплаты</span><strong>${p.paid_users}</strong></div><div class="stat"><span>Начислено</span><strong>${money(p.commission_total)}</strong></div><div class="stat"><span>К выплате</span><strong>${money(p.balance_to_pay)}</strong></div></div><p class="muted">Клиенту скидка ${p.discount_percent}%. Партнёру ${p.commission_percent}% от первой успешной оплаты.</p>`;
+let cs=data.commissions||[];document.getElementById('commissions').innerHTML=cs.length?`<table><tr><th>Дата</th><th>User</th><th>Оплата</th><th>Комиссия</th></tr>${cs.map(x=>`<tr><td>${x.created_at||''}</td><td>${x.user_id}</td><td>${money(x.amount_paid)}</td><td>${money(x.commission_amount)}</td></tr>`).join('')}</table>`:'<p class="muted">Начислений пока нет.</p>';
+let ps=data.payouts||[];document.getElementById('payouts').innerHTML=ps.length?`<table><tr><th>Дата</th><th>Сумма</th><th>Комментарий</th></tr>${ps.map(x=>`<tr><td>${x.created_at||''}</td><td>${money(x.amount)}</td><td>${x.note||''}</td></tr>`).join('')}</table>`:'<p class="muted">Выплат пока нет.</p>'}
+async function loadPartner(){try{document.getElementById('status').textContent=' Загрузка...';render(await api('/admin/partners/service'));document.getElementById('status').textContent=' Готово'}catch(e){document.getElementById('status').textContent=' '+e.message;document.getElementById('status').className='err'}}
+async function createPayout(){try{const amount=Number(String(document.getElementById('payoutAmount').value).replace(',','.'));const note=document.getElementById('payoutNote').value;await api('/admin/partners/service/payouts',{method:'POST',body:JSON.stringify({amount,note})});document.getElementById('payoutAmount').value='';document.getElementById('payoutNote').value='';await loadPartner()}catch(e){alert(e.message)}}
+</script>
+</body>
+</html>

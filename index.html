@@ -823,6 +823,20 @@ footer {
   .plan-price{font-size:52px !important;}
 }
 
+
+/* Partner/referral + service card polish */
+.hc-head{justify-content:flex-start !important;}
+.hc-head .eyebrow{margin-bottom:0;}
+.hc-key{max-width:44%;}
+.hc-val{max-width:56%;}
+.hc-payments{white-space:normal; line-height:1.35; text-align:right;}
+@media (max-width:640px){
+  .hc-row{align-items:flex-start;}
+  .hc-key{max-width:42%;}
+  .hc-val{max-width:58%;}
+  .hc-payments{font-size:14px;}
+}
+
 </style>
 </head>
 <body>
@@ -893,10 +907,9 @@ footer {
       <div class="hero-card">
         <div class="hc-head">
           <div class="hc-title">Статус сервиса</div>
-          <span class="hc-pill live">LIVE</span>
         </div>
         <div class="hc-row">
-          <span class="hc-key">Статус</span>
+          <span class="hc-key">Статус сервиса</span>
           <span class="hc-pill online">Работает</span>
         </div>
         <div class="hc-row">
@@ -913,7 +926,7 @@ footer {
         </div>
         <div class="hc-row">
           <span class="hc-key">Оплата</span>
-          <span class="hc-val">ЮKassa · OxaPay</span>
+          <span class="hc-val hc-payments">СБП · VISA / MasterCard · МИР · Криптовалюта</span>
         </div>
         <div class="hc-row">
           <span class="hc-key">No-Log</span>
