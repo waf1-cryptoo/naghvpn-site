@@ -798,7 +798,16 @@ table.data-table {
 }
 
 
-/* Account cabinet additions */.hidden { display: none !important; }.account-panel-grid { display:grid; grid-template-columns: 1fr 1fr; gap:22px; align-items:start; }.account-panel-grid.three { grid-template-columns: repeat(3,1fr); }.profile-card { background: var(--glass); border:1px solid var(--border); border-radius:22px; padding:20px; }.profile-label { color: var(--off); font-size:14px; margin-bottom:8px; line-height:1.5; }.profile-value { color: var(--white); font-weight:700; font-size:18px; line-height:1.45; word-break:break-word; }.profile-value.small { font-size:18px; font-weight:700; line-height:1.45; color:var(--white); word-break:break-word; }.device-list { display:grid; gap:12px; margin-top:16px; }.device-item { background:rgba(255,255,255,.045); border:1px solid var(--border); border-radius:18px; padding:16px; }.device-head { display:flex; justify-content:space-between; gap:14px; align-items:flex-start; }.device-title { font-weight:800; color:var(--white); }.device-meta { color:var(--off); font-size:13px; margin-top:5px; line-height:1.5; }.device-actions { display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }.small-btn { border:1px solid var(--border); background:rgba(255,255,255,.06); color:var(--white); border-radius:12px; padding:9px 12px; cursor:pointer; font-weight:700; font-size:13px; text-decoration:none; }.small-btn:hover { border-color:rgba(0,229,255,.35); }.small-btn.danger { border-color:rgba(255,70,70,.28); color:#ffd6d6; }.code-box { background:rgba(0,0,0,.28); border:1px solid var(--border); border-radius:16px; padding:14px; color:var(--white); font-size:13px; line-height:1.5; word-break:break-all; white-space:pre-wrap; }.happ-subscriptions-box {
+/* Account cabinet additions */.hidden { display: none !important; }.account-panel-grid { display:grid; grid-template-columns: 1fr 1fr; gap:22px; align-items:start; }.account-panel-grid.three { grid-template-columns: repeat(3,1fr); }.profile-card { background: var(--glass); border:1px solid var(--border); border-radius:22px; padding:20px; }.profile-label { color: var(--off); font-size:14px; margin-bottom:8px; line-height:1.5; }.profile-value { color: var(--white); font-weight:700; font-size:18px; line-height:1.45; word-break:break-word; }.profile-value.small { font-size:18px; font-weight:700; line-height:1.45; color:var(--white); word-break:break-word; }.device-list { display:grid; gap:12px; margin-top:16px; }.device-item { background:rgba(255,255,255,.045); border:1px solid var(--border); border-radius:18px; padding:16px; }.device-head { display:flex; justify-content:space-between; gap:14px; align-items:flex-start; }.device-title { font-weight:800; color:var(--white); }.device-meta { color:var(--off); font-size:13px; margin-top:5px; line-height:1.5; }.device-actions { display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }.small-btn { border:1px solid var(--border); background:rgba(255,255,255,.06); color:var(--white); border-radius:12px; padding:9px 12px; cursor:pointer; font-weight:700; font-size:13px; text-decoration:none; }.small-btn:hover { border-color:rgba(0,229,255,.35); }.small-btn.danger { border-color:rgba(255,70,70,.28); color:#ffd6d6; }.code-box { background:rgba(0,0,0,.28); border:1px solid var(--border); border-radius:16px; padding:14px; color:var(--white); font-size:13px; line-height:1.5; word-break:break-all; white-space:pre-wrap; }
+.happ-qr-wrap{margin-top:14px;}
+.happ-qr-card{display:grid;grid-template-columns:minmax(180px,220px) 1fr;gap:18px;align-items:center;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:16px;padding:16px;}
+.happ-qr-canvas-wrap{display:flex;justify-content:center;align-items:center;}
+.happ-qr-canvas{width:220px;height:220px;max-width:100%;background:#fff;border-radius:14px;padding:10px;box-sizing:border-box;box-shadow:0 10px 30px rgba(0,0,0,.18);}
+.happ-qr-note{color:var(--white);font-weight:700;line-height:1.5;}
+.happ-qr-subnote{margin-top:8px;color:var(--off);font-size:14px;line-height:1.6;}
+.happ-qr-url{margin-top:10px;font-size:13px;line-height:1.6;color:#8ff4ff;word-break:break-all;}
+@media (max-width: 720px){.happ-qr-card{grid-template-columns:1fr;}.happ-qr-canvas{width:200px;height:200px;margin:0 auto;}}
+.happ-subscriptions-box {
   background:rgba(255,255,255,.035);
   border:1px solid var(--border);
   border-radius:18px;
@@ -1706,6 +1715,7 @@ table.data-table {
 </footer>
 
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
@@ -2205,6 +2215,19 @@ function renderHappSubscriptions(subscriptions) {
       </div>
       <div class="device-actions">
         <button class="small-btn" type="button" data-copy="${escapeAttr(item.subscription_url || '')}">Скопировать ссылку на подписку</button>
+        <button class="small-btn" type="button" data-show-happ-qr="${escapeAttr(item.subscription_url || '')}">Добавить через QR-код</button>
+      </div>
+      <div class="happ-qr-wrap hidden" data-happ-qr-wrap>
+        <div class="happ-qr-card">
+          <div class="happ-qr-canvas-wrap">
+            <canvas class="happ-qr-canvas" data-happ-qr-canvas width="220" height="220"></canvas>
+          </div>
+          <div>
+            <div class="happ-qr-note">Отсканируйте QR-код в Happ</div>
+            <div class="happ-qr-subnote">Откройте в Happ: <strong>Подписки → Добавить → Сканировать QR-код</strong>.</div>
+            <div class="happ-qr-url">${escapeHtml(item.subscription_url || '')}</div>
+          </div>
+        </div>
       </div>
     </div>
   `;
@@ -2213,6 +2236,21 @@ function escapeHtml(value) {
   return String(value).replace(/[&<>'"]/g, ch => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', "'":'&#39;', '"':'&quot;' }[ch]));
 }
 function escapeAttr(value) { return escapeHtml(value).replace(/`/g, '&#96;'); }
+function renderHappQr(canvas, text) {
+  if (!canvas || !text) return;
+  if (window.QRious) {
+    new QRious({
+      element: canvas,
+      value: text,
+      size: 220,
+      level: 'M',
+      background: 'white',
+      foreground: '#111827'
+    });
+    return;
+  }
+  throw new Error('QR library not loaded');
+}
 async function copyText(value) {
   await navigator.clipboard.writeText(value);
   setStatus(connectStatus, 'ok', 'Скопировано в буфер обмена.');
@@ -2444,8 +2482,30 @@ deviceList.addEventListener('click', async (event) => {
 if (happSubscriptionList) {
   happSubscriptionList.addEventListener('click', async (event) => {
     const copyButton = event.target.closest('[data-copy]');
+    const qrButton = event.target.closest('[data-show-happ-qr]');
     if (copyButton) {
       await copyText(copyButton.dataset.copy);
+      return;
+    }
+    if (qrButton) {
+      const card = qrButton.closest('.device-item');
+      const wrap = card ? card.querySelector('[data-happ-qr-wrap]') : null;
+      const canvas = wrap ? wrap.querySelector('[data-happ-qr-canvas]') : null;
+      if (!wrap || !canvas) return;
+      const isHidden = wrap.classList.contains('hidden');
+      if (!isHidden) {
+        wrap.classList.add('hidden');
+        qrButton.textContent = 'Добавить через QR-код';
+        return;
+      }
+      try {
+        renderHappQr(canvas, qrButton.dataset.showHappQr || '');
+        wrap.classList.remove('hidden');
+        qrButton.textContent = 'Скрыть QR-код';
+        setStatus(connectStatus, 'ok', 'QR-код готов. Отсканируйте его в Happ: Подписки → Добавить → Сканировать QR-код.');
+      } catch (error) {
+        setStatus(connectStatus, 'error', 'Не удалось построить QR-код. Попробуйте обновить страницу или используйте копирование ссылки.');
+      }
     }
   });
 }
