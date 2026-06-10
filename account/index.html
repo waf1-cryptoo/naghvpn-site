@@ -817,7 +817,37 @@ table.data-table {
   font-size:15px;
   line-height:1.65;
   margin-bottom:14px;
-}.subscription-url {
+}
+.add-device-placeholder{
+  margin-top:28px;
+  min-height:116px;
+  border:1px dashed rgba(255,255,255,.18);
+  border-radius:24px;
+  background:linear-gradient(180deg, rgba(255,255,255,.025), rgba(255,255,255,.01));
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  text-align:center;
+}.add-device-button{
+  width:86px;
+  height:86px;
+  border-radius:50%;
+  border:1px solid rgba(0,229,255,.35);
+  background:linear-gradient(135deg, rgba(20,87,255,.95), rgba(0,229,255,.32));
+  color:var(--white);
+  box-shadow:0 18px 42px rgba(20,87,255,.24), var(--glow-blue);
+  cursor:pointer;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:2px;
+  font-weight:900;
+  font-size:12px;
+}.add-device-button:hover{transform:translateY(-1px);border-color:rgba(0,229,255,.65);}.add-device-plus{font-size:42px;line-height:.8;font-weight:800;}.add-device-hint{color:var(--off);font-size:13px;}.add-device-options{margin-top:18px;background:rgba(255,255,255,.035);border:1px solid var(--border);border-radius:22px;padding:18px;}.add-device-options-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:16px;}.add-device-options-head h3{font-family:'Cabinet Grotesk',sans-serif;font-size:24px;margin:0 0 8px;}.add-device-options-head p{color:var(--off);font-size:14px;line-height:1.6;margin:0;}.add-device-methods{grid-template-columns:minmax(240px,.8fr) minmax(320px,1.2fr);}.add-device-method-card{min-height:180px;}.add-device-method-wide{min-height:180px;}.compact-device-list{margin-top:10px;}.compact-device-list .device-item{padding:14px;}.compact-device-list .subscription-url{font-size:12px;}@media (max-width:720px){.add-device-options-head{flex-direction:column;}.add-device-button{width:78px;height:78px}.add-device-plus{font-size:38px;}}
+.subscription-url {
   color:var(--cyan);
   word-break:break-all;
   font-size:13px;
@@ -1617,58 +1647,50 @@ table.data-table {
         </div>
       </div>
 
-      <div class="account-panel-grid" style="margin-top:22px">
-        <div class="content-card note-card connect-panel">
-          <h2>Подключить устройство</h2>
+      <div class="content-card note-card device-management-card" style="margin-top:22px">
+        <h2>Устройства</h2>
+        <div id="device-list" class="device-list"></div>
 
-          <div class="connect-grid referral-layout" style="margin-top:18px">
-            <div class="connect-card">
-              <div>
-                <h3>В приложении</h3>
-                <p>Установите NaghVPN на Android и войдите по той же почте. Подписка подтянется в аккаунт.</p>
-              </div>
-              <a class="small-btn" href="/setup/" id="android-download-link">Скачать Android</a>
+        <div class="add-device-placeholder" id="add-device-placeholder">
+          <button class="add-device-button" type="button" id="add-device-button" aria-expanded="false" aria-controls="add-device-options">
+            <span class="add-device-plus">+</span>
+            <span>Добавить устройство</span>
+          </button>
+          <div class="add-device-hint">Нажмите плюс, чтобы выбрать способ подключения.</div>
+        </div>
+
+        <div class="add-device-options hidden" id="add-device-options">
+          <div class="add-device-options-head">
+            <div>
+              <h3>Выберите способ подключения</h3>
+              <p>Можно создать короткий код, скопировать ссылку подписки Happ или открыть QR-код для сканирования.</p>
             </div>
-            <div class="connect-card referral-card" id="referral-card">
+            <button class="small-btn" type="button" id="close-add-device-options">Скрыть</button>
+          </div>
+
+          <div class="connect-grid add-device-methods">
+            <div class="connect-card add-device-method-card">
               <div>
-                <h3>Пригласить друга</h3>
-                <p id="referral-description">Друг получает скидку 50% на первую оплату, а вы получаете +30 дней Premium после его оплаты.</p>
-                <div id="referral-link-line" class="referral-link-line hidden"></div>
-                <div id="referral-muted" class="referral-muted">Реферальная ссылка доступна пользователям с активной подпиской.</div>
-                <div class="referral-stats hidden" id="referral-stats">
-                  <div class="referral-stat"><span>Приглашено</span><strong id="referral-invited">0</strong></div>
-                  <div class="referral-stat"><span>Оплатили</span><strong id="referral-paid">0</strong></div>
-                  <div class="referral-stat"><span>Бонусы</span><strong id="referral-days">0 дн.</strong></div>
-                </div>
-              </div>
-              <div class="referral-actions">
-                <button class="small-btn referral-copy-btn" type="button" id="copy-referral-button" disabled>Скопировать ссылку</button>
-                <button class="small-btn referral-apply-btn" type="button" id="open-referral-modal-button">Вставить ссылку</button>
-              </div>
-            </div>
-            <div class="connect-card">
-              <div>
-                <h3>Код подключения</h3>
-                <p>Код действует 10 минут и позволяет добавить устройство к подписке. Доступно на любом активном тарифе при наличии свободного слота.</p>
+                <h3>Код</h3>
+                <p>Код действует 10 минут и позволяет добавить устройство к подписке при наличии свободного слота.</p>
               </div>
               <button class="small-btn" type="button" id="create-code-button">Создать код</button>
+            </div>
+
+            <div class="connect-card add-device-method-card add-device-method-wide">
+              <div>
+                <h3>Ссылка на подписку Happ</h3>
+                <p>Скопируйте ссылку и добавьте её в Happ: <strong>Подписки → Добавить → URL</strong>.</p>
+              </div>
+              <div id="happ-subscription-list" class="device-list compact-device-list"></div>
             </div>
           </div>
 
           <div id="connect-status" class="status-message" style="margin-top:16px"></div>
           <div id="generated-config" class="code-box hidden" style="margin-top:16px"></div>
-
-          <div class="happ-subscriptions-box" style="margin-top:18px">
-            <p class="happ-subscriptions-note">Скопируйте ссылку подписки и добавьте её в Happ: <strong>Подписки → Добавить → URL</strong>.</p>
-            <div id="happ-subscription-list" class="device-list"></div>
-          </div>
         </div>
       </div>
 
-      <div class="content-card note-card" style="margin-top:22px">
-        <h2>Устройства</h2>
-        <div id="device-list" class="device-list"></div>
-      </div>
     </section>
 
   </div>
@@ -1788,6 +1810,9 @@ const deviceList = document.getElementById('device-list');
 const happSubscriptionList = document.getElementById('happ-subscription-list');
 const createHappButton = document.getElementById('create-happ-button');
 const createCodeButton = document.getElementById('create-code-button');
+const addDeviceButton = document.getElementById('add-device-button');
+const addDeviceOptions = document.getElementById('add-device-options');
+const closeAddDeviceOptionsButton = document.getElementById('close-add-device-options');
 const copyReferralButton = document.getElementById('copy-referral-button');
 const referralLinkLine = document.getElementById('referral-link-line');
 const referralMuted = document.getElementById('referral-muted');
@@ -2439,6 +2464,32 @@ if (createHappButton) createHappButton.addEventListener('click', async () => {
     setStatus(connectStatus, 'error', 'Не удалось скопировать ссылку. Скопируйте её из блока ниже вручную.');
   }
 });
+
+
+function openAddDeviceOptions() {
+  if (!addDeviceOptions || !addDeviceButton) return;
+  addDeviceOptions.classList.remove('hidden');
+  addDeviceButton.setAttribute('aria-expanded', 'true');
+  addDeviceOptions.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function closeAddDeviceOptions() {
+  if (!addDeviceOptions || !addDeviceButton) return;
+  addDeviceOptions.classList.add('hidden');
+  addDeviceButton.setAttribute('aria-expanded', 'false');
+}
+
+if (addDeviceButton) {
+  addDeviceButton.addEventListener('click', () => {
+    if (!addDeviceOptions) return;
+    if (addDeviceOptions.classList.contains('hidden')) openAddDeviceOptions();
+    else closeAddDeviceOptions();
+  });
+}
+
+if (closeAddDeviceOptionsButton) {
+  closeAddDeviceOptionsButton.addEventListener('click', closeAddDeviceOptions);
+}
 
 createCodeButton.addEventListener('click', async () => {
   clearStatus(connectStatus);
