@@ -1928,6 +1928,30 @@ table.data-table {
   }
 }
 
+
+
+/* R11: make the left add-device button the same size as Happ buttons */
+#dashboard-section .add-device-options .connect-card,
+.add-device-options .connect-card{
+  align-items:stretch !important;
+}
+#dashboard-section .add-device-options .connect-card > .small-btn,
+#dashboard-section .add-device-options .device-actions,
+#dashboard-section .add-device-options .device-actions .small-btn,
+.add-device-options .connect-card > .small-btn,
+.add-device-options .device-actions,
+.add-device-options .device-actions .small-btn{
+  width:calc(100% - 40px) !important;
+  max-width:calc(100% - 40px) !important;
+  min-width:0 !important;
+  margin-left:auto !important;
+  margin-right:auto !important;
+}
+#dashboard-section .add-device-options .device-actions,
+.add-device-options .device-actions{
+  justify-content:center !important;
+}
+
 </style>
 </head>
 <body>
