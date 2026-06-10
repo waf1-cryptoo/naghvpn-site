@@ -1464,6 +1464,67 @@ table.data-table {
   #dashboard-section .referral-stats{grid-template-columns:1fr !important;}
 }
 
+
+
+/* FIX: device plus UI + no overlap inside add-device choices */
+.add-device-placeholder{
+  position:relative;
+  padding:22px 18px !important;
+  min-height:110px !important;
+}
+.add-device-button{
+  width:74px !important;
+  height:74px !important;
+  min-width:74px !important;
+  min-height:74px !important;
+  padding:0 !important;
+  border-radius:50% !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  line-height:1 !important;
+}
+.add-device-button span:not(.add-device-plus){display:none !important;}
+.add-device-plus{font-size:44px !important;line-height:1 !important;margin-top:-4px;}
+.add-device-label{margin-top:8px;color:var(--white);font-weight:800;font-size:14px;}
+.add-device-options{overflow:hidden !important;}
+.add-device-methods{
+  display:grid !important;
+  grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+  gap:18px !important;
+  align-items:stretch !important;
+}
+.add-device-options .connect-card,
+#dashboard-section .add-device-options .connect-card:not(.referral-card){
+  display:flex !important;
+  grid-template-columns:none !important;
+  flex-direction:column !important;
+  justify-content:space-between !important;
+  gap:14px !important;
+  min-height:260px !important;
+  padding:22px !important;
+  overflow:hidden !important;
+}
+.add-device-options .connect-card h3{
+  font-size:clamp(22px,2vw,28px) !important;
+  line-height:1.1 !important;
+  margin:0 0 10px !important;
+  word-break:normal !important;
+}
+.add-device-options .connect-card p{font-size:14px !important;line-height:1.55 !important;}
+.add-device-options .device-list{margin-top:0 !important;}
+.add-device-options .device-item{padding:0 !important;border:0 !important;background:transparent !important;}
+.add-device-options .device-head{display:block !important;}
+.add-device-options .device-title{font-size:15px !important;line-height:1.3 !important;margin-bottom:8px !important;}
+.add-device-options .subscription-url{font-size:12px !important;line-height:1.45 !important;max-height:54px;overflow:auto;}
+.add-device-options .device-actions{display:flex !important;flex-direction:column !important;gap:10px !important;margin-top:12px !important;}
+.add-device-options .small-btn{width:100% !important;text-align:center !important;justify-content:center !important;}
+.add-device-options .happ-qr-card{display:block !important;padding:14px !important;}
+.add-device-options .happ-qr-canvas{width:180px !important;height:180px !important;}
+.add-device-options .happ-qr-url{display:none !important;}
+.referral-return-card{margin-top:22px !important;}
+@media (max-width:980px){.add-device-methods{grid-template-columns:1fr !important;}.add-device-options .connect-card{min-height:auto !important;}}
+
 </style>
 </head>
 <body>
@@ -1647,15 +1708,37 @@ table.data-table {
         </div>
       </div>
 
+
+      <div class="content-card note-card referral-return-card">
+        <div class="connect-card referral-card" id="referral-card">
+          <div>
+            <h3>Пригласить друга</h3>
+            <p id="referral-description">Друг получает скидку 50% на первую оплату, а вы получаете +30 дней Premium после его оплаты.</p>
+            <div id="referral-link-line" class="referral-link-line hidden"></div>
+            <div id="referral-muted" class="referral-muted">Реферальная ссылка доступна пользователям с активной подпиской.</div>
+            <div class="referral-stats hidden" id="referral-stats">
+              <div class="referral-stat"><span>Приглашено</span><strong id="referral-invited">0</strong></div>
+              <div class="referral-stat"><span>Оплатили</span><strong id="referral-paid">0</strong></div>
+              <div class="referral-stat"><span>Бонусы</span><strong id="referral-days">0 дн.</strong></div>
+            </div>
+          </div>
+          <div class="referral-actions">
+            <button class="small-btn referral-copy-btn" type="button" id="copy-referral-button" disabled>Скопировать ссылку</button>
+            <button class="small-btn referral-apply-btn" type="button" id="open-referral-modal-button">Вставить ссылку</button>
+          </div>
+        </div>
+      </div>
+
       <div class="content-card note-card device-management-card" style="margin-top:22px">
         <h2>Устройства</h2>
         <div id="device-list" class="device-list"></div>
 
         <div class="add-device-placeholder" id="add-device-placeholder">
-          <button class="add-device-button" type="button" id="add-device-button" aria-expanded="false" aria-controls="add-device-options">
+          <button class="add-device-button" type="button" id="add-device-button" aria-expanded="false" aria-controls="add-device-options" aria-label="Добавить устройство">
             <span class="add-device-plus">+</span>
             <span>Добавить устройство</span>
           </button>
+          <div class="add-device-label">Добавить устройство</div>
           <div class="add-device-hint">Нажмите плюс, чтобы выбрать способ подключения.</div>
         </div>
 
@@ -1677,12 +1760,20 @@ table.data-table {
               <button class="small-btn" type="button" id="create-code-button">Создать код</button>
             </div>
 
-            <div class="connect-card add-device-method-card add-device-method-wide">
+            <div class="connect-card add-device-method-card">
               <div>
-                <h3>Ссылка на подписку Happ</h3>
+                <h3>Ссылка Happ</h3>
                 <p>Скопируйте ссылку и добавьте её в Happ: <strong>Подписки → Добавить → URL</strong>.</p>
               </div>
               <div id="happ-subscription-list" class="device-list compact-device-list"></div>
+            </div>
+
+            <div class="connect-card add-device-method-card">
+              <div>
+                <h3>QR-код Happ</h3>
+                <p>Откройте QR-код и отсканируйте его в Happ: <strong>Подписки → Добавить → Сканировать QR-код</strong>.</p>
+              </div>
+              <div id="happ-qr-list" class="device-list compact-device-list"></div>
             </div>
           </div>
 
@@ -1808,6 +1899,7 @@ const connectStatus = document.getElementById('connect-status');
 const generatedConfig = document.getElementById('generated-config');
 const deviceList = document.getElementById('device-list');
 const happSubscriptionList = document.getElementById('happ-subscription-list');
+const happQrList = document.getElementById('happ-qr-list');
 const createHappButton = document.getElementById('create-happ-button');
 const createCodeButton = document.getElementById('create-code-button');
 const addDeviceButton = document.getElementById('add-device-button');
@@ -2219,43 +2311,53 @@ function renderDevices(devices) {
 }
 
 function renderHappSubscriptions(subscriptions) {
-  if (!happSubscriptionList) return;
+  if (!happSubscriptionList && !happQrList) return;
   if (!subscriptions.length) {
-    happSubscriptionList.innerHTML = '<div class="mini-note"><p>Ссылка для Happ появится автоматически после покупки подписки.</p></div>';
+    const emptyHtml = '<div class="mini-note"><p>Ссылка для Happ появится автоматически после покупки подписки.</p></div>';
+    if (happSubscriptionList) happSubscriptionList.innerHTML = emptyHtml;
+    if (happQrList) happQrList.innerHTML = emptyHtml;
     return;
   }
 
   const item = subscriptions[0];
+  const url = item.subscription_url || '';
   const createdAt = item.created_at ? formatDate(item.created_at) : null;
   const updatedAt = item.subscription_last_used_at ? formatDate(item.subscription_last_used_at) : null;
-  happSubscriptionList.innerHTML = `
-    <div class="device-item">
-      <div class="device-head">
-        <div>
-          <div class="device-title">Ваша ссылка для Happ</div>
-          <div class="subscription-url">${escapeHtml(item.subscription_url || '')}</div>
-          ${createdAt ? `<div class="device-date">Создана: ${createdAt}</div>` : ''}
-        </div>
-        <div class="device-meta">${updatedAt ? 'Обновлялась: ' + updatedAt : 'Постоянная ссылка'}</div>
-      </div>
-      <div class="device-actions">
-        <button class="small-btn" type="button" data-copy="${escapeAttr(item.subscription_url || '')}">Скопировать ссылку на подписку</button>
-        <button class="small-btn" type="button" data-show-happ-qr="${escapeAttr(item.subscription_url || '')}">Добавить через QR-код</button>
-      </div>
-      <div class="happ-qr-wrap hidden" data-happ-qr-wrap>
-        <div class="happ-qr-card">
-          <div class="happ-qr-canvas-wrap">
-            <canvas class="happ-qr-canvas" data-happ-qr-canvas width="220" height="220"></canvas>
-          </div>
-          <div>
-            <div class="happ-qr-note">Отсканируйте QR-код в Happ</div>
-            <div class="happ-qr-subnote">Откройте в Happ: <strong>Подписки → Добавить → Сканировать QR-код</strong>.</div>
-            <div class="happ-qr-url">${escapeHtml(item.subscription_url || '')}</div>
-          </div>
+
+  if (happSubscriptionList) {
+    happSubscriptionList.innerHTML = `
+      <div class="device-item">
+        <div class="device-title">Ваша ссылка для Happ</div>
+        <div class="subscription-url">${escapeHtml(url)}</div>
+        ${createdAt ? `<div class="device-date">Создана: ${createdAt}</div>` : ''}
+        ${updatedAt ? `<div class="device-date">Обновлялась: ${updatedAt}</div>` : ''}
+        <div class="device-actions">
+          <button class="small-btn" type="button" data-copy="${escapeAttr(url)}">Скопировать ссылку на подписку</button>
         </div>
       </div>
-    </div>
-  `;
+    `;
+  }
+
+  if (happQrList) {
+    happQrList.innerHTML = `
+      <div class="device-item">
+        <div class="device-title">QR-код для Happ</div>
+        <div class="device-date">Откройте QR-код и отсканируйте его в Happ.</div>
+        <div class="device-actions">
+          <button class="small-btn" type="button" data-show-happ-qr="${escapeAttr(url)}">Показать QR-код</button>
+        </div>
+        <div class="happ-qr-wrap hidden" data-happ-qr-wrap>
+          <div class="happ-qr-card">
+            <div class="happ-qr-canvas-wrap">
+              <canvas class="happ-qr-canvas" data-happ-qr-canvas width="220" height="220"></canvas>
+            </div>
+            <div class="happ-qr-subnote">Happ: <strong>Подписки → Добавить → Сканировать QR-код</strong>.</div>
+            <div class="happ-qr-url">${escapeHtml(url)}</div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
 }
 function escapeHtml(value) {
   return String(value).replace(/[&<>'"]/g, ch => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', "'":'&#39;', '"':'&quot;' }[ch]));
@@ -2530,36 +2632,37 @@ deviceList.addEventListener('click', async (event) => {
   }
 });
 
-if (happSubscriptionList) {
-  happSubscriptionList.addEventListener('click', async (event) => {
-    const copyButton = event.target.closest('[data-copy]');
-    const qrButton = event.target.closest('[data-show-happ-qr]');
-    if (copyButton) {
-      await copyText(copyButton.dataset.copy);
+function handleHappSubscriptionClick(event) {
+  const copyButton = event.target.closest('[data-copy]');
+  const qrButton = event.target.closest('[data-show-happ-qr]');
+  if (copyButton) {
+    copyText(copyButton.dataset.copy);
+    return;
+  }
+  if (qrButton) {
+    const card = qrButton.closest('.device-item');
+    const wrap = card ? card.querySelector('[data-happ-qr-wrap]') : null;
+    const canvas = wrap ? wrap.querySelector('[data-happ-qr-canvas]') : null;
+    if (!wrap || !canvas) return;
+    const isHidden = wrap.classList.contains('hidden');
+    if (!isHidden) {
+      wrap.classList.add('hidden');
+      qrButton.textContent = 'Показать QR-код';
       return;
     }
-    if (qrButton) {
-      const card = qrButton.closest('.device-item');
-      const wrap = card ? card.querySelector('[data-happ-qr-wrap]') : null;
-      const canvas = wrap ? wrap.querySelector('[data-happ-qr-canvas]') : null;
-      if (!wrap || !canvas) return;
-      const isHidden = wrap.classList.contains('hidden');
-      if (!isHidden) {
-        wrap.classList.add('hidden');
-        qrButton.textContent = 'Добавить через QR-код';
-        return;
-      }
-      try {
-        renderHappQr(canvas, qrButton.dataset.showHappQr || '');
-        wrap.classList.remove('hidden');
-        qrButton.textContent = 'Скрыть QR-код';
-        setStatus(connectStatus, 'ok', 'QR-код готов. Отсканируйте его в Happ: Подписки → Добавить → Сканировать QR-код.');
-      } catch (error) {
-        setStatus(connectStatus, 'error', 'Не удалось построить QR-код. Попробуйте обновить страницу или используйте копирование ссылки.');
-      }
+    try {
+      renderHappQr(canvas, qrButton.dataset.showHappQr || '');
+      wrap.classList.remove('hidden');
+      qrButton.textContent = 'Скрыть QR-код';
+      setStatus(connectStatus, 'ok', 'QR-код готов. Отсканируйте его в Happ: Подписки → Добавить → Сканировать QR-код.');
+    } catch (error) {
+      setStatus(connectStatus, 'error', 'Не удалось построить QR-код. Попробуйте обновить страницу или используйте копирование ссылки.');
     }
-  });
+  }
 }
+
+if (happSubscriptionList) happSubscriptionList.addEventListener('click', handleHappSubscriptionClick);
+if (happQrList) happQrList.addEventListener('click', handleHappSubscriptionClick);
 
 updateSelection();
 const savedEmail = localStorage.getItem(EMAIL_KEY);
