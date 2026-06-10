@@ -1819,6 +1819,115 @@ table.data-table {
   .add-device-options-head h3{white-space:normal !important;}
 }
 
+
+
+/* R10: unify top/referral action buttons and fix add-device card sizing */
+:root{
+  --account-action-btn-width:240px;
+  --account-action-btn-height:52px;
+  --connect-method-btn-height:46px;
+}
+#dashboard-section .account-actions-row,
+#dashboard-section .referral-actions{
+  justify-content:flex-end !important;
+}
+#dashboard-section .account-actions-row .btn-main,
+#dashboard-section .account-actions-row .btn-ghost,
+#dashboard-section .referral-actions .small-btn{
+  flex:0 0 var(--account-action-btn-width) !important;
+  width:var(--account-action-btn-width) !important;
+  min-width:var(--account-action-btn-width) !important;
+  max-width:var(--account-action-btn-width) !important;
+  height:var(--account-action-btn-height) !important;
+  min-height:var(--account-action-btn-height) !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  text-align:center !important;
+  white-space:nowrap !important;
+}
+
+.add-device-options .compact-device-list,
+.add-device-options .device-list,
+.add-device-options .device-item,
+.add-device-options .device-actions{
+  width:100% !important;
+  max-width:100% !important;
+  min-width:0 !important;
+}
+.add-device-options .device-item{
+  overflow:hidden !important;
+}
+.add-device-options .subscription-url,
+.add-device-options .device-date,
+.add-device-options .happ-qr-inline-comment{
+  width:100% !important;
+  max-width:100% !important;
+  min-width:0 !important;
+}
+.add-device-options .subscription-url{
+  display:block !important;
+  overflow-x:auto !important;
+  overflow-y:hidden !important;
+  white-space:nowrap !important;
+}
+.add-device-options .device-actions{
+  display:flex !important;
+  align-items:stretch !important;
+  justify-content:flex-start !important;
+  margin-top:12px !important;
+}
+#dashboard-section .add-device-options .connect-card > .small-btn,
+#dashboard-section .add-device-options .device-actions .small-btn,
+.add-device-options .connect-card > .small-btn,
+.add-device-options .device-actions .small-btn{
+  width:100% !important;
+  min-width:0 !important;
+  max-width:100% !important;
+  flex:1 1 auto !important;
+  height:var(--connect-method-btn-height) !important;
+  min-height:var(--connect-method-btn-height) !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  text-align:center !important;
+}
+.add-device-options .connect-card .device-item{
+  padding:12px 0 0 !important;
+  border:0 !important;
+  background:transparent !important;
+  border-radius:0 !important;
+}
+.add-device-options .connect-card h3{
+  white-space:nowrap !important;
+}
+.add-device-options .connect-card p{
+  margin:0 !important;
+}
+.add-device-options .happ-qr-static-comment,
+.add-device-options .happ-qr-inline-comment{
+  color:var(--off) !important;
+  font-size:14px !important;
+  line-height:1.5 !important;
+}
+.add-device-options .happ-qr-static-comment{
+  margin:10px 0 0 !important;
+}
+.add-device-options .happ-qr-inline-comment{
+  margin:0 !important;
+  min-height:0 !important;
+}
+@media (max-width:980px){
+  #dashboard-section .account-actions-row .btn-main,
+  #dashboard-section .account-actions-row .btn-ghost,
+  #dashboard-section .referral-actions .small-btn{
+    width:100% !important;
+    min-width:0 !important;
+    max-width:none !important;
+    flex:1 1 auto !important;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -1920,7 +2029,7 @@ table.data-table {
         </div>
 
         <div class="account-actions-row">
-          <button class="btn-main" id="open-payment-modal" type="button" style="border:0;cursor:pointer">Продлить или оплатить подписку</button>
+          <button class="btn-main" id="open-payment-modal" type="button" style="border:0;cursor:pointer">Оплатить подписку</button>
           <a class="btn-ghost" href="/setup/">Инструкция по установке</a>
         </div>
       </div>
@@ -2064,6 +2173,7 @@ table.data-table {
             <div class="connect-card add-device-method-card">
               <div>
                 <h3>QR-код Happ</h3>
+                <p class="happ-qr-static-comment">Откройте QR-код отдельным окном и отсканируйте его в Happ.</p>
               </div>
               <div id="happ-qr-list" class="device-list compact-device-list"></div>
             </div>
@@ -2698,7 +2808,6 @@ function renderHappSubscriptions(subscriptions) {
   if (happQrList) {
     happQrList.innerHTML = `
       <div class="device-item happ-qr-inline-item">
-        <p class="happ-qr-inline-comment">Откройте QR-код отдельным окном и отсканируйте его в Happ.</p>
         <div class="device-actions">
           <button class="small-btn" type="button" data-show-happ-qr="${escapeAttr(url)}">Показать QR-код</button>
         </div>
