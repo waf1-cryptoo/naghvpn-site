@@ -1723,6 +1723,102 @@ table.data-table {
   #happ-qr-modal .modal-actions .btn-main,#happ-qr-modal .modal-actions .btn-ghost{width:100% !important;min-width:0 !important;}
 }
 
+
+/* R9: final fixes from annotated screenshots */
+#dashboard-section .account-actions-row{
+  display:flex !important;
+  justify-content:flex-end !important;
+  align-items:center !important;
+  gap:14px !important;
+  margin-top:24px !important;
+  width:100% !important;
+}
+#dashboard-section .account-actions-row .btn-main,
+#dashboard-section .account-actions-row .btn-ghost{
+  flex:0 0 300px !important;
+  width:300px !important;
+  max-width:300px !important;
+  min-height:52px !important;
+  justify-content:center !important;
+  text-align:center !important;
+  white-space:nowrap !important;
+}
+.add-device-options-head{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  gap:18px !important;
+  margin-bottom:18px !important;
+}
+.add-device-options-head > div{
+  min-width:0 !important;
+  flex:1 1 auto !important;
+}
+.add-device-options-head h3{
+  white-space:nowrap !important;
+  font-size:clamp(24px,2.35vw,30px) !important;
+  line-height:1 !important;
+  margin:0 !important;
+}
+.add-device-options-head p{display:none !important;}
+.add-device-options-head .add-device-close,
+.add-device-options-head #close-add-device-options.small-btn{
+  width:42px !important;
+  min-width:42px !important;
+  max-width:42px !important;
+  height:42px !important;
+  min-height:42px !important;
+  border-radius:50% !important;
+  padding:0 !important;
+  font-size:24px !important;
+  line-height:1 !important;
+  font-weight:900 !important;
+  flex:0 0 42px !important;
+  align-self:center !important;
+  white-space:nowrap !important;
+}
+.add-device-options .connect-card,
+#dashboard-section .add-device-options .connect-card:not(.referral-card){
+  min-height:228px !important;
+}
+.add-device-options .connect-card h3{
+  white-space:nowrap !important;
+}
+.add-device-options .subscription-url{
+  display:block !important;
+  width:100% !important;
+  white-space:nowrap !important;
+  overflow-x:auto !important;
+  overflow-y:hidden !important;
+  max-height:none !important;
+  padding-bottom:2px !important;
+}
+.happ-qr-inline-comment{
+  color:var(--off) !important;
+  font-size:14px !important;
+  line-height:1.45 !important;
+  margin:0 0 16px !important;
+  min-height:58px !important;
+}
+#dashboard-section .add-device-options .small-btn,
+.add-device-options .small-btn{
+  white-space:nowrap !important;
+  overflow:hidden !important;
+  text-overflow:ellipsis !important;
+}
+#happ-qr-modal .happ-qr-modal-card{
+  width:min(700px,100%) !important;
+  max-width:700px !important;
+}
+@media (max-width:980px){
+  #dashboard-section .account-actions-row{justify-content:stretch !important; flex-direction:column !important;}
+  #dashboard-section .account-actions-row .btn-main,
+  #dashboard-section .account-actions-row .btn-ghost{width:100% !important;max-width:none !important;flex:1 1 auto !important;}
+}
+@media (max-width:720px){
+  .add-device-options-head h3{white-space:normal !important;}
+}
+
 </style>
 </head>
 <body>
@@ -1944,9 +2040,8 @@ table.data-table {
           <div class="add-device-options-head">
             <div>
               <h3>Выберите способ подключения</h3>
-              <p>Можно создать короткий код, скопировать ссылку подписки Happ или открыть QR-код для сканирования.</p>
             </div>
-            <button class="small-btn" type="button" id="close-add-device-options">Скрыть</button>
+            <button class="small-btn add-device-close" type="button" id="close-add-device-options" aria-label="Скрыть">×</button>
           </div>
 
           <div class="connect-grid add-device-methods">
@@ -2594,7 +2689,7 @@ function renderHappSubscriptions(subscriptions) {
         ${createdAt ? `<div class="device-date">Создана: ${createdAt}</div>` : ''}
         ${updatedAt ? `<div class="device-date">Обновлялась: ${updatedAt}</div>` : ''}
         <div class="device-actions">
-          <button class="small-btn" type="button" data-copy="${escapeAttr(url)}">Скопировать ссылку на подписку</button>
+          <button class="small-btn" type="button" data-copy="${escapeAttr(url)}">Скопировать ссылку</button>
         </div>
       </div>
     `;
@@ -2602,7 +2697,8 @@ function renderHappSubscriptions(subscriptions) {
 
   if (happQrList) {
     happQrList.innerHTML = `
-      <div class="device-item">
+      <div class="device-item happ-qr-inline-item">
+        <p class="happ-qr-inline-comment">Откройте QR-код отдельным окном и отсканируйте его в Happ.</p>
         <div class="device-actions">
           <button class="small-btn" type="button" data-show-happ-qr="${escapeAttr(url)}">Показать QR-код</button>
         </div>
