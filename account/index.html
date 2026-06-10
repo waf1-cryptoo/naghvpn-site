@@ -1562,6 +1562,49 @@ table.data-table {
   .add-device-options-head .small-btn{width:100% !important;max-width:none !important;}
 }
 
+
+/* R8: center Happ QR modal like referral modal */
+#happ-qr-modal.referral-modal-overlay{
+  position:fixed !important;
+  inset:0 !important;
+  z-index:100000 !important;
+  display:none !important;
+  align-items:center !important;
+  justify-content:center !important;
+  padding:24px !important;
+  margin:0 !important;
+  background:rgba(2,6,16,.76) !important;
+  backdrop-filter:blur(14px) !important;
+}
+#happ-qr-modal.referral-modal-overlay.show{
+  display:flex !important;
+}
+#happ-qr-modal .happ-qr-modal-card{
+  width:min(560px,100%) !important;
+  max-width:560px !important;
+  max-height:calc(100vh - 48px) !important;
+  overflow:auto !important;
+  margin:0 auto !important;
+  position:relative !important;
+  box-shadow:0 34px 100px rgba(0,0,0,.55), 0 0 0 1px rgba(0,229,255,.16) inset !important;
+}
+#happ-qr-modal .happ-qr-modal-body{
+  display:grid !important;
+  gap:16px !important;
+  justify-items:center !important;
+  text-align:center !important;
+}
+#happ-qr-modal .happ-qr-modal-canvas{
+  width:260px !important;
+  height:260px !important;
+  max-width:100% !important;
+}
+@media (max-width:720px){
+  #happ-qr-modal.referral-modal-overlay{padding:14px !important;}
+  #happ-qr-modal .happ-qr-modal-card{border-radius:22px !important;}
+  #happ-qr-modal .happ-qr-modal-canvas{width:220px !important;height:220px !important;}
+}
+
 </style>
 </head>
 <body>
