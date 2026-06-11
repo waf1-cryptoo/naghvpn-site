@@ -3316,30 +3316,11 @@ async function openAddDeviceOptions() {
     updateAddDevicePlaceholder(currentDevices, currentProfile);
     return;
   }
-
   clearStatus(connectStatus);
   hideCodeBox();
-  creatingAddDeviceSlot = true;
-  addDeviceButton.disabled = true;
-  if (addDeviceHint) addDeviceHint.textContent = 'Создаём новое устройство и занимаем слот...';
-
-  try {
-    await apiAuthed('/happ-subscriptions', {
-      method: 'POST',
-      body: JSON.stringify({ device_name: `Happ subscription ${used + 1}`, device_type: 'happ' })
-    });
-    await refreshDevicesAndHappSubscriptions();
-    addDeviceOptions.classList.remove('hidden');
-    addDeviceButton.setAttribute('aria-expanded', 'true');
-    setStatus(connectStatus, 'ok', `Устройство ${used + 1} создано. Выберите способ подключения.`);
-    addDeviceOptions.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  } catch (error) {
-    setStatus(connectStatus, 'error', error.message || 'Не удалось создать устройство. Проверьте свободные слоты подписки.');
-    updateAddDevicePlaceholder(currentDevices, currentProfile);
-  } finally {
-    creatingAddDeviceSlot = false;
-    updateAddDevicePlaceholder(currentDevices, currentProfile);
-  }
+  addDeviceOptions.classList.remove('hidden');
+  addDeviceButton.setAttribute('aria-expanded', 'true');
+  addDeviceOptions.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
 function closeAddDeviceOptions() {
