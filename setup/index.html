@@ -150,7 +150,7 @@ nav {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 22px;
-  align-items: start;
+  align-items: stretch;
 }
 
 .setup-card {
@@ -164,6 +164,10 @@ nav {
   position: relative;
   overflow: hidden;
   transition: transform .25s, box-shadow .25s;
+}
+
+.setup-card .setup-steps {
+  flex: 1;
 }
 .setup-card:hover {
   transform: translateY(-4px);
