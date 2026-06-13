@@ -143,7 +143,7 @@ nav {
   max-width: 640px; margin-top: 18px;
 }
 
-/* SETUP GRID - 3 columns */
+/* SETUP GRID - 3 columns with subgrid for perfect row alignment */
 .content-section { padding: 72px 0 100px; }
 
 .setup-grid {
@@ -164,10 +164,6 @@ nav {
   position: relative;
   overflow: hidden;
   transition: transform .25s, box-shadow .25s;
-}
-
-.setup-card .setup-steps {
-  flex: 1;
 }
 .setup-card:hover {
   transform: translateY(-4px);
@@ -358,7 +354,6 @@ footer { border-top: 1px solid var(--border); padding: 40px 0; }
     <div class="breadcrumb"><a href="/">Главная</a><span>→</span><span>Установка</span></div>
     <div class="tag">Установка</div>
     <h1 class="subpage-title reveal">Выберите способ <span class="accent">подключения</span></h1>
-    <p class="subpage-lead reveal reveal-d1">Приложение для Android уже готово. iOS — совсем скоро. Happ работает на любых устройствах прямо сейчас.</p>
   </div>
 </section>
 
@@ -477,6 +472,35 @@ const observer = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.08 });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Equalise card row heights: card-top, card-desc, card-actions, setup-steps
+function equaliseCards() {
+  const grid = document.querySelector('.setup-grid');
+  if (!grid) return;
+  const cards = Array.from(grid.querySelectorAll('.setup-card'));
+  if (cards.length < 2) return;
+
+  // Reset all min-heights first
+  const selectors = ['.card-top', '.card-desc', '.card-actions', '.setup-steps'];
+  cards.forEach(card => {
+    selectors.forEach(sel => {
+      const el = card.querySelector(sel);
+      if (el) el.style.minHeight = '';
+    });
+  });
+
+  // Only equalise on desktop (3 columns)
+  if (window.innerWidth <= 960) return;
+
+  selectors.forEach(sel => {
+    const els = cards.map(card => card.querySelector(sel)).filter(Boolean);
+    const maxH = Math.max(...els.map(el => el.getBoundingClientRect().height));
+    els.forEach(el => el.style.minHeight = maxH + 'px');
+  });
+}
+
+equaliseCards();
+window.addEventListener('resize', equaliseCards);
 </script>
 
 </body>
