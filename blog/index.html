@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Блог — Nagh VPN</title>
+<meta name="description" content="Статьи о безопасности в интернете, защите данных и приватности. Советы для пользователей VPN.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400;500;700;800;900&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230057ff'/%3E%3Cpath d='M32 10l18 8v13c0 12-7.5 19.5-18 23-10.5-3.5-18-11-18-23V18l18-8z' fill='white' opacity='.95'/%3E%3Cpath d='M24 32l5 5 12-14' stroke='%230057ff' stroke-width='5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
+<style>
+:root {
+  --night: #03060f;
+  --deep: #07102a;
+  --panel: #0b1635;
+  --glass: rgba(255,255,255,0.04);
+  --glass2: rgba(255,255,255,0.07);
+  --white: #ffffff;
+  --off: rgba(255,255,255,0.55);
+  --dim: rgba(255,255,255,0.28);
+  --blue: #1457ff;
+  --blue2: #4d83ff;
+  --cyan: #00e5ff;
+  --cyan2: rgba(0,229,255,0.15);
+  --green: #2dde98;
+  --border: rgba(255,255,255,0.09);
+  --r: 20px;
+  --r2: 28px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: 'Instrument Sans', sans-serif;
+  background: var(--night);
+  color: var(--white);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+.container { max-width: 1160px; margin: 0 auto; padding: 0 32px; }
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+  padding: 0 32px;
+  background: rgba(3,6,15,0.75);
+  backdrop-filter: blur(24px) saturate(1.4);
+  border-bottom: 1px solid var(--border);
+  height: 68px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-logo {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-weight: 900; font-size: 21px; letter-spacing: -0.5px;
+  color: var(--white); text-decoration: none;
+}
+.nav-logo span { color: var(--cyan); }
+.nav-links { display: flex; gap: 24px; align-items: center; }
+.nav-links a {
+  font-size: 14px; font-weight: 500; color: var(--off);
+  text-decoration: none; transition: color .2s;
+}
+.nav-links a:hover { color: var(--white); }
+.nav-account {
+  font-size: 13px; font-weight: 600; color: var(--white);
+  background: var(--glass2); border: 1px solid var(--border);
+  border-radius: 10px; padding: 9px 16px; text-decoration: none;
+  transition: background .2s;
+}
+.nav-account:hover { background: rgba(255,255,255,0.12); }
+
+/* HERO */
+.blog-hero {
+  padding: 140px 0 60px;
+  text-align: center;
+}
+.blog-hero h1 {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: 52px; font-weight: 900; letter-spacing: -2px;
+  line-height: 1.05; margin-bottom: 16px;
+}
+.blog-hero p {
+  font-size: 17px; color: var(--off); max-width: 480px; margin: 0 auto;
+}
+
+/* GRID */
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+  padding-bottom: 100px;
+}
+.blog-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--r2);
+  padding: 32px;
+  text-decoration: none;
+  display: flex; flex-direction: column; gap: 12px;
+  transition: border-color .2s, transform .2s;
+}
+.blog-card:hover {
+  border-color: rgba(0,229,255,0.3);
+  transform: translateY(-3px);
+}
+.blog-tag {
+  font-size: 11px; font-weight: 700; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--cyan);
+}
+.blog-card h2 {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: 20px; font-weight: 800; line-height: 1.25;
+  color: var(--white);
+}
+.blog-card p {
+  font-size: 14px; color: var(--off); line-height: 1.6; flex: 1;
+}
+.blog-meta {
+  font-size: 12px; color: var(--dim); margin-top: 8px;
+}
+.blog-arrow {
+  font-size: 13px; font-weight: 600; color: var(--cyan);
+  margin-top: 4px;
+}
+
+/* FOOTER */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 32px 0;
+}
+.footer-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 16px;
+}
+.footer-logo {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-weight: 900; font-size: 18px; color: var(--white);
+  text-decoration: none;
+}
+.footer-logo span { color: var(--cyan); }
+.footer-links { display: flex; gap: 20px; flex-wrap: wrap; }
+.footer-links a {
+  font-size: 13px; color: var(--off); text-decoration: none;
+  transition: color .2s;
+}
+.footer-links a:hover { color: var(--white); }
+.footer-copy { font-size: 12px; color: var(--dim); }
+
+@media (max-width: 640px) {
+  .blog-hero h1 { font-size: 36px; }
+  .container { padding: 0 18px; }
+  nav { padding: 0 18px; }
+  .nav-links a:not(.nav-account) { display: none; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="/">Nagh <span>VPN</span></a>
+  <div class="nav-links">
+    <a href="/pricing/">Тарифы</a>
+    <a href="/blog/" style="color:var(--white)">Блог</a>
+    <a href="/support/">Поддержка</a>
+    <a href="/account/" class="nav-account">Личный кабинет</a>
+  </div>
+</nav>
+
+<div class="blog-hero">
+  <div class="container">
+    <h1>Блог</h1>
+    <p>О безопасности в интернете, защите данных и приватности — простым языком.</p>
+  </div>
+</div>
+
+<div class="container">
+  <div class="blog-grid">
+
+    <a class="blog-card" href="/blog/vless-chto-eto/">
+      <div class="blog-tag">Технологии</div>
+      <h2>Что такое VLESS и чем он отличается от OpenVPN</h2>
+      <p>Разбираем современные протоколы VPN: как они работают, почему одни блокируются, а другие нет, и в чём преимущество VLESS + Reality.</p>
+      <div class="blog-meta">13 июня 2026 · 7 мин</div>
+      <div class="blog-arrow">Читать →</div>
+    </a>
+
+    <!-- Будущие статьи добавляйте сюда по аналогии -->
+
+  </div>
+</div>
+
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <a class="footer-logo" href="/">Nagh <span>VPN</span></a>
+      <div class="footer-links">
+        <a href="/pricing/">Тарифы</a>
+        <a href="/offer/">Оферта</a>
+        <a href="/privacy/">Политика</a>
+        <a href="/terms/">Соглашение</a>
+        <a href="/support/">Поддержка</a>
+      </div>
+      <div class="footer-copy">© 2026 Nagh VPN. Все права защищены.</div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
