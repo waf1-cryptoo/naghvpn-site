@@ -254,6 +254,38 @@ footer { border-top: 1px solid var(--border); padding: 32px 0; }
 }
 .nav-account::before { display: none !important; }
 
+
+/* === UNIFIED NAV PATCH === */
+.nav-account {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  color: var(--cyan) !important;
+  background: rgba(0,229,255,0.07) !important;
+  border: 1px solid rgba(0,229,255,0.28) !important;
+  padding: 9px 18px !important;
+  border-radius: 12px !important;
+  font-weight: 800 !important;
+  font-size: 14px !important;
+  text-decoration: none !important;
+  white-space: nowrap !important;
+  transition: border-color .2s, background .2s, box-shadow .2s !important;
+}
+.nav-account:hover {
+  color: var(--white) !important;
+  background: rgba(0,229,255,0.12) !important;
+  border-color: rgba(0,229,255,0.48) !important;
+  box-shadow: 0 0 26px rgba(0,229,255,0.16) !important;
+}
+.nav-account::before {
+  content: '' !important;
+  width: 16px !important; height: 16px !important;
+  display: inline-block !important;
+  background: currentColor !important;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5Z'/%3E%3C/svg%3E") center/contain no-repeat !important;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5Z'/%3E%3C/svg%3E") center/contain no-repeat !important;
+}
+/* === END NAV PATCH === */
 </style>
 </head>
 <body>
@@ -265,6 +297,8 @@ footer { border-top: 1px solid var(--border); padding: 32px 0; }
   </a>
   <div class="nav-links">
     <a href="/pricing/">Тарифы</a>
+    <a href="/offer/">Оферта</a>
+    <a href="/privacy/">Политика</a>
     <a href="/blog/">Блог</a>
     <a href="/support/">Поддержка</a>
     <a href="/account/" class="nav-account">Личный кабинет</a>
