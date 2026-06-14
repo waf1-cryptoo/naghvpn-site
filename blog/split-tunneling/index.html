@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Что такое split tunneling и зачем он нужен — Nagh VPN</title>
+<meta name="description" content="Split tunneling — режим VPN, при котором часть трафика идёт через шифрованный туннель, а часть напрямую. Объясняем как это работает и когда использовать.">
+<link rel="canonical" href="https://naghvpn.ru/blog/split-tunneling/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400;500;700;800;900&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230057ff'/%3E%3Cpath d='M32 10l18 8v13c0 12-7.5 19.5-18 23-10.5-3.5-18-11-18-23V18l18-8z' fill='white' opacity='.95'/%3E%3Cpath d='M24 32l5 5 12-14' stroke='%230057ff' stroke-width='5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Что такое split tunneling и зачем он нужен",
+  "description": "Split tunneling — режим VPN, при котором часть трафика идёт через шифрованный туннель, а часть напрямую.",
+  "author": {"@type": "Organization", "name": "Nagh VPN"},
+  "publisher": {"@type": "Organization", "name": "Nagh VPN", "url": "https://naghvpn.ru"},
+  "datePublished": "2026-06-14",
+  "dateModified": "2026-06-14",
+  "url": "https://naghvpn.ru/blog/split-tunneling/",
+  "inLanguage": "ru"
+}
+</script>
+<style>
+:root {
+  --night: #03060f; --deep: #07102a; --panel: #0b1635;
+  --glass: rgba(255,255,255,0.04); --glass2: rgba(255,255,255,0.07);
+  --white: #ffffff; --off: rgba(255,255,255,0.55); --dim: rgba(255,255,255,0.28);
+  --blue: #1457ff; --blue2: #4d83ff; --cyan: #00e5ff; --cyan2: rgba(0,229,255,0.15);
+  --green: #2dde98; --border: rgba(255,255,255,0.09); --r: 20px; --r2: 28px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body { font-family: 'Instrument Sans', sans-serif; background: var(--night); color: var(--white); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+.container { max-width: 1160px; margin: 0 auto; padding: 0 32px; }
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 999; padding: 0 32px; background: rgba(3,6,15,0.75); backdrop-filter: blur(24px) saturate(1.4); border-bottom: 1px solid var(--border); height: 68px; display: flex; align-items: center; justify-content: space-between; }
+.nav-logo { font-family: 'Cabinet Grotesk', sans-serif; font-weight: 900; font-size: 21px; letter-spacing: -0.5px; color: var(--white); text-decoration: none; display: flex; align-items: center; gap: 9px; }
+.nav-logo-icon { width: 34px; height: 34px; border-radius: 10px; background: var(--blue); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(20,87,255,0.5); color: var(--white); flex: 0 0 34px; }
+.icon-svg { width: 24px; height: 24px; display: block; stroke: currentColor; fill: none; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
+.nav-logo span { color: var(--cyan); }
+.nav-links { display: flex; gap: 24px; align-items: center; }
+.nav-links a { font-size: 14px; font-weight: 500; color: var(--off); text-decoration: none; transition: color .2s; }
+.nav-links a:hover { color: var(--white); }
+.nav-account { display: inline-flex; align-items: center; justify-content: center; gap: 8px; color: var(--cyan) !important; background: rgba(0,229,255,0.07); border: 1px solid rgba(0,229,255,0.28); padding: 9px 18px; border-radius: 12px; font-weight: 800 !important; font-size: 14px !important; text-decoration: none !important; transition: border-color .2s, background .2s, transform .2s, box-shadow .2s; white-space: nowrap; }
+.nav-account:hover { color: var(--white) !important; background: rgba(0,229,255,0.12); border-color: rgba(0,229,255,0.48); box-shadow: 0 0 26px rgba(0,229,255,0.16); transform: translateY(-1px); }
+.nav-account::before { content: ''; width: 16px; height: 16px; display: inline-block; background: currentColor; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5Z'/%3E%3C/svg%3E") center/contain no-repeat; -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5Z'/%3E%3C/svg%3E") center/contain no-repeat; }
+.article-wrap { max-width: 720px; margin: 0 auto; padding: 120px 32px 100px; }
+.breadcrumb { font-size: 13px; color: var(--dim); margin-bottom: 32px; }
+.breadcrumb a { color: var(--dim); text-decoration: none; }
+.breadcrumb a:hover { color: var(--cyan); }
+.breadcrumb span { margin: 0 8px; }
+.article-tag { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--cyan); margin-bottom: 16px; }
+.article-wrap h1 { font-family: 'Cabinet Grotesk', sans-serif; font-size: 42px; font-weight: 900; letter-spacing: -1.5px; line-height: 1.08; margin-bottom: 20px; }
+.article-meta { font-size: 13px; color: var(--dim); margin-bottom: 48px; padding-bottom: 32px; border-bottom: 1px solid var(--border); }
+.prose { line-height: 1.75; font-size: 16px; color: rgba(255,255,255,0.85); }
+.prose h2 { font-family: 'Cabinet Grotesk', sans-serif; font-size: 26px; font-weight: 800; letter-spacing: -0.5px; color: var(--white); margin: 52px 0 16px; }
+.prose h3 { font-family: 'Cabinet Grotesk', sans-serif; font-size: 19px; font-weight: 700; color: var(--white); margin: 36px 0 12px; }
+.prose p { margin-bottom: 20px; }
+.prose ul, .prose ol { margin: 0 0 20px 20px; }
+.prose li { margin-bottom: 8px; }
+.prose strong { color: var(--white); font-weight: 600; }
+.callout { background: var(--panel); border: 1px solid rgba(0,229,255,0.2); border-left: 3px solid var(--cyan); border-radius: var(--r); padding: 20px 24px; margin: 32px 0; font-size: 15px; color: var(--off); }
+.callout strong { color: var(--white); display: block; margin-bottom: 4px; }
+.callout-warn { background: var(--panel); border: 1px solid rgba(255,180,0,0.2); border-left: 3px solid #ffb400; border-radius: var(--r); padding: 20px 24px; margin: 32px 0; font-size: 15px; color: var(--off); }
+.callout-warn strong { color: #ffb400; display: block; margin-bottom: 4px; }
+.scheme { background: var(--panel); border: 1px solid var(--border); border-radius: var(--r2); padding: 28px 32px; margin: 32px 0; }
+.scheme-title { font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--dim); margin-bottom: 20px; }
+.scheme-row { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; font-size: 14px; }
+.scheme-row:last-child { margin-bottom: 0; }
+.scheme-app { background: var(--glass2); border: 1px solid var(--border); border-radius: 8px; padding: 6px 14px; font-weight: 600; color: var(--white); white-space: nowrap; }
+.scheme-arrow { color: var(--dim); font-size: 18px; }
+.scheme-dest { color: var(--off); }
+.scheme-via-vpn { color: var(--cyan); font-weight: 600; }
+.scheme-via-direct { color: var(--green); font-weight: 600; }
+.article-cta { background: linear-gradient(135deg, var(--deep) 0%, var(--panel) 100%); border: 1px solid rgba(0,229,255,0.2); border-radius: var(--r2); padding: 40px; text-align: center; margin-top: 60px; }
+.article-cta h3 { font-family: 'Cabinet Grotesk', sans-serif; font-size: 26px; font-weight: 800; margin-bottom: 12px; }
+.article-cta p { color: var(--off); margin-bottom: 24px; font-size: 15px; }
+.btn-main { display: inline-flex; align-items: center; gap: 8px; background: var(--blue); color: var(--white); font-weight: 700; font-size: 15px; padding: 14px 28px; border-radius: 12px; text-decoration: none; transition: background .2s; }
+.btn-main:hover { background: var(--blue2); }
+footer { border-top: 1px solid var(--border); padding: 32px 0; }
+.footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+.footer-logo { font-family: 'Cabinet Grotesk', sans-serif; font-weight: 900; font-size: 18px; color: var(--white); text-decoration: none; }
+.footer-logo span { color: var(--cyan); }
+.footer-links { display: flex; gap: 20px; flex-wrap: wrap; }
+.footer-links a { font-size: 13px; color: var(--off); text-decoration: none; transition: color .2s; }
+.footer-links a:hover { color: var(--white); }
+.footer-copy { font-size: 12px; color: var(--dim); }
+@media (max-width: 640px) {
+  .article-wrap { padding: 100px 18px 80px; }
+  .article-wrap h1 { font-size: 30px; }
+  .prose h2 { font-size: 22px; }
+  nav { padding: 0 18px; }
+  .nav-links a:not(.nav-account) { display: none; }
+  .scheme { padding: 20px 18px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="/">
+    <div class="nav-logo-icon"><svg class="icon-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 19 6v5c0 4.8-2.8 8-7 10-4.2-2-7-5.2-7-10V6l7-3Z"/><path d="M9.5 12.5 11 14l3.5-4"/></svg></div>
+    Nagh <span>VPN</span>
+  </a>
+  <div class="nav-links">
+    <a href="/pricing/">Тарифы</a>
+    <a href="/offer/">Оферта</a>
+    <a href="/privacy/">Политика</a>
+    <a href="/blog/">Блог</a>
+    <a href="/support/">Поддержка</a>
+    <a href="/account/" class="nav-account">Личный кабинет</a>
+  </div>
+</nav>
+
+<main class="article-wrap">
+  <div class="breadcrumb">
+    <a href="/">Главная</a><span>/</span>
+    <a href="/blog/">Блог</a><span>/</span>
+    Split tunneling
+  </div>
+
+  <div class="article-tag">Технологии</div>
+  <h1>Что такое split tunneling и зачем он нужен</h1>
+  <div class="article-meta">14 июня 2026 · 6 минут чтения</div>
+
+  <div class="prose">
+
+    <p>Когда вы включаете VPN, весь трафик по умолчанию идёт через зашифрованный туннель. Это надёжно, но создаёт неудобства: банковское приложение может блокировать вход с иностранного IP, стриминговые сервисы показывают зарубежный контент, а скорость падает из-за лишнего маршрута. <strong>Split tunneling решает эту проблему</strong> — он позволяет выбрать, что идёт через VPN, а что напрямую.</p>
+
+    <h2>Как это работает</h2>
+
+    <p>В обычном режиме VPN работает как единая труба: весь трафик с устройства уходит на VPN-сервер, там расшифровывается и идёт дальше в интернет. Для провайдера и всех по пути видно только зашифрованный поток на один адрес.</p>
+
+    <p>Split tunneling разделяет этот поток. Вы задаёте правила: например, браузер и Telegram идут через VPN, а банковское приложение и локальный стриминг — напрямую, без туннеля. Устройство одновременно поддерживает оба маршрута.</p>
+
+    <div class="scheme">
+      <div class="scheme-title">Пример настройки split tunneling</div>
+      <div class="scheme-row">
+        <div class="scheme-app">Браузер</div>
+        <div class="scheme-arrow">→</div>
+        <div class="scheme-via-vpn">через VPN</div>
+        <div class="scheme-dest">— шифрование, защита</div>
+      </div>
+      <div class="scheme-row">
+        <div class="scheme-app">Telegram</div>
+        <div class="scheme-arrow">→</div>
+        <div class="scheme-via-vpn">через VPN</div>
+        <div class="scheme-dest">— защита переписки</div>
+      </div>
+      <div class="scheme-row">
+        <div class="scheme-app">Сбербанк</div>
+        <div class="scheme-arrow">→</div>
+        <div class="scheme-via-direct">напрямую</div>
+        <div class="scheme-dest">— российский IP, нет блокировок</div>
+      </div>
+      <div class="scheme-row">
+        <div class="scheme-app">Госуслуги</div>
+        <div class="scheme-arrow">→</div>
+        <div class="scheme-via-direct">напрямую</div>
+        <div class="scheme-dest">— локальный доступ без проблем</div>
+      </div>
+    </div>
+
+    <h2>Зачем это нужно на практике</h2>
+
+    <h3>Банки и госсервисы</h3>
+    <p>Самая частая причина, по которой люди отключают VPN вручную — банковские приложения. Сбербанк, Тинькофф, Госуслуги видят, что вы подключаетесь с зарубежного IP, и либо блокируют вход, либо требуют дополнительную проверку. С split tunneling эти приложения всегда работают напрямую, без изменения вашего IP.</p>
+
+    <h3>Скорость</h3>
+    <p>Любой VPN добавляет задержку — трафик делает лишний крюк через сервер. Для просмотра YouTube или скачивания файлов это незаметно, но для онлайн-игр или видеозвонков может быть критично. Через split tunneling игры и звонки идут напрямую — с минимальным пингом.</p>
+
+    <h3>Локальная сеть</h3>
+    <p>Если VPN включён полностью, вы теряете доступ к устройствам в домашней сети — принтеру, NAS, умной колонке. Split tunneling позволяет одновременно использовать VPN и оставаться в локальной сети.</p>
+
+    <h3>Рабочий VPN параллельно</h3>
+    <p>Многие используют корпоративный VPN для работы. Если личный и рабочий VPN конфликтуют, split tunneling помогает разделить: рабочие приложения идут через корпоративный туннель, остальное — через личный VPN или напрямую.</p>
+
+    <h2>Два вида split tunneling</h2>
+
+    <p>Существует два подхода к настройке, и важно понимать разницу:</p>
+
+    <p><strong>По приложениям</strong> — вы указываете конкретные приложения, которые идут через VPN (или наоборот, исключаете их из туннеля). Это самый удобный вариант для смартфонов.</p>
+
+    <p><strong>По IP-адресам или доменам</strong> — вы задаёте список адресов, трафик к которым пойдёт через VPN. Остальное — напрямую. Более гибко, но требует понимания того, какие адреса использует нужный сервис.</p>
+
+    <div class="callout">
+      <strong>Инверсный split tunneling</strong>
+      Некоторые клиенты поддерживают инверсный режим: по умолчанию весь трафик идёт напрямую, и только указанные приложения или адреса — через VPN. Удобно, если VPN нужен только для нескольких сервисов.
+    </div>
+
+    <h2>Есть ли риски</h2>
+
+    <p>Split tunneling — осознанный компромисс между удобством и защитой. Трафик, который идёт напрямую, не шифруется и виден провайдеру так же, как без VPN. Если вы подключены к публичному Wi-Fi, незащищённый трафик потенциально уязвим.</p>
+
+    <div class="callout-warn">
+      <strong>Совет</strong>
+      В публичных сетях лучше отключать split tunneling и пускать весь трафик через VPN. Дома или в офисе — можно настраивать исключения под свои нужды.
+    </div>
+
+    <h2>Как это реализовано в Nagh VPN</h2>
+
+    <p>В Nagh VPN split tunneling доступен на всех тарифах — через приложение Happ. Вы выбираете приложения, которые работают через VPN, остальные автоматически идут напрямую. Настройка занимает около минуты и не требует технических знаний.</p>
+
+    <p>На Android доступна настройка по приложениям прямо в системных настройках VPN — без дополнительных инструментов.</p>
+
+    <h2>Итог</h2>
+
+    <p>Split tunneling — это не техническая экзотика, а базовая функция удобного VPN. Без неё приходится постоянно включать и выключать VPN вручную: перед входом в банк выключил, после — включил. С ней всё работает автоматически: защищённый трафик идёт через туннель, а банки, госсервисы и игры — напрямую, без лишних задержек и блокировок.</p>
+
+  </div>
+
+  <div class="article-cta">
+    <h3>Split tunneling в Nagh VPN — на всех тарифах</h3>
+    <p>Настройте за минуту. Браузер через VPN, банк напрямую — всё одновременно.</p>
+    <a href="/pricing/" class="btn-main">Смотреть тарифы</a>
+  </div>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <a class="footer-logo" href="/">Nagh <span>VPN</span></a>
+      <div class="footer-links">
+        <a href="/pricing/">Тарифы</a>
+        <a href="/offer/">Оферта</a>
+        <a href="/privacy/">Политика</a>
+        <a href="/terms/">Соглашение</a>
+        <a href="/support/">Поддержка</a>
+        <a href="/blog/">Блог</a>
+      </div>
+      <div class="footer-copy">© 2026 Nagh VPN. Все права защищены.</div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Как защитить данные в публичном Wi-Fi — Nagh VPN</title>
+<meta name="description" content="Публичный Wi-Fi в кафе, аэропорту или торговом центре небезопасен. Объясняем какие реальные угрозы существуют и как защитить свои данные.">
+<link rel="canonical" href="https://naghvpn.ru/blog/wifi-bezopasnost/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400;500;700;800;900&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230057ff'/%3E%3Cpath d='M32 10l18 8v13c0 12-7.5 19.5-18 23-10.5-3.5-18-11-18-23V18l18-8z' fill='white' opacity='.95'/%3E%3Cpath d='M24 32l5 5 12-14' stroke='%230057ff' stroke-width='5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Как защитить данные в публичном Wi-Fi",
+  "description": "Публичный Wi-Fi в кафе, аэропорту или торговом центре небезопасен. Объясняем какие реальные угрозы существуют и как защитить свои данные.",
+  "author": {"@type": "Organization", "name": "Nagh VPN"},
+  "publisher": {"@type": "Organization", "name": "Nagh VPN", "url": "https://naghvpn.ru"},
+  "datePublished": "2026-06-14",
+  "dateModified": "2026-06-14",
+  "url": "https://naghvpn.ru/blog/wifi-bezopasnost/",
+  "inLanguage": "ru"
+}
+</script>
+<style>
+:root {
+  --night: #03060f; --deep: #07102a; --panel: #0b1635;
+  --glass: rgba(255,255,255,0.04); --glass2: rgba(255,255,255,0.07);
+  --white: #ffffff; --off: rgba(255,255,255,0.55); --dim: rgba(255,255,255,0.28);
+  --blue: #1457ff; --blue2: #4d83ff; --cyan: #00e5ff; --cyan2: rgba(0,229,255,0.15);
+  --green: #2dde98; --red: rgba(255,90,90,0.9); --border: rgba(255,255,255,0.09); --r: 20px; --r2: 28px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body { font-family: 'Instrument Sans', sans-serif; background: var(--night); color: var(--white); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+.container { max-width: 1160px; margin: 0 auto; padding: 0 32px; }
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 999; padding: 0 32px; background: rgba(3,6,15,0.75); backdrop-filter: blur(24px) saturate(1.4); border-bottom: 1px solid var(--border); height: 68px; display: flex; align-items: center; justify-content: space-between; }
+.nav-logo { font-family: 'Cabinet Grotesk', sans-serif; font-weight: 900; font-size: 21px; letter-spacing: -0.5px; color: var(--white); text-decoration: none; display: flex; align-items: center; gap: 9px; }
+.nav-logo-icon { width: 34px; height: 34px; border-radius: 10px; background: var(--blue); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(20,87,255,0.5); color: var(--white); flex: 0 0 34px; }
+.icon-svg { width: 24px; height: 24px; display: block; stroke: currentColor; fill: none; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
+.nav-logo span { color: var(--cyan); }
+.nav-links { display: flex; gap: 24px; align-items: center; }
+.nav-links a { font-size: 14px; font-weight: 500; color: var(--off); text-decoration: none; transition: color .2s; }
+.nav-links a:hover { color: var(--white); }
+.nav-account { display: inline-flex; align-items: center; justify-content: center; gap: 8px; color: var(--cyan) !important; background: rgba(0,229,255,0.07); border: 1px solid rgba(0,229,255,0.28); padding: 9px 18px; border-radius: 12px; font-weight: 800 !important; font-size: 14px !important; text-decoration: none !important; transition: border-color .2s, background .2s, transform .2s, box-shadow .2s; white-space: nowrap; }
+.nav-account:hover { color: var(--white) !important; background: rgba(0,229,255,0.12); border-color: rgba(0,229,255,0.48); box-shadow: 0 0 26px rgba(0,229,255,0.16); transform: translateY(-1px); }
+.nav-account::before { content: ''; width: 16px; height: 16px; display: inline-block; background: currentColor; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5Z'/%3E%3C/svg%3E") center/contain no-repeat; -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5Z'/%3E%3C/svg%3E") center/contain no-repeat; }
+.article-wrap { max-width: 720px; margin: 0 auto; padding: 120px 32px 100px; }
+.breadcrumb { font-size: 13px; color: var(--dim); margin-bottom: 32px; }
+.breadcrumb a { color: var(--dim); text-decoration: none; }
+.breadcrumb a:hover { color: var(--cyan); }
+.breadcrumb span { margin: 0 8px; }
+.article-tag { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--cyan); margin-bottom: 16px; }
+.article-wrap h1 { font-family: 'Cabinet Grotesk', sans-serif; font-size: 42px; font-weight: 900; letter-spacing: -1.5px; line-height: 1.08; margin-bottom: 20px; }
+.article-meta { font-size: 13px; color: var(--dim); margin-bottom: 48px; padding-bottom: 32px; border-bottom: 1px solid var(--border); }
+.prose { line-height: 1.75; font-size: 16px; color: rgba(255,255,255,0.85); }
+.prose h2 { font-family: 'Cabinet Grotesk', sans-serif; font-size: 26px; font-weight: 800; letter-spacing: -0.5px; color: var(--white); margin: 52px 0 16px; }
+.prose h3 { font-family: 'Cabinet Grotesk', sans-serif; font-size: 19px; font-weight: 700; color: var(--white); margin: 36px 0 12px; }
+.prose p { margin-bottom: 20px; }
+.prose ul { margin: 0 0 20px 20px; }
+.prose li { margin-bottom: 8px; }
+.prose strong { color: var(--white); font-weight: 600; }
+.callout { background: var(--panel); border: 1px solid rgba(0,229,255,0.2); border-left: 3px solid var(--cyan); border-radius: var(--r); padding: 20px 24px; margin: 32px 0; font-size: 15px; color: var(--off); }
+.callout strong { color: var(--white); display: block; margin-bottom: 4px; }
+.threat-card { background: var(--panel); border: 1px solid rgba(255,90,90,0.15); border-radius: var(--r); padding: 24px; margin-bottom: 16px; }
+.threat-title { font-family: 'Cabinet Grotesk', sans-serif; font-weight: 800; font-size: 17px; color: var(--white); margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+.threat-badge { font-size: 11px; font-weight: 700; letter-spacing: 0.5px; padding: 3px 8px; border-radius: 6px; background: rgba(255,90,90,0.15); color: var(--red); }
+.threat-badge-mid { background: rgba(255,180,0,0.15); color: #ffb400; }
+.threat-desc { font-size: 14px; color: var(--off); line-height: 1.6; }
+.checklist { background: var(--panel); border: 1px solid rgba(45,222,152,0.2); border-radius: var(--r2); padding: 28px 32px; margin: 32px 0; }
+.checklist-title { font-family: 'Cabinet Grotesk', sans-serif; font-weight: 800; font-size: 18px; margin-bottom: 20px; }
+.check-item { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px; font-size: 15px; color: var(--off); }
+.check-item:last-child { margin-bottom: 0; }
+.check-icon { width: 20px; height: 20px; flex: 0 0 20px; margin-top: 2px; background: var(--green); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.check-icon::after { content: '✓'; font-size: 11px; font-weight: 800; color: var(--night); }
+.article-cta { background: linear-gradient(135deg, var(--deep) 0%, var(--panel) 100%); border: 1px solid rgba(0,229,255,0.2); border-radius: var(--r2); padding: 40px; text-align: center; margin-top: 60px; }
+.article-cta h3 { font-family: 'Cabinet Grotesk', sans-serif; font-size: 26px; font-weight: 800; margin-bottom: 12px; }
+.article-cta p { color: var(--off); margin-bottom: 24px; font-size: 15px; }
+.btn-main { display: inline-flex; align-items: center; gap: 8px; background: var(--blue); color: var(--white); font-weight: 700; font-size: 15px; padding: 14px 28px; border-radius: 12px; text-decoration: none; transition: background .2s; }
+.btn-main:hover { background: var(--blue2); }
+footer { border-top: 1px solid var(--border); padding: 32px 0; }
+.footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+.footer-logo { font-family: 'Cabinet Grotesk', sans-serif; font-weight: 900; font-size: 18px; color: var(--white); text-decoration: none; }
+.footer-logo span { color: var(--cyan); }
+.footer-links { display: flex; gap: 20px; flex-wrap: wrap; }
+.footer-links a { font-size: 13px; color: var(--off); text-decoration: none; transition: color .2s; }
+.footer-links a:hover { color: var(--white); }
+.footer-copy { font-size: 12px; color: var(--dim); }
+@media (max-width: 640px) {
+  .article-wrap { padding: 100px 18px 80px; }
+  .article-wrap h1 { font-size: 30px; }
+  .prose h2 { font-size: 22px; }
+  nav { padding: 0 18px; }
+  .nav-links a:not(.nav-account) { display: none; }
+  .checklist { padding: 20px 18px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="/">
+    <div class="nav-logo-icon"><svg class="icon-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 19 6v5c0 4.8-2.8 8-7 10-4.2-2-7-5.2-7-10V6l7-3Z"/><path d="M9.5 12.5 11 14l3.5-4"/></svg></div>
+    Nagh <span>VPN</span>
+  </a>
+  <div class="nav-links">
+    <a href="/pricing/">Тарифы</a>
+    <a href="/offer/">Оферта</a>
+    <a href="/privacy/">Политика</a>
+    <a href="/blog/">Блог</a>
+    <a href="/support/">Поддержка</a>
+    <a href="/account/" class="nav-account">Личный кабинет</a>
+  </div>
+</nav>
+
+<main class="article-wrap">
+  <div class="breadcrumb">
+    <a href="/">Главная</a><span>/</span>
+    <a href="/blog/">Блог</a><span>/</span>
+    Безопасность в Wi-Fi
+  </div>
+
+  <div class="article-tag">Безопасность</div>
+  <h1>Как защитить данные в публичном Wi-Fi</h1>
+  <div class="article-meta">14 июня 2026 · 8 минут чтения</div>
+
+  <div class="prose">
+
+    <p>Wi-Fi в кафе, торговом центре, аэропорту или гостинице — удобство, которым пользуются почти все. Но мало кто задумывается, что публичная беспроводная сеть устроена принципиально иначе, чем домашняя. <strong>В ней нет никаких гарантий того, кто ещё подключён и что происходит с вашим трафиком.</strong> Разберём конкретные угрозы и способы от них защититься.</p>
+
+    <h2>Какие реальные угрозы существуют</h2>
+
+    <div class="threat-card">
+      <div class="threat-title">Перехват трафика (Man-in-the-Middle) <span class="threat-badge">Высокий риск</span></div>
+      <div class="threat-desc">Атакующий подключается к той же сети и с помощью специального ПО перехватывает пакеты между вами и точкой доступа. Незашифрованные данные — логины, куки, содержимое страниц — становятся видны в открытом виде. Инструменты для этого общедоступны и не требуют профессиональных навыков.</div>
+    </div>
+
+    <div class="threat-card">
+      <div class="threat-title">Поддельная точка доступа (Evil Twin) <span class="threat-badge">Высокий риск</span></div>
+      <div class="threat-desc">Злоумышленник создаёт Wi-Fi сеть с таким же именем, как у заведения: «Starbucks_WiFi» или «AeroExpress». Телефон подключается автоматически — особенно если раньше уже был в такой сети. Весь трафик проходит через атакующего, который может подменять страницы и собирать данные.</div>
+    </div>
+
+    <div class="threat-card">
+      <div class="threat-title">Сниффинг DNS-запросов <span class="threat-badge threat-badge-mid">Средний риск</span></div>
+      <div class="threat-desc">Даже если сам трафик зашифрован (HTTPS), DNS-запросы — то есть обращения к именам сайтов — часто идут в открытом виде. По ним видно, какие сайты вы посещаете, даже без доступа к содержимому страниц.</div>
+    </div>
+
+    <div class="threat-card">
+      <div class="threat-title">Компрометированный роутер <span class="threat-badge threat-badge-mid">Средний риск</span></div>
+      <div class="threat-desc">Роутер в публичном заведении может быть взломан или намеренно настроен недобросовестно. В таком случае атака исходит не от другого пользователя сети, а от самой точки доступа — это сложнее обнаружить и защититься без шифрования трафика.</div>
+    </div>
+
+    <h2>Насколько это актуально в 2026 году</h2>
+
+    <p>Есть аргумент, который часто приводят: «Сейчас везде HTTPS, какой перехват?» Это частично верно. Большинство сайтов шифруют соединение, и перехватить содержимое страницы сложнее, чем десять лет назад. Но это не означает полную безопасность.</p>
+
+    <p>Во-первых, <strong>не все приложения используют шифрование корректно</strong>. Некоторые мобильные приложения передают данные без HTTPS или с некорректными сертификатами. Во-вторых, <strong>метаданные остаются открытыми</strong> — кому вы пишете, какие сайты открываете, в какое время. В-третьих, атаки типа Evil Twin работают независимо от HTTPS — подмена происходит до установки защищённого соединения.</p>
+
+    <div class="callout">
+      <strong>Реальный пример</strong>
+      В 2024 году в Австралии был осуждён мужчина, создавший поддельные Wi-Fi сети в аэропортах и самолётах для кражи учётных данных пассажиров. Он собрал данные тысяч людей с помощью обычного ноутбука и адаптера.
+    </div>
+
+    <h2>Что конкретно делать</h2>
+
+    <h3>1. Включайте VPN перед подключением к публичной сети</h3>
+    <p>Это самый надёжный способ. VPN шифрует весь трафик с устройства ещё до того, как он покидает ваш телефон или ноутбук. Даже если атакующий перехватит пакеты, он увидит только зашифрованный поток на адрес VPN-сервера — без содержимого и без DNS-запросов.</p>
+    <p>Важно включать VPN <strong>до</strong> подключения к сети, а не после — в этот промежуток устройство уже может начать передавать данные.</p>
+
+    <h3>2. Отключите автоподключение к известным сетям</h3>
+    <p>В настройках Wi-Fi на Android и iOS есть опция автоматического подключения к сохранённым сетям. Именно она делает атаку Evil Twin эффективной — телефон сам подключается к поддельной точке с знакомым именем. Отключите её для всех публичных сетей.</p>
+
+    <h3>3. Используйте мобильный интернет для чувствительных операций</h3>
+    <p>Банковские переводы, вход в почту, работа с документами — для этого лучше переключиться на мобильную сеть. Она не идеальна с точки зрения безопасности, но атаки типа Evil Twin через неё невозможны.</p>
+
+    <h3>4. Проверяйте HTTPS и сертификаты</h3>
+    <p>Перед вводом паролей убедитесь, что в адресной строке есть замок и адрес правильный. Браузер предупредит о проблемах с сертификатом — не игнорируйте эти предупреждения в публичных сетях.</p>
+
+    <h3>5. Обновляйте приложения и систему</h3>
+    <p>Многие атаки эксплуатируют уязвимости в устаревшем ПО. Обновления закрывают известные дыры — держите систему актуальной, особенно если часто работаете в публичных сетях.</p>
+
+    <div class="checklist">
+      <div class="checklist-title">Чеклист перед подключением к публичному Wi-Fi</div>
+      <div class="check-item">
+        <div class="check-icon"></div>
+        <div>Включил VPN до подключения к сети</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"></div>
+        <div>Проверил название сети у персонала заведения</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"></div>
+        <div>Отключил автоподключение к Wi-Fi на устройстве</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"></div>
+        <div>Для банка и почты использую мобильный интернет или VPN</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"></div>
+        <div>Не игнорирую предупреждения браузера о сертификатах</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"></div>
+        <div>Приложения и ОС обновлены до актуальной версии</div>
+      </div>
+    </div>
+
+    <h2>Что не поможет</h2>
+
+    <p><strong>HTTPS сам по себе</strong> — защищает содержимое, но не скрывает, с кем вы общаетесь, и не защищает от атак до установки соединения.</p>
+
+    <p><strong>Режим инкогнито</strong> — он скрывает историю на вашем устройстве, но никак не влияет на то, что видно в сети. Провайдер и атакующий в той же сети видят ваш трафик так же, как в обычном режиме.</p>
+
+    <p><strong>Антивирус</strong> — он полезен против вредоносных файлов, но не защищает от перехвата сетевого трафика.</p>
+
+    <h2>Итог</h2>
+
+    <p>Публичный Wi-Fi удобен, но создаёт реальные риски — особенно для данных, которые вы не думаете защищать. Большинство угроз решается одним действием: <strong>включите VPN перед подключением</strong>. Это занимает секунду и закрывает основные векторы атак — перехват трафика, сниффинг DNS, часть атак Evil Twin.</p>
+
+    <p>Остальные меры — отключение автоподключения, использование мобильного интернета для банка — дополняют защиту и не требуют никаких технических знаний.</p>
+
+  </div>
+
+  <div class="article-cta">
+    <h3>Nagh VPN — включите до подключения к Wi-Fi</h3>
+    <p>Весь трафик зашифрован. VLESS + Reality — не виден провайдеру и атакующим в сети.</p>
+    <a href="/pricing/" class="btn-main">Смотреть тарифы</a>
+  </div>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <a class="footer-logo" href="/">Nagh <span>VPN</span></a>
+      <div class="footer-links">
+        <a href="/pricing/">Тарифы</a>
+        <a href="/offer/">Оферта</a>
+        <a href="/privacy/">Политика</a>
+        <a href="/terms/">Соглашение</a>
+        <a href="/support/">Поддержка</a>
+        <a href="/blog/">Блог</a>
+      </div>
+      <div class="footer-copy">© 2026 Nagh VPN. Все права защищены.</div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
