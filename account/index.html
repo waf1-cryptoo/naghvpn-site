@@ -2469,6 +2469,11 @@ table.data-table {
             </div>
             <button class="small-btn add-device-close" type="button" id="close-add-device-options" aria-label="Скрыть">×</button>
           </div>
+          <div style="margin-bottom:16px;">
+            <label style="display:block;font-size:13px;color:var(--off,#aaa);margin-bottom:6px;">Название устройства <span style="opacity:0.6">(необязательно)</span></label>
+            <input type="text" id="new-device-name" placeholder="Например: iPhone мамы, Рабочий ноутбук" maxlength="50"
+              style="padding:10px 14px;border-radius:10px;border:1px solid var(--border,#333);background:rgba(255,255,255,0.05);color:inherit;font-size:15px;width:100%;box-sizing:border-box;outline:none;">
+          </div>
 
           <div class="connect-grid add-device-methods">
             <div class="connect-card add-device-method-card">
@@ -2476,11 +2481,7 @@ table.data-table {
                 <h3>Код</h3>
                 <p>Код действует 10 минут и позволяет добавить устройство к подписке при наличии свободного слота.</p>
               </div>
-              <div style="display:flex;flex-direction:column;gap:8px;width:100%">
-                <input type="text" id="new-device-name" placeholder="Название устройства (необяз.)" maxlength="50"
-                  style="padding:8px 12px;border-radius:8px;border:1px solid var(--border,#333);background:var(--input-bg,#1a1a2e);color:inherit;font-size:14px;width:100%;box-sizing:border-box;">
-                <button class="small-btn" type="button" id="create-code-button">Создать код</button>
-              </div>
+              <button class="small-btn" type="button" id="create-code-button">Создать код</button>
             </div>
 
             <div class="connect-card add-device-method-card">
