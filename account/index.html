@@ -2476,7 +2476,11 @@ table.data-table {
                 <h3>Код</h3>
                 <p>Код действует 10 минут и позволяет добавить устройство к подписке при наличии свободного слота.</p>
               </div>
-              <button class="small-btn" type="button" id="create-code-button">Создать код</button>
+              <div style="display:flex;flex-direction:column;gap:8px;width:100%">
+                <input type="text" id="new-device-name" placeholder="Название устройства (необяз.)" maxlength="50"
+                  style="padding:8px 12px;border-radius:8px;border:1px solid var(--border,#333);background:var(--input-bg,#1a1a2e);color:inherit;font-size:14px;width:100%;box-sizing:border-box;">
+                <button class="small-btn" type="button" id="create-code-button">Создать код</button>
+              </div>
             </div>
 
             <div class="connect-card add-device-method-card">
@@ -3399,7 +3403,7 @@ createCodeButton.addEventListener('click', async () => {
   try {
     const data = await apiAuthed('/devices/invite-code', {
       method: 'POST',
-      body: JSON.stringify({ device_name: 'Новое устройство', device_type: 'android', protocol: 'vless_reality' })
+      body: JSON.stringify({ device_name: (document.getElementById('new-device-name').value.trim() || 'Новое устройство'), device_type: 'android', protocol: 'vless_reality' })
     });
     setStatus(connectStatus, 'ok', 'Код подключения создан. Он действует 10 минут.');
     showCodeBox(data.code || JSON.stringify(data, null, 2));
