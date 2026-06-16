@@ -2463,19 +2463,34 @@ table.data-table {
         </div>
 
         <div class="add-device-options hidden" id="add-device-options">
-          <div class="add-device-options-head">
-            <div>
-              <h3>Выберите способ подключения</h3>
+          <!-- Шаг 1: ввод имени устройства -->
+          <div id="device-name-step">
+            <div class="add-device-options-head">
+              <div>
+                <h3>Как назвать устройство?</h3>
+                <p>Например: iPhone мамы, Рабочий ноутбук</p>
+              </div>
+              <button class="small-btn add-device-close" type="button" id="close-add-device-options" aria-label="Скрыть">×</button>
             </div>
-            <button class="small-btn add-device-close" type="button" id="close-add-device-options" aria-label="Скрыть">×</button>
-          </div>
-          <div style="margin-bottom:16px;">
-            <label style="display:block;font-size:13px;color:var(--off,#aaa);margin-bottom:6px;">Название устройства <span style="opacity:0.6">(необязательно)</span></label>
-            <input type="text" id="new-device-name" placeholder="Например: iPhone мамы, Рабочий ноутбук" maxlength="50"
-              style="padding:10px 14px;border-radius:10px;border:1px solid var(--border,#333);background:rgba(255,255,255,0.05);color:inherit;font-size:15px;width:100%;box-sizing:border-box;outline:none;">
+            <div style="display:flex;gap:10px;margin-bottom:4px;align-items:center;">
+              <input type="text" id="new-device-name" placeholder="Название (необязательно)" maxlength="50"
+                style="padding:10px 14px;border-radius:10px;border:1px solid var(--border,#333);background:rgba(255,255,255,0.05);color:inherit;font-size:15px;flex:1;box-sizing:border-box;outline:none;">
+              <button class="small-btn" type="button" id="device-name-next-btn" style="white-space:nowrap;">Далее →</button>
+            </div>
           </div>
 
-          <div class="connect-grid add-device-methods">
+          <!-- Шаг 2: выбор способа подключения (скрыт до ввода имени) -->
+          <div id="device-connect-step" class="hidden">
+            <div class="add-device-options-head">
+              <div>
+                <h3>Выберите способ подключения</h3>
+                <p id="device-name-display" style="color:var(--cyan);font-size:14px;"></p>
+              </div>
+              <button class="small-btn add-device-close" type="button" aria-label="Скрыть" onclick="document.getElementById('close-add-device-options').click()">×</button>
+            </div>
+          </div>
+
+          <div id="device-methods-grid" class="connect-grid add-device-methods hidden">
             <div class="connect-card add-device-method-card">
               <div>
                 <h3>Код</h3>
@@ -3355,27 +3370,20 @@ async function openAddDeviceOptions() {
 
   clearStatus(connectStatus);
   hideCodeBox();
-  creatingAddDeviceSlot = true;
-  addDeviceButton.disabled = true;
-  if (addDeviceHint) addDeviceHint.textContent = 'Создаём новое устройство и занимаем слот...';
 
-  try {
-    await apiAuthed('/happ-subscriptions', {
-      method: 'POST',
-      body: JSON.stringify({ device_name: `Happ subscription ${used + 1}`, device_type: 'happ' })
-    });
-    await refreshDevicesAndHappSubscriptions();
-    addDeviceOptions.classList.remove('hidden');
-    addDeviceButton.setAttribute('aria-expanded', 'true');
-    setStatus(connectStatus, 'ok', `Устройство ${used + 1} создано. Выберите способ подключения.`);
-    addDeviceOptions.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  } catch (error) {
-    setStatus(connectStatus, 'error', error.message || 'Не удалось создать устройство. Проверьте свободные слоты подписки.');
-    updateAddDevicePlaceholder(currentDevices, currentProfile);
-  } finally {
-    creatingAddDeviceSlot = false;
-    updateAddDevicePlaceholder(currentDevices, currentProfile);
-  }
+  // Показываем форму имени (шаг 1), скрываем шаг 2
+  const nameStep = document.getElementById('device-name-step');
+  const connectStep = document.getElementById('device-connect-step');
+  const methodsGrid = document.getElementById('device-methods-grid');
+  const nameInput = document.getElementById('new-device-name');
+  if (nameStep) nameStep.classList.remove('hidden');
+  if (connectStep) connectStep.classList.add('hidden');
+  if (methodsGrid) methodsGrid.classList.add('hidden');
+  if (nameInput) { nameInput.value = ''; setTimeout(() => nameInput.focus(), 100); }
+
+  addDeviceOptions.classList.remove('hidden');
+  addDeviceButton.setAttribute('aria-expanded', 'true');
+  addDeviceOptions.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
 function closeAddDeviceOptions() {
@@ -3390,6 +3398,53 @@ if (addDeviceButton) {
     if (addDeviceOptions.classList.contains('hidden')) await openAddDeviceOptions();
     else closeAddDeviceOptions();
   });
+}
+
+// Кнопка "Далее" — создаём устройство с именем и показываем способы подключения
+const deviceNameNextBtn = document.getElementById('device-name-next-btn');
+if (deviceNameNextBtn) {
+  deviceNameNextBtn.addEventListener('click', async () => {
+    const nameInput = document.getElementById('new-device-name');
+    const deviceName = (nameInput && nameInput.value.trim()) || null;
+    const nameStep = document.getElementById('device-name-step');
+    const connectStep = document.getElementById('device-connect-step');
+    const methodsGrid = document.getElementById('device-methods-grid');
+    const nameDisplay = document.getElementById('device-name-display');
+    const { used } = getDeviceUsage(currentDevices, currentProfile);
+    const finalName = deviceName || `Устройство ${used + 1}`;
+
+    deviceNameNextBtn.disabled = true;
+    deviceNameNextBtn.textContent = 'Создаём...';
+    clearStatus(connectStatus);
+
+    try {
+      await apiAuthed('/happ-subscriptions', {
+        method: 'POST',
+        body: JSON.stringify({ device_name: finalName, device_type: 'happ' })
+      });
+      await refreshDevicesAndHappSubscriptions();
+
+      // Переходим к шагу 2
+      if (nameStep) nameStep.classList.add('hidden');
+      if (connectStep) connectStep.classList.remove('hidden');
+      if (methodsGrid) methodsGrid.classList.remove('hidden');
+      if (nameDisplay) nameDisplay.textContent = `Устройство: ${finalName}`;
+      setStatus(connectStatus, 'ok', `Устройство «${finalName}» создано. Выберите способ подключения.`);
+    } catch (error) {
+      setStatus(connectStatus, 'error', error.message || 'Не удалось создать устройство.');
+    } finally {
+      deviceNameNextBtn.disabled = false;
+      deviceNameNextBtn.textContent = 'Далее →';
+    }
+  });
+
+  // Enter в поле имени = нажать Далее
+  const nameInput = document.getElementById('new-device-name');
+  if (nameInput) {
+    nameInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') deviceNameNextBtn.click();
+    });
+  }
 }
 
 if (closeAddDeviceOptionsButton) {
