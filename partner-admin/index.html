@@ -37,7 +37,7 @@
   <div class="card"><h2>Выплаты</h2><div id="payouts"></div></div>
 </div>
 <script>
-const API='https://api.naghvpn.ru:4430';
+const API='https://api.naghvpn.ru:2083';
 function token(){return document.getElementById('token').value.trim()}
 function money(v){return Number(v||0).toLocaleString('ru-RU',{minimumFractionDigits:2,maximumFractionDigits:2})+' ₽'}
 async function api(path, opts={}){const r=await fetch(API+path,{...opts,headers:{'Content-Type':'application/json','X-Admin-Token':token(),...(opts.headers||{})}});const d=await r.json().catch(()=>({}));if(!r.ok)throw new Error(d.detail||'Ошибка API');return d}
