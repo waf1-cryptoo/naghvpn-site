@@ -2401,9 +2401,6 @@ table.data-table {
     <a href="/support/">Поддержка</a>
     <a href="/account/" class="nav-account">Личный кабинет</a>
   </div>
-  <button class="nav-burger" id="nav-burger" aria-label="Меню" aria-expanded="false">
-    <span></span><span></span><span></span>
-  </button>
 </nav>
 
 <div class="nagh-mobile-menu" id="nagh-mobile-menu" aria-hidden="true">
@@ -2428,43 +2425,7 @@ table.data-table {
   </div>
 </div>
 
-<div class="nav-mobile-menu" id="nav-mobile-menu">
-  <a href="/">Главная страница</a>
-  <a href="/pricing/">Тарифы</a>
-  <a href="/offer/">Оферта</a>
-  <a href="/privacy/">Политика</a>
-  <a href="/blog/">Блог</a>
-  <a href="/support/">Поддержка</a>
-  <a href="/account/" class="nav-account">Личный кабинет</a>
-</div>
-<style>
-.nav-burger{display:none;flex-direction:column;justify-content:center;gap:5px;background:none;border:none;cursor:pointer;padding:8px;width:40px;height:40px;}
-.nav-burger span{display:block;height:2px;width:22px;background:var(--white,#fff);border-radius:2px;transition:all .2s;}
-.nav-mobile-menu{display:none;flex-direction:column;background:rgba(10,10,20,.97);border-bottom:1px solid var(--border,#222);padding:12px 18px 18px;gap:4px;position:relative;z-index:99;}
-.nav-mobile-menu a{padding:12px 0;color:var(--white,#fff);text-decoration:none;font-size:16px;border-bottom:1px solid rgba(255,255,255,.06);}
-.nav-mobile-menu a:last-child{border-bottom:none;}
-.nav-mobile-menu a.nav-account{margin-top:8px;background:var(--cyan,#00e5ff);color:#000;border-radius:10px;padding:12px 18px;text-align:center;font-weight:700;border:none;}
-@media(max-width:760px){
-  .nav-burger{display:flex;}
-  .nav-mobile-menu.open{display:flex;}
-  .nav-logo span, .nav-logo-icon + *{display:none;}
-  .nav-logo{font-size:0;width:36px;overflow:hidden;}
-  .nav-logo .nav-logo-icon{display:block;}
-  .nav-links{display:none !important;}
-}
-</style>
-<script>
-(function(){
-  var burger=document.getElementById('nav-burger');
-  var menu=document.getElementById('nav-mobile-menu');
-  if(burger&&menu){
-    burger.addEventListener('click',function(){
-      var open=menu.classList.toggle('open');
-      burger.setAttribute('aria-expanded',open);
-    });
-  }
-})();
-</script>
+
 <section class="subpage-hero">
   <div class="orb orb-1"></div>
   <div class="orb orb-2"></div>
