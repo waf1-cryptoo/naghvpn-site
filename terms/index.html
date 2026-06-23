@@ -738,10 +738,152 @@ table.data-table {
 }
 /* === END NAV PATCH === */
 </style>
+
+<style id="nagh-mobile-nav-style">
+/* Mobile-only global navigation: hamburger on the left, account on the right */
+.nagh-mobile-menu-toggle,
+.nagh-mobile-menu { display: none; }
+.nagh-mobile-only-nav { display: none; }
+@media (max-width: 760px) {
+  body.nagh-mobile-menu-open { overflow: hidden; }
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    height: 64px;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 0 14px !important;
+    gap: 12px !important;
+    background: rgba(3, 6, 15, .82) !important;
+    border-bottom: 1px solid rgba(255,255,255,.10) !important;
+    backdrop-filter: blur(18px) !important;
+    -webkit-backdrop-filter: blur(18px) !important;
+  }
+  nav .nav-logo { display: none !important; }
+  nav .nav-links {
+    margin-left: auto !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 0 !important;
+  }
+  nav .nav-links a:not(.nav-account) { display: none !important; }
+  nav .nav-account {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 7px !important;
+    min-height: 40px !important;
+    padding: 9px 13px !important;
+    border-radius: 999px !important;
+    font-size: 13px !important;
+    line-height: 1 !important;
+    white-space: nowrap !important;
+  }
+  .nagh-mobile-menu-toggle {
+    display: inline-flex !important;
+    width: 44px !important;
+    height: 44px !important;
+    flex: 0 0 44px !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border: 1px solid rgba(255,255,255,.14) !important;
+    border-radius: 14px !important;
+    background: rgba(255,255,255,.06) !important;
+    color: #fff !important;
+    cursor: pointer !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .nagh-mobile-menu-toggle span,
+  .nagh-mobile-menu-toggle::before,
+  .nagh-mobile-menu-toggle::after {
+    content: "";
+    display: block;
+    width: 20px;
+    height: 2px;
+    border-radius: 10px;
+    background: currentColor;
+    position: absolute;
+    transition: transform .2s ease, opacity .2s ease;
+  }
+  .nagh-mobile-menu-toggle { position: relative !important; }
+  .nagh-mobile-menu-toggle::before { transform: translateY(-7px); }
+  .nagh-mobile-menu-toggle::after { transform: translateY(7px); }
+  body.nagh-mobile-menu-open .nagh-mobile-menu-toggle span { opacity: 0; }
+  body.nagh-mobile-menu-open .nagh-mobile-menu-toggle::before { transform: rotate(45deg); }
+  body.nagh-mobile-menu-open .nagh-mobile-menu-toggle::after { transform: rotate(-45deg); }
+  .nagh-mobile-menu {
+    display: block !important;
+    position: fixed;
+    inset: 64px 0 0 0;
+    z-index: 999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .18s ease;
+  }
+  .nagh-mobile-menu::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,.46);
+  }
+  .nagh-mobile-menu__panel {
+    position: relative;
+    width: min(86vw, 360px);
+    max-height: calc(100dvh - 82px);
+    overflow: auto;
+    margin: 10px 0 0 12px;
+    padding: 12px;
+    border: 1px solid rgba(255,255,255,.14);
+    border-radius: 22px;
+    background: rgba(7, 13, 28, .96);
+    box-shadow: 0 24px 60px rgba(0,0,0,.45);
+    transform: translateX(-12px);
+    transition: transform .18s ease;
+  }
+  body.nagh-mobile-menu-open .nagh-mobile-menu { opacity: 1; pointer-events: auto; }
+  body.nagh-mobile-menu-open .nagh-mobile-menu__panel { transform: translateX(0); }
+  .nagh-mobile-menu__title {
+    padding: 8px 10px 12px;
+    color: rgba(255,255,255,.58);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+  .nagh-mobile-menu__links { display: grid; gap: 6px; }
+  .nagh-mobile-menu__links a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 12px 13px;
+    border-radius: 14px;
+    color: rgba(255,255,255,.92);
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 750;
+    background: rgba(255,255,255,.045);
+    border: 1px solid rgba(255,255,255,.06);
+  }
+  .nagh-mobile-menu__links a:hover,
+  .nagh-mobile-menu__links a:focus-visible {
+    color: #fff;
+    border-color: rgba(0,229,255,.30);
+    background: rgba(0,229,255,.08);
+    outline: none;
+  }
+}
+</style>
+
 </head>
 <body>
 
 <nav>
+  <button class="nagh-mobile-menu-toggle" type="button" aria-label="Открыть меню" aria-controls="nagh-mobile-menu" aria-expanded="false"><span></span></button>
   <a class="nav-logo" href="/">
     <div class="nav-logo-icon"><svg class="icon-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 19 6v5c0 4.8-2.8 8-7 10-4.2-2-7-5.2-7-10V6l7-3Z"/><path d="M9.5 12.5 11 14l3.5-4"/></svg></div>
     Nagh <span>VPN</span>
@@ -755,6 +897,29 @@ table.data-table {
     <a href="/account/" class="nav-account">Личный кабинет</a>
   </div>
 </nav>
+
+<div class="nagh-mobile-menu" id="nagh-mobile-menu" aria-hidden="true">
+  <div class="nagh-mobile-menu__panel" role="dialog" aria-label="Меню сайта">
+    <div class="nagh-mobile-menu__title">Меню</div>
+    <div class="nagh-mobile-menu__links">
+    <a href="/">Главная</a>
+    <a href="/pricing/">Тарифы</a>
+    <a href="/setup/">Установка</a>
+    <a href="/setup/happ/">Happ</a>
+    <a href="/blog/">Блог</a>
+    <a href="/blog/vless-chto-eto/">VLESS</a>
+    <a href="/blog/split-tunneling/">Split tunneling</a>
+    <a href="/blog/wifi-bezopasnost/">Wi-Fi безопасность</a>
+    <a href="/support/">Поддержка</a>
+    <a href="/offer/">Оферта</a>
+    <a href="/privacy/">Конфиденциальность</a>
+    <a href="/terms/">Соглашение</a>
+    <a href="/requisites/">Реквизиты</a>
+    <a href="/account/">Личный кабинет</a>
+    </div>
+  </div>
+</div>
+
 <section class="subpage-hero">
   <div class="orb orb-1"></div>
   <div class="orb orb-2"></div>
@@ -812,6 +977,24 @@ const observer = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.08 });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+
+<script id="nagh-mobile-nav-script">
+(function(){
+  var button = document.querySelector('.nagh-mobile-menu-toggle');
+  var menu = document.getElementById('nagh-mobile-menu');
+  if (!button || !menu) return;
+  function setOpen(open) {
+    document.body.classList.toggle('nagh-mobile-menu-open', open);
+    button.setAttribute('aria-expanded', open ? 'true' : 'false');
+    button.setAttribute('aria-label', open ? 'Закрыть меню' : 'Открыть меню');
+    menu.setAttribute('aria-hidden', open ? 'false' : 'true');
+  }
+  button.addEventListener('click', function(){ setOpen(!document.body.classList.contains('nagh-mobile-menu-open')); });
+  menu.addEventListener('click', function(e){ if (e.target === menu || e.target.closest('a')) setOpen(false); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') setOpen(false); });
+})();
 </script>
 
 </body>
