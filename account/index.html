@@ -2264,6 +2264,7 @@ table.data-table {
   </button>
 </nav>
 <div class="nav-mobile-menu" id="nav-mobile-menu">
+  <a href="/">Главная страница</a>
   <a href="/pricing/">Тарифы</a>
   <a href="/offer/">Оферта</a>
   <a href="/privacy/">Политика</a>
@@ -2278,7 +2279,14 @@ table.data-table {
 .nav-mobile-menu a{padding:12px 0;color:var(--white,#fff);text-decoration:none;font-size:16px;border-bottom:1px solid rgba(255,255,255,.06);}
 .nav-mobile-menu a:last-child{border-bottom:none;}
 .nav-mobile-menu a.nav-account{margin-top:8px;background:var(--cyan,#00e5ff);color:#000;border-radius:10px;padding:12px 18px;text-align:center;font-weight:700;border:none;}
-@media(max-width:760px){.nav-burger{display:flex;}.nav-mobile-menu.open{display:flex;}}
+@media(max-width:760px){
+  .nav-burger{display:flex;}
+  .nav-mobile-menu.open{display:flex;}
+  .nav-logo span, .nav-logo-icon + *{display:none;}
+  .nav-logo{font-size:0;width:36px;overflow:hidden;}
+  .nav-logo .nav-logo-icon{display:block;}
+  .nav-links{display:none !important;}
+}
 </style>
 <script>
 (function(){
@@ -2493,18 +2501,16 @@ table.data-table {
         </div>
 
         <!-- Промежуточный шаг: ввод имени устройства -->
-        <div id="device-name-overlay" class="hidden" style="margin-top:18px;background:rgba(255,255,255,.035);border:1px solid var(--border);border-radius:22px;padding:18px;">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
-            <div>
-              <h3 style="font-family:'Cabinet Grotesk',sans-serif;font-size:24px;margin:0 0 4px;">Как назвать устройство?</h3>
-              <p style="color:var(--off);font-size:14px;margin:0;">Например: iPhone мамы, Рабочий ноутбук</p>
-            </div>
-            <button class="small-btn" type="button" id="cancel-device-name-btn">×</button>
+        <div id="device-name-overlay" class="hidden" style="margin-top:18px;background:rgba(255,255,255,.035);border:1px solid var(--border);border-radius:22px;padding:18px;position:relative;">
+          <button class="small-btn" type="button" id="cancel-device-name-btn" style="position:absolute;top:14px;right:14px;width:32px;height:32px;padding:0;display:flex;align-items:center;justify-content:center;font-size:18px;">×</button>
+          <div style="margin-bottom:14px;padding-right:40px;">
+            <h3 style="font-family:'Cabinet Grotesk',sans-serif;font-size:24px;margin:0 0 4px;">Как назвать устройство?</h3>
+            <p style="color:var(--off);font-size:14px;margin:0;">Например: iPhone мамы, Рабочий ноутбук</p>
           </div>
-          <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+          <div style="display:flex;flex-direction:column;gap:10px;">
             <input type="text" id="new-device-name" placeholder="Название (необязательно)" maxlength="50"
-              style="padding:10px 14px;border-radius:10px;border:1px solid var(--border,#333);background:rgba(255,255,255,0.05);color:inherit;font-size:15px;flex:1;min-width:0;box-sizing:border-box;outline:none;">
-            <button class="small-btn" type="button" id="device-name-next-btn" style="white-space:nowrap;min-width:90px;width:100%;max-width:200px;">Далее →</button>
+              style="padding:10px 14px;border-radius:10px;border:1px solid var(--border,#333);background:rgba(255,255,255,0.05);color:inherit;font-size:15px;width:100%;box-sizing:border-box;outline:none;">
+            <button class="small-btn" type="button" id="device-name-next-btn" style="width:100%;text-align:center;">Далее →</button>
           </div>
         </div>
 
